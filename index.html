@@ -299,18 +299,51 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
 
 <!-- ===== SLIDE 6: THANK YOU ===== -->
 <div class="slide" id="slide-6">
-  <div style="background: #A8C5E8; margin: -30px -70px -60px; padding: 80px 70px; height: 100vh; position: relative; overflow: hidden;">
+  <div style="background: #A8C5E8; margin: -30px -70px -60px; padding: 60px 70px; height: 100vh; position: relative; overflow: hidden;">
+    <!-- 모서리 장식 (기존 PNG 활용) -->
     <img src="assets/hydrangea-cluster.png" alt="" style="position: absolute; left: -30px; top: -20px; width: 230px;"/>
-    <img src="assets/green-leaves.png" alt="" style="position: absolute; right: 40px; top: 60px; width: 120px; opacity: 0.7;"/>
-    <img src="assets/butterfly.png" alt="" class="float-bfly" style="position: absolute; right: 190px; top: 80px; width: 48px;"/>
-    <img src="assets/green-leaves.png" alt="" style="position: absolute; left: 60px; bottom: 80px; width: 140px; opacity: 0.75; transform: rotate(20deg);"/>
+    <img src="assets/green-leaves.png" alt="" style="position: absolute; right: 50px; top: 50px; width: 110px; opacity: 0.65;"/>
+    <img src="assets/butterfly.png" alt="" class="float-bfly" style="position: absolute; right: 200px; top: 70px; width: 48px;"/>
+    <img src="assets/green-leaves.png" alt="" style="position: absolute; left: 70px; bottom: 80px; width: 140px; opacity: 0.7; transform: rotate(20deg);"/>
     <img src="assets/hydrangea-cluster.png" alt="" style="position: absolute; right: -30px; bottom: -10px; width: 210px;"/>
-    <img src="assets/hydrangea-cluster.png" alt="" style="position: absolute; left: 35%; bottom: -20px; width: 140px; opacity: 0.85;"/>
-    <img src="assets/butterfly.png" alt="" class="float-bfly-slow" style="position: absolute; left: 220px; top: 50px; width: 32px;"/>
+    <img src="assets/butterfly.png" alt="" class="float-bfly-slow" style="position: absolute; left: 220px; top: 50px; width: 36px;"/>
     
-    <div style="text-align: center; padding: 140px 0 100px; position: relative; z-index: 2;">
-      <h2 class="serif" style="font-size: 100px; font-weight: 500; color: #FFFFFF; letter-spacing: 5px; margin: 0; line-height: 1;">THANK YOU</h2>
-      <p class="italic-cap" style="font-size: 22px; color: #FFFFFF; margin: 24px 0 0; opacity: 0.95;">당신의 감정이 어떤 꽃이 될지, 함께 피워봐요</p>
+    <!-- 중앙 배경 큰 수국 (은은하게) -->
+    <img src="assets/hydrangea-main.png" alt="" style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 500px; opacity: 0.15;"/>
+    
+    <!-- 중앙 콘텐츠 -->
+    <div style="position: relative; z-index: 2; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 28px;">
+      
+      <!-- BLOOM 마크 -->
+      <div class="italic-cap" style="font-size: 18px; color: #FFFFFF; opacity: 0.85; letter-spacing: 4px;">BLOOM</div>
+      
+      <!-- 장식 구분선 -->
+      <div style="display: flex; align-items: center; justify-content: center; gap: 20px;">
+        <div style="width: 50px; height: 1px; background: #FFFFFF; opacity: 0.6;"></div>
+        <img src="assets/butterfly.png" alt="" style="width: 32px; height: 32px;"/>
+        <div style="width: 50px; height: 1px; background: #FFFFFF; opacity: 0.6;"></div>
+      </div>
+      
+      <!-- THANK YOU 메인 타이틀 -->
+      <h2 class="serif" style="font-size: 100px; font-weight: 500; color: #FFFFFF; letter-spacing: 6px; margin: 0; line-height: 1;">THANK YOU</h2>
+      
+      <!-- 부제 -->
+      <p class="italic-cap" style="font-size: 22px; color: #FFFFFF; margin: 0; opacity: 0.95;">당신의 감정이 어떤 꽃이 될지, 함께 피워봐요</p>
+      
+      <!-- 작은 구분선 -->
+      <div style="width: 80px; height: 1px; background: #FFFFFF; opacity: 0.5; margin: 12px 0;"></div>
+      
+      <!-- 학교 정보 카드 -->
+      <div style="background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px); padding: 22px 44px; border-radius: 100px; display: flex; align-items: center; gap: 20px; border: 1px solid rgba(255,255,255,0.3);">
+        <img src="assets/school-logo.png" alt="" style="width: 40px; height: 40px; object-fit: contain; filter: brightness(0) invert(1);"/>
+        <div style="text-align: left;">
+          <div class="serif" style="font-size: 16px; color: #FFFFFF; font-weight: 500;">한국디지털미디어고등학교 e-비즈니스과</div>
+          <div class="italic-cap" style="font-size: 13px; color: #FFFFFF; opacity: 0.85;">BLOOM · 2026 Spring · 학과체험</div>
+        </div>
+      </div>
+      
+      <!-- 마지막 인사 -->
+      <p class="italic-cap" style="font-size: 14px; color: #FFFFFF; margin: 12px 0 0; opacity: 0.7;">See you on Saturday 🌸</p>
     </div>
   </div>
 </div>
