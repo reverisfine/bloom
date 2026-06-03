@@ -10,251 +10,231 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.min.css">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; color: #1A1A1A; background: #FAF6EC; font-size: 15px; overflow-x: hidden; }
-.serif { font-family: 'Playfair Display', 'Cormorant Garamond', serif; }
-.italic-cap { font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 400; }
+html, body { height: 100%; overflow: hidden; }
+body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; color: #1A1A1A; background: #FAF6EC; font-size: 15px; }
+.serif { font-family: 'Playfair Display', serif; }
+.italic-cap { font-family: 'Cormorant Garamond', serif; font-style: italic; }
 .dotted-divider { border-left: 1px dashed rgba(0,0,0,0.25); }
-.section-pad { padding: 80px 50px; }
-.asset-img { max-width: 100%; height: auto; display: block; transition: transform 0.4s ease; }
 
-/* ===== 1. 로딩 애니메이션 ===== */
-.bloom-letter { display: inline-block; opacity: 0; transform: translateY(40px); animation: letterDrop 0.6s forwards; }
-.bloom-letter:nth-child(1) { animation-delay: 0.3s; }
-.bloom-letter:nth-child(2) { animation-delay: 0.4s; }
-.bloom-letter:nth-child(3) { animation-delay: 0.5s; }
-.bloom-letter:nth-child(4) { animation-delay: 0.6s; }
-.bloom-letter:nth-child(5) { animation-delay: 0.7s; }
-@keyframes letterDrop {
-  to { opacity: 1; transform: translateY(0); }
+/* 슬라이드 컨테이너 */
+.slides-container { position: relative; width: 100vw; height: 100vh; overflow: hidden; }
+.slide {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  padding: 30px 70px 60px; opacity: 0; transform: translateX(100%);
+  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none; overflow-y: auto;
+}
+.slide.active { opacity: 1; transform: translateX(0); pointer-events: auto; }
+
+/* 네비게이션 */
+.nav-arrow {
+  position: fixed; top: 50%; transform: translateY(-50%);
+  width: 50px; height: 50px; border-radius: 50%;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(168, 197, 232, 0.5);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 24px; color: #5F5F5F; z-index: 100;
+  transition: all 0.3s ease; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+.nav-arrow:hover { background: #A8C5E8; color: #FFFFFF; transform: translateY(-50%) scale(1.1); }
+.nav-arrow:disabled { opacity: 0.3; cursor: not-allowed; }
+.nav-prev { left: 24px; }
+.nav-next { right: 24px; }
+
+/* 도트 */
+.dots {
+  position: fixed; right: 30px; top: 50%; transform: translateY(-50%);
+  display: flex; flex-direction: column; gap: 14px; z-index: 100;
+}
+.dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: rgba(168, 197, 232, 0.3); cursor: pointer;
+  transition: all 0.3s ease; position: relative;
+}
+.dot:hover { background: rgba(168, 197, 232, 0.7); }
+.dot.active { background: #E91A75; height: 30px; border-radius: 5px; }
+.dot-label {
+  position: absolute; right: 22px; top: 50%; transform: translateY(-50%);
+  font-size: 12px; color: #5F5F5F; white-space: nowrap;
+  opacity: 0; pointer-events: none; transition: opacity 0.2s ease;
+  background: rgba(255,255,255,0.95); padding: 5px 12px; border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.dot:hover .dot-label { opacity: 1; }
+
+/* 카운터 */
+.slide-counter {
+  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+  font-family: 'Cormorant Garamond', serif; font-style: italic;
+  font-size: 15px; color: #5F5F5F; z-index: 100;
+  background: rgba(255,255,255,0.7); padding: 6px 18px; border-radius: 30px;
 }
 
-.cover-subtitle { opacity: 0; transform: translateY(20px); animation: subtitleSlide 0.8s 1.0s forwards; }
-.cover-line { opacity: 0; animation: fadeIn 0.6s 1.2s forwards; }
-.cover-tagline { opacity: 0; transform: translateY(15px); animation: subtitleSlide 0.8s 1.4s forwards; }
-.cover-image-box { opacity: 0; transform: scale(0.95); animation: scaleIn 0.8s 1.6s forwards; }
-.cover-tags { opacity: 0; animation: fadeIn 0.6s 1.9s forwards; }
-.cover-header { opacity: 0; animation: fadeIn 0.5s 0.1s forwards; }
-@keyframes subtitleSlide { to { opacity: 1; transform: translateY(0); } }
-@keyframes fadeIn { to { opacity: 1; } }
-@keyframes scaleIn { to { opacity: 1; transform: scale(1); } }
-
-/* ===== 2. 스크롤 페이드 인 ===== */
-.fadeUp { opacity: 0; transform: translateY(40px); transition: opacity 0.9s ease, transform 0.9s ease; }
-.fadeUp.visible { opacity: 1; transform: translateY(0); }
-.fadeLeft { opacity: 0; transform: translateX(-60px); transition: opacity 0.9s ease, transform 0.9s ease; }
-.fadeLeft.visible { opacity: 1; transform: translateX(0); }
-.fadeRight { opacity: 0; transform: translateX(60px); transition: opacity 0.9s ease, transform 0.9s ease; }
-.fadeRight.visible { opacity: 1; transform: translateX(0); }
-.fadeUp.delay1 { transition-delay: 0.1s; }
-.fadeUp.delay2 { transition-delay: 0.2s; }
-.fadeUp.delay3 { transition-delay: 0.3s; }
-.fadeUp.delay4 { transition-delay: 0.4s; }
-
-/* ===== 3. 카드 3D 틸트 ===== */
-.tilt-card { transition: transform 0.3s ease; transform-style: preserve-3d; cursor: pointer; }
-.tilt-card:hover { box-shadow: 0 20px 40px rgba(168, 197, 232, 0.3); }
-
-/* ===== 호버 효과 ===== */
-.chapter-num { transition: color 0.3s ease, transform 0.3s ease; cursor: default; }
-.chapter-num:hover { color: #E91A75; transform: scale(1.05); }
-
-.index-item { transition: transform 0.3s ease, background 0.3s ease; padding: 8px 12px; border-radius: 8px; cursor: default; }
-.index-item:hover { transform: translateX(8px); background: rgba(168, 197, 232, 0.15); }
-.index-item:hover .index-title { color: #E91A75; }
-.index-title { transition: color 0.3s ease; }
-
-.hover-img:hover { transform: scale(1.05); }
-
-.hashtag { transition: transform 0.2s ease, background 0.3s ease; cursor: default; }
-.hashtag:hover { transform: translateY(-2px); background: #E91A75 !important; color: #FFFFFF !important; }
-
-.schedule-row { transition: background 0.3s ease; }
-.schedule-row:hover { background: rgba(168, 197, 232, 0.15) !important; }
-
-/* 나비 애니메이션 */
-@keyframes floatButterfly {
+/* 나비 */
+@keyframes floatBfly {
   0%, 100% { transform: translate(0, 0) rotate(-5deg); }
   50% { transform: translate(8px, -12px) rotate(5deg); }
 }
-@keyframes floatButterflySlow {
+@keyframes floatBflySlow {
   0%, 100% { transform: translate(0, 0) rotate(5deg); }
   50% { transform: translate(-10px, -8px) rotate(-3deg); }
 }
-.butterfly { animation: floatButterfly 4s ease-in-out infinite; transition: animation-duration 0.3s; }
-.butterfly-slow { animation: floatButterflySlow 5s ease-in-out infinite; }
-.butterfly:hover { animation-duration: 1.5s; }
-
-/* 카운트업 숫자 */
-.count-num { display: inline-block; font-weight: 600; color: #E91A75; }
+.float-bfly { animation: floatBfly 4s ease-in-out infinite; }
+.float-bfly-slow { animation: floatBflySlow 5s ease-in-out infinite; }
 </style>
 </head>
 <body>
 
-<!-- COVER -->
-<section style="background: #FAF6EC; padding: 30px 50px 0; position: relative;">
-  <div class="cover-header" style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 24px; border-bottom: 1px dashed rgba(0,0,0,0.2); margin-bottom: 50px;">
-    <div style="display: flex; align-items: center; gap: 12px;">
-      <svg viewBox="0 0 100 100" style="width: 26px; height: 26px;">
-        <path d="M 50 8 A 42 42 0 1 1 50 92 L 50 78 A 28 28 0 1 0 50 22 A 28 28 0 0 1 50 78 L 50 92" fill="none" stroke="#E91A75" stroke-width="9" stroke-linecap="square"/>
-        <circle cx="50" cy="50" r="10" fill="#E91A75"/>
-      </svg>
-      <span class="italic-cap" style="font-size: 16px; color: #5F5F5F;">한국디지털미디어고등학교 e-비즈니스과</span>
+<div class="slides-container">
+
+<!-- ===== SLIDE 1: COVER ===== -->
+<div class="slide active" id="slide-1">
+  <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 24px; border-bottom: 1px dashed rgba(0,0,0,0.2); margin-bottom: 40px;">
+    <div style="display: flex; align-items: center; gap: 14px;">
+      <img src="assets/school-logo.png" alt="학교 로고" style="width: 48px; height: 48px; object-fit: contain;"/>
+      <span class="italic-cap" style="font-size: 17px; color: #5F5F5F;">한국디지털미디어고등학교 e-비즈니스과</span>
     </div>
     <span class="italic-cap" style="font-size: 14px; color: #888;">2026 학과체험 · No.01</span>
   </div>
   
-  <div style="text-align: center; padding: 40px 0 50px;">
-    <div class="cover-subtitle italic-cap" style="font-size: 22px; color: #A8C5E8; margin-bottom: 16px;">Mindfulness × AI Branding</div>
-    <h1 class="serif" style="font-size: 120px; font-weight: 500; line-height: 1; margin: 0 0 20px; letter-spacing: -2px;">
-      <span class="bloom-letter">B</span><span class="bloom-letter">L</span><span class="bloom-letter">O</span><span class="bloom-letter">O</span><span class="bloom-letter">M</span>
-    </h1>
-    <div class="cover-line" style="display: flex; align-items: center; justify-content: center; gap: 20px; margin: 16px 0;">
+  <div style="text-align: center; padding: 30px 0;">
+    <div class="italic-cap" style="font-size: 22px; color: #A8C5E8; margin-bottom: 14px;">Mindfulness × AI Branding</div>
+    <h1 class="serif" style="font-size: 110px; font-weight: 500; line-height: 1; margin: 0 0 18px; letter-spacing: -2px;">BLOOM</h1>
+    <div style="display: flex; align-items: center; justify-content: center; gap: 18px; margin: 14px 0;">
       <div style="width: 70px; height: 1px; background: #A8C5E8;"></div>
       <span style="font-size: 13px; color: #5F5F5F; letter-spacing: 5px; font-weight: 500;">M A R K E T I N G &nbsp; B R A N D I N G &nbsp; I N V E S T M E N T</span>
       <div style="width: 70px; height: 1px; background: #A8C5E8;"></div>
     </div>
-    <p class="cover-tagline italic-cap" style="font-size: 28px; color: #5F5F5F; margin: 22px 0 0;">마음챙김 × AI 감성 브랜딩</p>
+    <p class="italic-cap" style="font-size: 26px; color: #5F5F5F; margin: 20px 0 0;">마음챙김 × AI 감성 브랜딩</p>
   </div>
   
-  <div class="cover-image-box" style="background: #A8C5E8; border-radius: 6px; position: relative; overflow: hidden; min-height: 320px; display: flex; align-items: center; justify-content: center; padding: 24px;">
-    <img src="assets/hydrangea-main.png" alt="수국" class="asset-img hover-img" style="max-height: 280px;"/>
-    <img src="assets/butterfly.png" alt="나비" class="butterfly asset-img" style="position: absolute; top: 30px; right: 80px; width: 60px;"/>
-    <img src="assets/butterfly.png" alt="나비" class="butterfly-slow asset-img" style="position: absolute; bottom: 40px; left: 80px; width: 42px;"/>
+  <div style="background: #A8C5E8; border-radius: 6px; position: relative; overflow: hidden; height: 280px; display: flex; align-items: center; justify-content: center; padding: 24px; margin-top: 20px;">
+    <img src="assets/hydrangea-main.png" alt="수국" style="max-height: 240px; max-width: 100%;"/>
+    <img src="assets/butterfly.png" alt="나비" class="float-bfly" style="position: absolute; top: 30px; right: 80px; width: 56px;"/>
+    <img src="assets/butterfly.png" alt="나비" class="float-bfly-slow" style="position: absolute; bottom: 40px; left: 80px; width: 40px;"/>
   </div>
   
-  <div class="cover-tags" style="display: flex; justify-content: space-between; align-items: center; padding: 28px 0; font-size: 13px; color: #5F5F5F; letter-spacing: 1.5px;">
+  <div style="display: flex; justify-content: space-between; align-items: center; padding: 24px 0 0; font-size: 13px; color: #5F5F5F; letter-spacing: 1.5px;">
     <span>Mindfulness</span><span style="color: #A8C5E8;">✕</span>
     <span>Self-awareness</span><span style="color: #A8C5E8;">✕</span>
     <span style="font-weight: 500;">CHAPTER OVERVIEW</span><span style="color: #A8C5E8;">✕</span>
     <span>AI Branding</span><span style="color: #A8C5E8;">✕</span>
     <span>Investment</span>
   </div>
-</section>
+</div>
 
-<!-- INDEX -->
-<section class="section-pad" style="background: #FAF6EC; position: relative;">
-  <div class="fadeRight" style="position: absolute; right: 0; top: 0; bottom: 0; width: 140px; background: #A8C5E8; display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 40px 10px; overflow: hidden;">
-    <img src="assets/hydrangea-cluster.png" alt="" class="asset-img hover-img" style="width: 120px;"/>
-    <img src="assets/butterfly.png" alt="" class="butterfly asset-img" style="width: 50px;"/>
-    <img src="assets/green-leaves.png" alt="" class="asset-img hover-img" style="width: 110px;"/>
+<!-- ===== SLIDE 2: INDEX ===== -->
+<div class="slide" id="slide-2">
+  <div style="text-align: center; padding-top: 50px; margin-bottom: 50px;">
+    <div class="italic-cap" style="font-size: 17px; color: #A8C5E8; padding: 5px 20px; border: 1px solid #A8C5E8; border-radius: 30px; display: inline-block;">Presentation</div>
+    <h2 class="serif" style="font-size: 80px; font-weight: 500; letter-spacing: 3px; margin: 20px 0 0; line-height: 1;">INDEX</h2>
   </div>
   
-  <div style="padding-right: 160px;">
-    <div class="fadeUp" style="text-align: center; margin-bottom: 60px;">
-      <div class="italic-cap" style="font-size: 17px; color: #A8C5E8; padding: 6px 20px; border: 1px solid #A8C5E8; border-radius: 30px; display: inline-block;">Presentation</div>
-      <h2 class="serif" style="font-size: 80px; font-weight: 500; letter-spacing: 3px; margin: 20px 0 0; line-height: 1;">INDEX</h2>
-    </div>
-    
-    <div style="display: grid; grid-template-columns: 1fr 1px 1fr; gap: 40px; padding: 0 40px;">
-      <div>
-        <div class="index-item fadeLeft delay1" style="display: grid; grid-template-columns: 90px 1fr; gap: 18px; margin-bottom: 22px;">
-          <div class="italic-cap" style="font-size: 20px; color: #A8C5E8;">chapter.01</div>
-          <div>
-            <div class="serif index-title" style="font-size: 22px; font-weight: 500; margin-bottom: 6px;">감성 마케팅의 세계</div>
-            <div style="font-size: 14px; color: #888;">감정을 파는 브랜드를 살펴봐요</div>
-          </div>
-        </div>
-        <div class="index-item fadeLeft delay2" style="display: grid; grid-template-columns: 90px 1fr; gap: 18px; margin-bottom: 22px;">
-          <div class="italic-cap" style="font-size: 20px; color: #A8C5E8;">chapter.02</div>
-          <div>
-            <div class="serif index-title" style="font-size: 22px; font-weight: 500; margin-bottom: 6px;">심리테스트 만들기</div>
-            <div style="font-size: 14px; color: #888;">AI와 함께 내 감정 자가진단</div>
-          </div>
-        </div>
-        <div class="index-item fadeLeft delay3" style="display: grid; grid-template-columns: 90px 1fr; gap: 18px;">
-          <div class="italic-cap" style="font-size: 20px; color: #A8C5E8;">chapter.03</div>
-          <div>
-            <div class="serif index-title" style="font-size: 22px; font-weight: 500; margin-bottom: 6px;">내 브랜드 + BMC</div>
-            <div style="font-size: 14px; color: #888;">비즈니스 모델 캔버스 설계</div>
-          </div>
+  <div style="display: grid; grid-template-columns: 1fr 1px 1fr; gap: 50px; padding: 0 40px;">
+    <div>
+      <div style="display: grid; grid-template-columns: 100px 1fr; gap: 20px; margin-bottom: 28px;">
+        <div class="italic-cap" style="font-size: 20px; color: #A8C5E8;">chapter.01</div>
+        <div>
+          <div class="serif" style="font-size: 22px; font-weight: 500; margin-bottom: 6px;">감성 마케팅의 세계</div>
+          <div style="font-size: 14px; color: #888;">감정을 파는 브랜드를 살펴봐요</div>
         </div>
       </div>
-      <div class="dotted-divider"></div>
-      <div>
-        <div class="index-item fadeRight delay1" style="display: grid; grid-template-columns: 90px 1fr; gap: 18px; margin-bottom: 22px;">
-          <div class="italic-cap" style="font-size: 20px; color: #A8C5E8;">chapter.04</div>
-          <div>
-            <div class="serif index-title" style="font-size: 22px; font-weight: 500; margin-bottom: 6px;">감정-꽃 매핑</div>
-            <div style="font-size: 14px; color: #888;">AI 이미지로 꽃 비주얼 디자인</div>
-          </div>
+      <div style="display: grid; grid-template-columns: 100px 1fr; gap: 20px; margin-bottom: 28px;">
+        <div class="italic-cap" style="font-size: 20px; color: #A8C5E8;">chapter.02</div>
+        <div>
+          <div class="serif" style="font-size: 22px; font-weight: 500; margin-bottom: 6px;">심리테스트 만들기</div>
+          <div style="font-size: 14px; color: #888;">AI와 함께 내 감정 자가진단</div>
         </div>
-        <div class="index-item fadeRight delay2" style="display: grid; grid-template-columns: 90px 1fr; gap: 18px; margin-bottom: 22px;">
-          <div class="italic-cap" style="font-size: 20px; color: #A8C5E8;">chapter.05</div>
-          <div>
-            <div class="serif index-title" style="font-size: 22px; font-weight: 500; margin-bottom: 6px;">꽃 피우기 웹앱 구현</div>
-            <div style="font-size: 14px; color: #888;">웹캠 손 동작으로 작동 — 메인 활동</div>
-          </div>
+      </div>
+      <div style="display: grid; grid-template-columns: 100px 1fr; gap: 20px;">
+        <div class="italic-cap" style="font-size: 20px; color: #A8C5E8;">chapter.03</div>
+        <div>
+          <div class="serif" style="font-size: 22px; font-weight: 500; margin-bottom: 6px;">내 브랜드 + BMC</div>
+          <div style="font-size: 14px; color: #888;">비즈니스 모델 캔버스 설계</div>
         </div>
-        <div class="index-item fadeRight delay3" style="display: grid; grid-template-columns: 90px 1fr; gap: 18px;">
-          <div class="italic-cap" style="font-size: 20px; color: #A8C5E8;">chapter.06</div>
-          <div>
-            <div class="serif index-title" style="font-size: 22px; font-weight: 500; margin-bottom: 6px;">2부 · 모의주식 투자</div>
-            <div style="font-size: 14px; color: #888;">친구 브랜드에 투자 + AI 회고</div>
-          </div>
+      </div>
+    </div>
+    <div class="dotted-divider"></div>
+    <div>
+      <div style="display: grid; grid-template-columns: 100px 1fr; gap: 20px; margin-bottom: 28px;">
+        <div class="italic-cap" style="font-size: 20px; color: #A8C5E8;">chapter.04</div>
+        <div>
+          <div class="serif" style="font-size: 22px; font-weight: 500; margin-bottom: 6px;">감정-꽃 매핑</div>
+          <div style="font-size: 14px; color: #888;">AI 이미지로 꽃 비주얼 디자인</div>
+        </div>
+      </div>
+      <div style="display: grid; grid-template-columns: 100px 1fr; gap: 20px; margin-bottom: 28px;">
+        <div class="italic-cap" style="font-size: 20px; color: #A8C5E8;">chapter.05</div>
+        <div>
+          <div class="serif" style="font-size: 22px; font-weight: 500; margin-bottom: 6px;">꽃 피우기 웹앱 구현</div>
+          <div style="font-size: 14px; color: #888;">웹캠 손 동작으로 작동 — 메인 활동</div>
+        </div>
+      </div>
+      <div style="display: grid; grid-template-columns: 100px 1fr; gap: 20px;">
+        <div class="italic-cap" style="font-size: 20px; color: #A8C5E8;">chapter.06</div>
+        <div>
+          <div class="serif" style="font-size: 22px; font-weight: 500; margin-bottom: 6px;">2부 · 모의주식 투자</div>
+          <div style="font-size: 14px; color: #888;">친구 브랜드에 투자 + AI 회고</div>
         </div>
       </div>
     </div>
   </div>
-</section>
+</div>
 
-<!-- ABOUT -->
-<section class="section-pad" style="background: #FAF6EC;">
-  <div style="display: grid; grid-template-columns: 100px 1fr; gap: 40px;">
-    <div style="position: relative;">
-      <div class="serif italic-cap chapter-num fadeUp" style="font-size: 72px; font-weight: 400; line-height: 1;">01.</div>
-      <div style="position: absolute; left: 45px; top: 90px; bottom: 0; width: 1px; border-left: 1px dashed rgba(0,0,0,0.25);"></div>
-    </div>
+<!-- ===== SLIDE 3: ABOUT ===== -->
+<div class="slide" id="slide-3">
+  <div style="display: grid; grid-template-columns: 100px 1fr; gap: 40px; padding-top: 60px;">
+    <div class="serif italic-cap" style="font-size: 72px; line-height: 1;">01.</div>
     <div style="display: grid; grid-template-columns: 1fr 1.2fr; gap: 50px; align-items: center;">
-      <div class="tilt-card fadeLeft" style="background: #A8C5E8; aspect-ratio: 4/5; border-radius: 6px; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; padding: 30px;">
-        <img src="assets/hydrangea-main.png" alt="" class="asset-img" style="max-width: 90%; max-height: 90%;"/>
-        <img src="assets/butterfly.png" alt="" class="butterfly asset-img" style="position: absolute; top: 24px; left: 24px; width: 48px;"/>
+      <div style="background: #A8C5E8; aspect-ratio: 4/5; border-radius: 6px; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; padding: 30px;">
+        <img src="assets/hydrangea-main.png" alt="" style="max-width: 90%; max-height: 90%;"/>
+        <img src="assets/butterfly.png" alt="" class="float-bfly" style="position: absolute; top: 24px; left: 24px; width: 48px;"/>
       </div>
-      <div class="fadeRight">
+      <div>
         <div class="italic-cap" style="font-size: 20px; color: #A8C5E8; margin-bottom: 14px;">Presentation</div>
         <h2 class="serif" style="font-size: 42px; font-weight: 500; line-height: 1.2; margin: 0 0 28px;">오늘 내 마음은<br>무슨 색일까요?</h2>
         <p style="font-size: 16px; line-height: 1.9; color: #5F5F5F; margin: 0 0 18px;">바쁜 일상 속에서 흘려보내기 쉬운 내 감정을 천천히 살펴보고, AI를 활용해 시각적으로 표현하며, 나만의 감성 브랜드로 발전시켜 보는 시간을 가집니다.</p>
         <p style="font-size: 16px; line-height: 1.9; color: #5F5F5F; margin: 0 0 28px;">내 감정을 인식하는 법, AI 도구를 다루는 법, 비즈니스로 가치를 만드는 법을 한 번에 경험할 수 있어요.</p>
         <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-          <span class="hashtag" style="background: #A8C5E8; color: #1A4365; padding: 8px 18px; font-size: 14px; border-radius: 30px;">#마음챙김</span>
-          <span class="hashtag" style="background: #A8C5E8; color: #1A4365; padding: 8px 18px; font-size: 14px; border-radius: 30px;">#AI브랜딩</span>
-          <span class="hashtag" style="background: #A8C5E8; color: #1A4365; padding: 8px 18px; font-size: 14px; border-radius: 30px;">#모의투자</span>
+          <span style="background: #A8C5E8; color: #1A4365; padding: 8px 18px; font-size: 14px; border-radius: 30px;">#마음챙김</span>
+          <span style="background: #A8C5E8; color: #1A4365; padding: 8px 18px; font-size: 14px; border-radius: 30px;">#AI브랜딩</span>
+          <span style="background: #A8C5E8; color: #1A4365; padding: 8px 18px; font-size: 14px; border-radius: 30px;">#모의투자</span>
         </div>
       </div>
     </div>
   </div>
-</section>
+</div>
 
-<!-- KEY POINTS -->
-<section class="section-pad" style="background: #FAF6EC; position: relative; overflow: hidden;">
-  <div class="fadeUp" style="display: grid; grid-template-columns: 100px 1fr; gap: 40px; margin-bottom: 50px;">
-    <div class="serif italic-cap chapter-num" style="font-size: 72px; font-weight: 400; line-height: 1;">02.</div>
+<!-- ===== SLIDE 4: KEY POINTS ===== -->
+<div class="slide" id="slide-4">
+  <div style="display: grid; grid-template-columns: 100px 1fr; gap: 40px; margin-bottom: 50px; padding-top: 50px;">
+    <div class="serif italic-cap" style="font-size: 72px; line-height: 1;">02.</div>
     <h2 class="serif" style="font-size: 42px; font-weight: 500; align-self: end;">이렇게 진행됩니다</h2>
   </div>
-  <img src="assets/green-leaves.png" alt="" class="asset-img hover-img" style="position: absolute; top: 40px; right: 40px; width: 100px; opacity: 0.6;"/>
   
-  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 50px; padding: 0 40px;">
-    <div class="tilt-card fadeUp delay1" style="display: grid; grid-template-columns: 50px 1fr; gap: 18px; padding: 20px; border-radius: 12px; background: #FFFFFF;">
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; padding: 0 40px;">
+    <div style="display: grid; grid-template-columns: 50px 1fr; gap: 18px; padding: 24px; border-radius: 12px; background: #FFFFFF;">
       <div class="italic-cap" style="font-size: 32px; color: #A8C5E8;">01</div>
       <div>
         <div class="serif" style="font-size: 21px; font-weight: 500; margin-bottom: 8px;">내 감정 인식하기</div>
         <div style="font-size: 14px; line-height: 1.8; color: #5F5F5F;">심리테스트를 직접 만들고 풀어보며 지금 내 감정을 마주합니다.</div>
       </div>
     </div>
-    <div class="tilt-card fadeUp delay2" style="display: grid; grid-template-columns: 50px 1fr; gap: 18px; padding: 20px; border-radius: 12px; background: #FFFFFF;">
+    <div style="display: grid; grid-template-columns: 50px 1fr; gap: 18px; padding: 24px; border-radius: 12px; background: #FFFFFF;">
       <div class="italic-cap" style="font-size: 32px; color: #A8C5E8;">02</div>
       <div>
         <div class="serif" style="font-size: 21px; font-weight: 500; margin-bottom: 8px;">AI로 시각화하기</div>
         <div style="font-size: 14px; line-height: 1.8; color: #5F5F5F;">내 감정에 어울리는 색과 모양의 꽃을 AI로 디자인합니다.</div>
       </div>
     </div>
-    <div class="tilt-card fadeUp delay3" style="display: grid; grid-template-columns: 50px 1fr; gap: 18px; padding: 20px; border-radius: 12px; background: #FFFFFF;">
+    <div style="display: grid; grid-template-columns: 50px 1fr; gap: 18px; padding: 24px; border-radius: 12px; background: #FFFFFF;">
       <div class="italic-cap" style="font-size: 32px; color: #A8C5E8;">03</div>
       <div>
         <div class="serif" style="font-size: 21px; font-weight: 500; margin-bottom: 8px;">브랜드로 발전시키기</div>
         <div style="font-size: 14px; line-height: 1.8; color: #5F5F5F;">비즈니스 모델 캔버스로 나만의 감성 브랜드를 설계합니다.</div>
       </div>
     </div>
-    <div class="tilt-card fadeUp delay4" style="display: grid; grid-template-columns: 50px 1fr; gap: 18px; padding: 20px; border-radius: 12px; background: #FFFFFF;">
+    <div style="display: grid; grid-template-columns: 50px 1fr; gap: 18px; padding: 24px; border-radius: 12px; background: #FFFFFF;">
       <div class="italic-cap" style="font-size: 32px; color: #A8C5E8;">04</div>
       <div>
         <div class="serif" style="font-size: 21px; font-weight: 500; margin-bottom: 8px;">투자받고 회고하기</div>
@@ -262,182 +242,171 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
       </div>
     </div>
   </div>
-  
-  <div class="fadeUp" style="background: #A8C5E8; margin: 60px -50px -80px; padding: 30px 50px; position: relative; min-height: 110px; display: flex; align-items: center; gap: 40px; overflow: hidden;">
-    <img src="assets/hydrangea-cluster.png" alt="" class="asset-img hover-img" style="height: 100px;"/>
-    <img src="assets/butterfly.png" alt="" class="butterfly asset-img" style="height: 40px;"/>
-    <img src="assets/green-leaves.png" alt="" class="asset-img hover-img" style="height: 80px;"/>
-    <img src="assets/hydrangea-cluster.png" alt="" class="asset-img hover-img" style="height: 90px; margin-left: auto;"/>
-    <img src="assets/butterfly.png" alt="" class="butterfly-slow asset-img" style="height: 32px;"/>
-    <img src="assets/hydrangea-cluster.png" alt="" class="asset-img hover-img" style="height: 105px;"/>
-  </div>
-</section>
+</div>
 
-<!-- SCHEDULE with COUNT UP -->
-<section class="section-pad" style="background: #FAF6EC;">
-  <div class="fadeUp" style="display: grid; grid-template-columns: 100px 1fr; gap: 40px; margin-bottom: 30px;">
-    <div class="serif italic-cap chapter-num" style="font-size: 72px; font-weight: 400; line-height: 1;">03.</div>
+<!-- ===== SLIDE 5: SCHEDULE ===== -->
+<div class="slide" id="slide-5">
+  <div style="display: grid; grid-template-columns: 100px 1fr; gap: 40px; margin-bottom: 30px; padding-top: 40px;">
+    <div class="serif italic-cap" style="font-size: 72px; line-height: 1;">03.</div>
     <div style="align-self: end;">
       <div class="italic-cap" style="font-size: 20px; color: #A8C5E8; margin-bottom: 6px;">Schedule</div>
-      <h2 class="serif" style="font-size: 42px; font-weight: 500;"><span class="count-num" data-target="3">0</span>시간 타임라인</h2>
+      <h2 class="serif" style="font-size: 42px; font-weight: 500;">3시간 타임라인</h2>
     </div>
   </div>
   
-  <!-- 카운트업 stat cards -->
-  <div class="fadeUp" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin: 0 40px 50px; padding: 30px; background: rgba(168, 197, 232, 0.08); border-radius: 12px;">
+  <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin: 0 40px 36px; padding: 26px; background: rgba(168, 197, 232, 0.1); border-radius: 12px;">
     <div style="text-align: center;">
-      <div class="serif" style="font-size: 48px; font-weight: 500;"><span class="count-num" data-target="120">0</span><span style="font-size: 24px; color: #5F5F5F;">분</span></div>
-      <div class="italic-cap" style="font-size: 15px; color: #888; margin-top: 4px;">Part 01 · 마음챙김 + 브랜딩</div>
+      <div class="serif" style="font-size: 42px; font-weight: 500; color: #E91A75;">120<span style="font-size: 20px; color: #5F5F5F;">분</span></div>
+      <div class="italic-cap" style="font-size: 14px; color: #888; margin-top: 4px;">Part 01 · 마음챙김 + 브랜딩</div>
     </div>
     <div style="text-align: center; border-left: 1px dashed rgba(0,0,0,0.15); border-right: 1px dashed rgba(0,0,0,0.15);">
-      <div class="serif" style="font-size: 48px; font-weight: 500;"><span class="count-num" data-target="35">0</span><span style="font-size: 24px; color: #5F5F5F;">분</span></div>
-      <div class="italic-cap" style="font-size: 15px; color: #888; margin-top: 4px;">Part 02 · 모의투자</div>
+      <div class="serif" style="font-size: 42px; font-weight: 500; color: #E91A75;">35<span style="font-size: 20px; color: #5F5F5F;">분</span></div>
+      <div class="italic-cap" style="font-size: 14px; color: #888; margin-top: 4px;">Part 02 · 모의투자</div>
     </div>
     <div style="text-align: center;">
-      <div class="serif" style="font-size: 48px; font-weight: 500;"><span class="count-num" data-target="10">0</span><span style="font-size: 24px; color: #5F5F5F;"> stages</span></div>
-      <div class="italic-cap" style="font-size: 15px; color: #888; margin-top: 4px;">총 10단계 활동</div>
+      <div class="serif" style="font-size: 42px; font-weight: 500; color: #E91A75;">10<span style="font-size: 20px; color: #5F5F5F;"> stages</span></div>
+      <div class="italic-cap" style="font-size: 14px; color: #888; margin-top: 4px;">총 활동 단계</div>
     </div>
   </div>
   
-  <div style="padding: 0 40px;">
-    <div class="fadeUp" style="display: flex; align-items: baseline; gap: 14px; margin-bottom: 22px;">
-      <h3 class="serif" style="font-size: 28px; font-weight: 500;">Part 01</h3>
-      <span class="italic-cap" style="font-size: 17px; color: #5F5F5F;">마음챙김 × AI 감성 브랜딩 · 120분</span>
+  <div style="padding: 0 40px; font-size: 13.5px;">
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 36px;">
+      <div>
+        <h3 class="serif" style="font-size: 22px; font-weight: 500; margin-bottom: 14px;">Part 01 · 1부</h3>
+        <div style="line-height: 1.9;">
+          <div style="padding: 9px 0; border-bottom: 1px dashed rgba(0,0,0,0.1);"><span style="color:#888;">09:30</span> · 감성 마케팅의 세계</div>
+          <div style="padding: 9px 0; border-bottom: 1px dashed rgba(0,0,0,0.1);"><span style="color:#888;">09:40</span> · 심리테스트 만들기</div>
+          <div style="padding: 9px 0; border-bottom: 1px dashed rgba(0,0,0,0.1);"><span style="color:#888;">10:05</span> · 내 브랜드 + BMC</div>
+          <div style="padding: 9px 0; border-bottom: 1px dashed rgba(0,0,0,0.1);"><span style="color:#888;">10:30</span> · 감정-꽃 매핑</div>
+          <div style="padding: 9px 0; border-bottom: 1px dashed rgba(0,0,0,0.1); background:rgba(168,197,232,0.1);"><span style="color:#888;">10:55</span> · <strong>⭐ 꽃 피우기 웹앱</strong></div>
+          <div style="padding: 9px 0;"><span style="color:#888;">11:25</span> · 작품 갤러리</div>
+        </div>
+      </div>
+      <div>
+        <h3 class="serif" style="font-size: 22px; font-weight: 500; margin-bottom: 14px;">Part 02 · 2부</h3>
+        <div style="line-height: 1.9;">
+          <div style="padding: 9px 0; border-bottom: 1px dashed rgba(0,0,0,0.1); color:#888;">11:30 · ☕ 휴식 10분</div>
+          <div style="padding: 9px 0; border-bottom: 1px dashed rgba(0,0,0,0.1);"><span style="color:#888;">11:40</span> · 투자의 세계</div>
+          <div style="padding: 9px 0; border-bottom: 1px dashed rgba(0,0,0,0.1);"><span style="color:#888;">11:45</span> · 기업 분석</div>
+          <div style="padding: 9px 0; border-bottom: 1px dashed rgba(0,0,0,0.1); background:rgba(168,197,232,0.1);"><span style="color:#888;">11:55</span> · <strong>⭐ 모의투자 실전</strong></div>
+          <div style="padding: 9px 0; border-bottom: 1px dashed rgba(0,0,0,0.1);"><span style="color:#888;">12:15</span> · 결과 + 회고</div>
+          <div style="padding: 9px 0; background: rgba(212,83,126,0.08);"><span style="color:#888;">12:20</span> · 🎁 클로징 + 단체사진</div>
+        </div>
+      </div>
     </div>
-    
-    <table class="fadeUp" style="width: 100%; border-collapse: collapse; font-size: 15px;">
-      <tr class="schedule-row" style="border-bottom: 1px dashed rgba(0,0,0,0.15);">
-        <td style="padding: 18px 10px; width: 130px; color: #5F5F5F;">09:30-09:40</td>
-        <td style="padding: 18px 10px;"><strong>Stage 1.</strong> 감성 마케팅의 세계 <span style="color: #888; font-size: 13px;">· 10분 · 워밍업</span></td>
-      </tr>
-      <tr class="schedule-row" style="border-bottom: 1px dashed rgba(0,0,0,0.15);">
-        <td style="padding: 18px 10px; color: #5F5F5F;">09:40-10:05</td>
-        <td style="padding: 18px 10px;"><strong>Stage 2.</strong> 심리테스트 만들기 <span style="color: #888; font-size: 13px;">· 25분 · 자기이해</span></td>
-      </tr>
-      <tr class="schedule-row" style="border-bottom: 1px dashed rgba(0,0,0,0.15);">
-        <td style="padding: 18px 10px; color: #5F5F5F;">10:05-10:30</td>
-        <td style="padding: 18px 10px;"><strong>Stage 3.</strong> 내 브랜드 + BMC <span style="color: #888; font-size: 13px;">· 25분 · 브랜드 설계</span></td>
-      </tr>
-      <tr class="schedule-row" style="border-bottom: 1px dashed rgba(0,0,0,0.15);">
-        <td style="padding: 18px 10px; color: #5F5F5F;">10:30-10:55</td>
-        <td style="padding: 18px 10px;"><strong>Stage 4.</strong> 감정-꽃 매핑 <span style="color: #888; font-size: 13px;">· 25분 · AI 디자인</span></td>
-      </tr>
-      <tr class="schedule-row" style="border-bottom: 1px dashed rgba(0,0,0,0.15); background: rgba(168, 197, 232, 0.1);">
-        <td style="padding: 18px 10px; color: #5F5F5F;">10:55-11:25</td>
-        <td style="padding: 18px 10px;"><strong>Stage 5. ⭐</strong> 꽃 피우기 웹앱 구현 <span style="color: #D4537E; font-size: 13px;">· 30분 · 메인 활동</span></td>
-      </tr>
-      <tr class="schedule-row" style="border-bottom: 1px dashed rgba(0,0,0,0.15);">
-        <td style="padding: 18px 10px; color: #5F5F5F;">11:25-11:30</td>
-        <td style="padding: 18px 10px;"><strong>Stage 6.</strong> 작품 갤러리 <span style="color: #888; font-size: 13px;">· 5분 · 공유</span></td>
-      </tr>
-      <tr style="background: #F0F0F0;">
-        <td style="padding: 14px 10px; color: #5F5F5F;">11:30-11:40</td>
-        <td style="padding: 14px 10px; color: #888; font-style: italic;">☕ 휴식 · 10분</td>
-      </tr>
-    </table>
-    
-    <div class="fadeUp" style="display: flex; align-items: baseline; gap: 14px; margin: 40px 0 22px;">
-      <h3 class="serif" style="font-size: 28px; font-weight: 500;">Part 02</h3>
-      <span class="italic-cap" style="font-size: 17px; color: #5F5F5F;">AI 모의주식 투자 · 35분</span>
-    </div>
-    
-    <table class="fadeUp" style="width: 100%; border-collapse: collapse; font-size: 15px;">
-      <tr class="schedule-row" style="border-bottom: 1px dashed rgba(0,0,0,0.15);">
-        <td style="padding: 18px 10px; width: 130px; color: #5F5F5F;">11:40-11:45</td>
-        <td style="padding: 18px 10px;"><strong>Stage 7.</strong> 투자의 세계 <span style="color: #888; font-size: 13px;">· 5분</span></td>
-      </tr>
-      <tr class="schedule-row" style="border-bottom: 1px dashed rgba(0,0,0,0.15);">
-        <td style="padding: 18px 10px; color: #5F5F5F;">11:45-11:55</td>
-        <td style="padding: 18px 10px;"><strong>Stage 8.</strong> 기업 분석 <span style="color: #888; font-size: 13px;">· 10분</span></td>
-      </tr>
-      <tr class="schedule-row" style="border-bottom: 1px dashed rgba(0,0,0,0.15); background: rgba(168, 197, 232, 0.1);">
-        <td style="padding: 18px 10px; color: #5F5F5F;">11:55-12:15</td>
-        <td style="padding: 18px 10px;"><strong>Stage 9. ⭐</strong> 모의투자 실전 <span style="color: #D4537E; font-size: 13px;">· 20분 · 메인 활동</span></td>
-      </tr>
-      <tr class="schedule-row" style="border-bottom: 1px dashed rgba(0,0,0,0.15);">
-        <td style="padding: 18px 10px; color: #5F5F5F;">12:15-12:20</td>
-        <td style="padding: 18px 10px;"><strong>Stage 10.</strong> 결과 + 회고 <span style="color: #888; font-size: 13px;">· 5분</span></td>
-      </tr>
-      <tr class="schedule-row" style="background: rgba(212, 83, 126, 0.08);">
-        <td style="padding: 18px 10px; color: #5F5F5F;">12:20-12:30</td>
-        <td style="padding: 18px 10px;">🎁 <strong>클로징</strong> 깜짝 선물 + 단체사진 <span style="color: #D4537E; font-size: 13px;">· 10분</span></td>
-      </tr>
-    </table>
   </div>
-</section>
+</div>
 
-<!-- THANK YOU -->
-<section class="fadeUp" style="background: #A8C5E8; padding: 80px 50px 30px; position: relative; overflow: hidden; min-height: 450px;">
-  <img src="assets/hydrangea-cluster.png" alt="" class="asset-img hover-img" style="position: absolute; left: -30px; top: -20px; width: 230px;"/>
-  <img src="assets/green-leaves.png" alt="" class="asset-img hover-img" style="position: absolute; right: 40px; top: 60px; width: 120px; opacity: 0.7;"/>
-  <img src="assets/butterfly.png" alt="" class="butterfly asset-img" style="position: absolute; right: 190px; top: 80px; width: 48px;"/>
-  <img src="assets/green-leaves.png" alt="" class="asset-img hover-img" style="position: absolute; left: 60px; bottom: 80px; width: 140px; opacity: 0.75; transform: rotate(20deg);"/>
-  <img src="assets/hydrangea-cluster.png" alt="" class="asset-img hover-img" style="position: absolute; right: -30px; bottom: -10px; width: 210px;"/>
-  <img src="assets/hydrangea-cluster.png" alt="" class="asset-img hover-img" style="position: absolute; left: 35%; bottom: -20px; width: 140px; opacity: 0.85;"/>
-  <img src="assets/butterfly.png" alt="" class="butterfly-slow asset-img" style="position: absolute; left: 220px; top: 50px; width: 32px;"/>
-  
-  <div style="text-align: center; padding: 70px 0 90px; position: relative; z-index: 2;">
-    <h2 class="serif" style="font-size: 100px; font-weight: 500; color: #FFFFFF; letter-spacing: 5px; margin: 0; line-height: 1;">THANK YOU</h2>
-    <p class="italic-cap" style="font-size: 22px; color: #FFFFFF; margin: 24px 0 0; opacity: 0.95;">당신의 감정이 어떤 꽃이 될지, 함께 피워봐요</p>
+<!-- ===== SLIDE 6: THANK YOU ===== -->
+<div class="slide" id="slide-6">
+  <div style="background: #A8C5E8; margin: -30px -70px -60px; padding: 80px 70px; height: 100vh; position: relative; overflow: hidden;">
+    <img src="assets/hydrangea-cluster.png" alt="" style="position: absolute; left: -30px; top: -20px; width: 230px;"/>
+    <img src="assets/green-leaves.png" alt="" style="position: absolute; right: 40px; top: 60px; width: 120px; opacity: 0.7;"/>
+    <img src="assets/butterfly.png" alt="" class="float-bfly" style="position: absolute; right: 190px; top: 80px; width: 48px;"/>
+    <img src="assets/green-leaves.png" alt="" style="position: absolute; left: 60px; bottom: 80px; width: 140px; opacity: 0.75; transform: rotate(20deg);"/>
+    <img src="assets/hydrangea-cluster.png" alt="" style="position: absolute; right: -30px; bottom: -10px; width: 210px;"/>
+    <img src="assets/hydrangea-cluster.png" alt="" style="position: absolute; left: 35%; bottom: -20px; width: 140px; opacity: 0.85;"/>
+    <img src="assets/butterfly.png" alt="" class="float-bfly-slow" style="position: absolute; left: 220px; top: 50px; width: 32px;"/>
+    
+    <div style="text-align: center; padding: 140px 0 100px; position: relative; z-index: 2;">
+      <h2 class="serif" style="font-size: 100px; font-weight: 500; color: #FFFFFF; letter-spacing: 5px; margin: 0; line-height: 1;">THANK YOU</h2>
+      <p class="italic-cap" style="font-size: 22px; color: #FFFFFF; margin: 24px 0 0; opacity: 0.95;">당신의 감정이 어떤 꽃이 될지, 함께 피워봐요</p>
+    </div>
   </div>
-  
-  <div style="background: #FAF6EC; margin: 50px -50px -30px; padding: 22px 50px; display: flex; align-items: center; gap: 22px; font-size: 13px; color: #5F5F5F; position: relative; z-index: 2; flex-wrap: wrap;">
-    <span class="serif" style="font-size: 19px; font-weight: 500; color: #1A1A1A; letter-spacing: 2px;">CONTACT</span>
-    <span style="color: #C8DDB5;">|</span>
-    <span>한국디지털미디어고등학교 e-비즈니스과</span>
-    <span style="color: #C8DDB5;">|</span>
-    <span>BLOOM · 2026 Spring</span>
-  </div>
-</section>
+</div>
+
+</div>
+
+<!-- 네비게이션 -->
+<button class="nav-arrow nav-prev" id="prevBtn">‹</button>
+<button class="nav-arrow nav-next" id="nextBtn">›</button>
+
+<div class="dots">
+  <div class="dot active" data-slide="1"><span class="dot-label">표지</span></div>
+  <div class="dot" data-slide="2"><span class="dot-label">INDEX</span></div>
+  <div class="dot" data-slide="3"><span class="dot-label">About</span></div>
+  <div class="dot" data-slide="4"><span class="dot-label">진행 방식</span></div>
+  <div class="dot" data-slide="5"><span class="dot-label">타임라인</span></div>
+  <div class="dot" data-slide="6"><span class="dot-label">Thank You</span></div>
+</div>
+
+<div class="slide-counter" id="counter">01 / 06</div>
 
 <script>
-// 2. 스크롤 페이드 인 (모든 fadeUp/fadeLeft/fadeRight)
-var fadeObserver = new IntersectionObserver(function(entries) {
-  entries.forEach(function(entry) {
-    if (entry.isIntersecting) entry.target.classList.add('visible');
-  });
-}, { threshold: 0.15 });
-document.querySelectorAll('.fadeUp, .fadeLeft, .fadeRight').forEach(function(el) { fadeObserver.observe(el); });
+(function() {
+  var current = 1;
+  var total = 6;
+  var slides = document.querySelectorAll('.slide');
+  var dots = document.querySelectorAll('.dot');
+  var prevBtn = document.getElementById('prevBtn');
+  var nextBtn = document.getElementById('nextBtn');
+  var counter = document.getElementById('counter');
+  var transitioning = false;
 
-// 3. 카드 3D 틸트
-document.querySelectorAll('.tilt-card').forEach(function(card) {
-  card.addEventListener('mousemove', function(e) {
-    var rect = card.getBoundingClientRect();
-    var x = e.clientX - rect.left;
-    var y = e.clientY - rect.top;
-    var centerX = rect.width / 2;
-    var centerY = rect.height / 2;
-    var rotateX = (centerY - y) / 15;
-    var rotateY = (x - centerX) / 15;
-    card.style.transform = 'perspective(1000px) rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg) scale(1.02)';
-  });
-  card.addEventListener('mouseleave', function() {
-    card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
-  });
-});
-
-// 4. 숫자 카운트업
-var countObserver = new IntersectionObserver(function(entries) {
-  entries.forEach(function(entry) {
-    if (entry.isIntersecting && !entry.target.classList.contains('counted')) {
-      entry.target.classList.add('counted');
-      var target = parseInt(entry.target.dataset.target);
-      var current = 0;
-      var duration = 1500;
-      var increment = target / (duration / 16);
-      var counter = setInterval(function() {
-        current += increment;
-        if (current >= target) {
-          entry.target.textContent = target;
-          clearInterval(counter);
-        } else {
-          entry.target.textContent = Math.floor(current);
-        }
-      }, 16);
+  function showSlide(num, direction) {
+    if (transitioning || num < 1 || num > total) return;
+    transitioning = true;
+    
+    var oldSlide = document.getElementById('slide-' + current);
+    var newSlide = document.getElementById('slide-' + num);
+    
+    if (direction === 'next') {
+      newSlide.style.transform = 'translateX(100%)';
+    } else {
+      newSlide.style.transform = 'translateX(-100%)';
     }
+    newSlide.style.opacity = '0';
+    void newSlide.offsetWidth;
+    
+    if (direction === 'next') {
+      oldSlide.style.opacity = '0';
+      oldSlide.style.transform = 'translateX(-100%)';
+    } else {
+      oldSlide.style.opacity = '0';
+      oldSlide.style.transform = 'translateX(100%)';
+    }
+    newSlide.style.opacity = '1';
+    newSlide.style.transform = 'translateX(0)';
+    
+    setTimeout(function() {
+      oldSlide.classList.remove('active');
+      oldSlide.style.transform = '';
+      oldSlide.style.opacity = '';
+      newSlide.classList.add('active');
+      newSlide.style.transform = '';
+      newSlide.style.opacity = '';
+      transitioning = false;
+    }, 700);
+    
+    current = num;
+    updateUI();
+  }
+
+  function updateUI() {
+    dots.forEach(function(d, i) { d.classList.toggle('active', i + 1 === current); });
+    counter.textContent = String(current).padStart(2, '0') + ' / ' + String(total).padStart(2, '0');
+    prevBtn.disabled = (current === 1);
+    nextBtn.disabled = (current === total);
+  }
+
+  nextBtn.addEventListener('click', function() {
+    if (current < total) showSlide(current + 1, 'next');
   });
-}, { threshold: 0.5 });
-document.querySelectorAll('.count-num').forEach(function(el) { countObserver.observe(el); });
+  prevBtn.addEventListener('click', function() {
+    if (current > 1) showSlide(current - 1, 'prev');
+  });
+  dots.forEach(function(dot) {
+    dot.addEventListener('click', function() {
+      var target = parseInt(this.dataset.slide);
+      if (target !== current) showSlide(target, target > current ? 'next' : 'prev');
+    });
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowRight' && current < total) showSlide(current + 1, 'next');
+    if (e.key === 'ArrowLeft' && current > 1) showSlide(current - 1, 'prev');
+  });
+  updateUI();
+})();
 </script>
 
 </body>
