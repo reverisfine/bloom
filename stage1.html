@@ -477,13 +477,21 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
 <!-- ===== SLIDE 8: LET'S MINDFUL ===== -->
 <div class="slide" id="slide-8">
   <div style="background: #A8C5E8; margin: -40px -80px -80px; padding: 80px 80px; height: 100vh; position: relative; overflow: hidden;">
+    <!-- 모서리 장식 -->
     <img src="assets/hydrangea-cluster.png" alt="" style="position: absolute; left: -30px; top: -20px; width: 220px;"/>
-    <img src="assets/hydrangea-cluster.png" alt="" style="position: absolute; right: -30px; bottom: -10px; width: 200px;"/>
-    <img src="assets/butterfly.png" alt="" class="float-bfly" style="position: absolute; right: 200px; top: 80px; width: 48px;"/>
+    <img src="assets/green-leaves.png" alt="" style="position: absolute; right: 50px; top: 50px; width: 110px; opacity: 0.65;"/>
+    <img src="assets/butterfly.png" alt="" class="float-bfly" style="position: absolute; right: 200px; top: 70px; width: 48px;"/>
+    <img src="assets/green-leaves.png" alt="" style="position: absolute; left: 70px; bottom: 80px; width: 140px; opacity: 0.7; transform: rotate(20deg);"/>
+    <img src="assets/hydrangea-cluster.png" alt="" style="position: absolute; right: -30px; bottom: -10px; width: 210px;"/>
+    <img src="assets/butterfly.png" alt="" class="float-bfly" style="position: absolute; left: 220px; top: 50px; width: 36px;"/>
+    
+    <!-- ⭐ 중앙 배경 큰 수국 (음영) -->
+    <img src="assets/hydrangea-main.png" alt="" style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 500px; opacity: 0.15;"/>
     
     <!-- 가로지르는 나비 -->
     <img src="assets/butterfly.png" alt="" class="crossing-bfly"/>
     
+    <!-- 중앙 콘텐츠 -->
     <div style="position: relative; z-index: 2; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 28px;">
       <div class="italic-cap reveal-1" style="font-size: 16px; color: #FFFFFF; opacity: 0.85; letter-spacing: 4px;">Stage 02 · MINDFUL</div>
       
@@ -501,140 +509,3 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
     </div>
   </div>
 </div>
-
-</div>
-
-<!-- 네비게이션 -->
-<button class="nav-arrow nav-prev" id="prevBtn">‹</button>
-<button class="nav-arrow nav-next" id="nextBtn">›</button>
-
-<div class="dots">
-  <div class="dot active" data-slide="1"><span class="dot-label">표지</span></div>
-  <div class="dot" data-slide="2"><span class="dot-label">영상+퀴즈</span></div>
-  <div class="dot" data-slide="3"><span class="dot-label">Dove</span></div>
-  <div class="dot" data-slide="4"><span class="dot-label">Thai Life</span></div>
-  <div class="dot" data-slide="5"><span class="dot-label">P&G</span></div>
-  <div class="dot" data-slide="6"><span class="dot-label">Patagonia</span></div>
-  <div class="dot" data-slide="7"><span class="dot-label">정리</span></div>
-  <div class="dot" data-slide="8"><span class="dot-label">LET'S MINDFUL</span></div>
-</div>
-
-<div class="slide-counter" id="counter">01 / 08</div>
-
-<script>
-(function() {
-  var current = 1, total = 8;
-  var slides = document.querySelectorAll('.slide');
-  var dots = document.querySelectorAll('.dot');
-  var prevBtn = document.getElementById('prevBtn');
-  var nextBtn = document.getElementById('nextBtn');
-  var counter = document.getElementById('counter');
-  var transitioning = false;
-
-  function showSlide(num, direction) {
-    if (transitioning || num < 1 || num > total) return;
-    transitioning = true;
-    var oldSlide = document.getElementById('slide-' + current);
-    var newSlide = document.getElementById('slide-' + num);
-    
-    newSlide.style.transform = direction === 'next' ? 'translateX(100%)' : 'translateX(-100%)';
-    newSlide.style.opacity = '0';
-    void newSlide.offsetWidth;
-    
-    oldSlide.style.opacity = '0';
-    oldSlide.style.transform = direction === 'next' ? 'translateX(-100%)' : 'translateX(100%)';
-    newSlide.style.opacity = '1';
-    newSlide.style.transform = 'translateX(0)';
-    
-    setTimeout(function() {
-      oldSlide.classList.remove('active');
-      oldSlide.style.transform = ''; oldSlide.style.opacity = '';
-      newSlide.classList.add('active');
-      newSlide.style.transform = ''; newSlide.style.opacity = '';
-      transitioning = false;
-      // 슬라이드 6 진입 시 카운트업
-      if (num === 6) triggerCountUp();
-    }, 700);
-    
-    current = num;
-    updateUI();
-  }
-
-  function updateUI() {
-    dots.forEach(function(d, i) { d.classList.toggle('active', i + 1 === current); });
-    counter.textContent = String(current).padStart(2, '0') + ' / ' + String(total).padStart(2, '0');
-    prevBtn.disabled = (current === 1);
-    nextBtn.disabled = (current === total);
-  }
-  
-  function triggerCountUp() {
-    var el = document.querySelector('#slide-6 .count-num');
-    if (!el || el.dataset.done) return;
-    el.dataset.done = '1';
-    var target = parseInt(el.dataset.target);
-    var cur = 0, dur = 1500, inc = target / (dur / 16);
-    var t = setInterval(function() {
-      cur += inc;
-      if (cur >= target) { el.textContent = target; clearInterval(t); }
-      else { el.textContent = Math.floor(cur); }
-    }, 16);
-  }
-
-  nextBtn.addEventListener('click', function() { if (current < total) showSlide(current + 1, 'next'); });
-  prevBtn.addEventListener('click', function() { if (current > 1) showSlide(current - 1, 'prev'); });
-  dots.forEach(function(dot) {
-    dot.addEventListener('click', function() {
-      var target = parseInt(this.dataset.slide);
-      if (target !== current) showSlide(target, target > current ? 'next' : 'prev');
-    });
-  });
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'ArrowRight' && current < total) showSlide(current + 1, 'next');
-    if (e.key === 'ArrowLeft' && current > 1) showSlide(current - 1, 'prev');
-  });
-  updateUI();
-  
-  // 퀴즈
-  window.checkQuiz = function(el) {
-    var isCorrect = el.dataset.correct === 'true';
-    var fb = document.getElementById('qFeedback');
-    if (isCorrect) {
-      el.classList.add('correct');
-      fb.style.background = '#EAF3DE';
-      fb.style.borderLeft = '3px solid #639922';
-      fb.style.color = '#27500A';
-      fb.innerHTML = '<strong>✓ 정답!</strong> Thai Life Insurance — 태국 보험회사예요. 보험을 "팔지" 않고 선한 삶의 가치를 보여줬죠.';
-    } else {
-      el.classList.add('wrong');
-      fb.style.background = '#FBEAF0';
-      fb.style.borderLeft = '3px solid #D4537E';
-      fb.style.color = '#993556';
-      fb.innerHTML = '<strong>✗ 다시 생각해봐요!</strong> 영상에서 어떤 메시지를 전했는지 떠올려보세요.';
-      setTimeout(function() { el.classList.remove('wrong'); }, 600);
-    }
-    fb.classList.add('show');
-  };
-  
-  // 사례 카드 펼치기/접기
-  window.toggleCase = function(n) {
-    var card = document.getElementById('card-' + n);
-    var content = document.getElementById('content-' + n);
-    var detail = document.getElementById('detail-' + n);
-    if (card.classList.contains('opened')) {
-      closeCase(n);
-    } else {
-      card.classList.add('opened');
-      content.classList.add('minimized');
-      detail.classList.add('shown');
-    }
-  };
-  window.closeCase = function(n) {
-    document.getElementById('card-' + n).classList.remove('opened');
-    document.getElementById('content-' + n).classList.remove('minimized');
-    document.getElementById('detail-' + n).classList.remove('shown');
-  };
-})();
-</script>
-
-</body>
-</html>
