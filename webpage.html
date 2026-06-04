@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 포트폴리오 웹페이지 만들기 — BLOOM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.min.css">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; color: #5A4A55; background: #FFF8F0; font-size: 15px; min-height: 100vh; padding: 30px 18px 50px; }
+
+.blob { position: fixed; border-radius: 50%; pointer-events: none; z-index: 0; }
+.home-btn { position: fixed; top: 18px; left: 18px; z-index: 100; padding: 9px 18px; background: #FFFFFF; border: none; border-radius: 100px; font-size: 13px; color: #B88AA8; text-decoration: none; font-weight: 600; box-shadow: 0 3px 0 #F3E1D5; transition: all 0.3s; }
+.home-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 0 #F3E1D5; }
+
+.wrap { max-width: 620px; margin: 0 auto; position: relative; z-index: 2; }
+.label { font-size: 13px; color: #B6A4DD; font-weight: 700; letter-spacing: 1px; text-align: center; }
+.ttl { font-size: 26px; font-weight: 700; color: #5A4A55; text-align: center; margin: 4px 0 4px; }
+.subt { font-size: 13px; color: #8A7A85; text-align: center; margin-bottom: 18px; }
+
+.pf { background: #FFF; border-radius: 16px; padding: 13px 18px; box-shadow: 0 5px 0 #F3E1D5; margin-bottom: 14px; font-size: 13px; }
+.pf .l { color: #B6A4DD; font-weight: 700; font-size: 12px; }
+.chip { display: inline-block; background: #EDE6FB; color: #7B6BB0; border-radius: 100px; padding: 3px 11px; font-size: 11px; font-weight: 600; margin: 2px; }
+.empty-pf { text-align: center; color: #9A8A95; font-size: 13px; padding: 4px 0; }
+.link-btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; background: #EDE6FB; color: #7B6BB0; border-radius: 100px; font-size: 12px; font-weight: 700; text-decoration: none; margin-top: 6px; }
+
+.q { background: #FFF; border-radius: 16px; padding: 15px 18px; box-shadow: 0 5px 0 #F3E1D5; margin-bottom: 12px; }
+.q-h { font-size: 14px; font-weight: 700; margin-bottom: 10px; display: flex; align-items: center; gap: 7px; }
+.q-h .qn { width: 22px; height: 22px; border-radius: 50%; background: #FF9EC4; color: #FFF; font-size: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.q-h .sub { font-size: 11px; color: #9A8A95; font-weight: 400; }
+.opts { display: flex; flex-wrap: wrap; gap: 8px; }
+.opt { background: #FFF3F8; border: 2px solid transparent; border-radius: 12px; padding: 10px 15px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.15s; color: #6A5A65; }
+.opt:hover { border-color: #FFC4DD; }
+.opt.sel { background: #FF6FA5; color: #FFF; border-color: #FF6FA5; }
+.opt.multi.sel { background: #A8E6C5; color: #3A7D55; border-color: #A8E6C5; }
+
+.prog { height: 7px; background: #F0E0E8; border-radius: 4px; overflow: hidden; margin: 16px 0 6px; }
+.prog-fill { height: 100%; background: linear-gradient(90deg,#FF9EC4,#FF6FA5); width: 0%; transition: width 0.4s; border-radius: 4px; }
+.prog-txt { font-size: 12px; color: #9A8A95; text-align: center; margin-bottom: 12px; }
+
+.tmpl-card { background: #FFF; border-radius: 16px; padding: 14px; box-shadow: 0 5px 0 #F3E1D5; }
+.tmpl-h { font-size: 13px; font-weight: 700; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+.tmpl { background: #5A4A55; color: #FFF3F8; border-radius: 14px; padding: 16px 18px; font-size: 12.5px; line-height: 1.9; white-space: pre-wrap; min-height: 120px; }
+.tmpl .hl { color: #FFC4DD; font-weight: 700; }
+.tmpl .empty { color: #A89AA3; font-style: italic; }
+.copy-btn { display: block; width: 100%; margin-top: 12px; padding: 15px; border: none; border-radius: 100px; font-size: 15px; font-weight: 700; cursor: pointer; font-family: inherit; transition: all 0.2s; background: #E0DDE8; color: #FFF; }
+.copy-btn.ready { background: #FF6FA5; box-shadow: 0 5px 0 #E0578E; cursor: pointer; }
+.copy-btn.ready:hover { transform: translateY(-2px); box-shadow: 0 7px 0 #E0578E; }
+.gemini-btn { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; margin-top: 10px; padding: 14px; background: #FFF; color: #7B6BB0; border: 2px solid #EDE6FB; border-radius: 100px; font-size: 14px; font-weight: 700; cursor: pointer; font-family: inherit; text-decoration: none; transition: all 0.2s; }
+.gemini-btn:hover { border-color: #B6A4DD; transform: translateY(-2px); }
+
+.warn { background: #FFE0E8; border-radius: 14px; padding: 13px 18px; font-size: 12px; color: #A8456A; line-height: 1.6; margin-top: 14px; }
+.next-row { display: flex; gap: 10px; margin-top: 16px; }
+.next-btn { flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 14px; border-radius: 100px; font-size: 14px; font-weight: 700; text-decoration: none; transition: all 0.2s; font-family: inherit; border: none; cursor: pointer; }
+.next-btn.ghost { background: #FFF; color: #B88AA8; box-shadow: 0 4px 0 #F3E1D5; }
+.next-btn.primary { background: #FF6FA5; color: #FFF; box-shadow: 0 4px 0 #E0578E; }
+.next-btn:hover { transform: translateY(-2px); }
+.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(100px); background: #5A4A55; color: #FFF; padding: 12px 24px; border-radius: 100px; font-size: 13px; font-weight: 600; opacity: 0; transition: all 0.4s cubic-bezier(0.34,1.56,0.64,1); z-index: 200; }
+.toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+</style>
+</head>
+<body>
+
+<a href="part2.html" class="home-btn">‹ 강의로</a>
+<div class="blob" style="width:150px;height:150px;background:#FFE3EF;left:-50px;bottom:-40px;opacity:0.5;"></div>
+<div class="blob" style="width:110px;height:110px;background:#EDE6FB;right:-30px;top:50px;opacity:0.5;"></div>
+
+<div class="wrap">
+  <div class="label">🖥️ AI 포트폴리오 웹페이지 만들기</div>
+  <div class="ttl">골라서 템플릿을 완성해요!</div>
+  <div class="subt">항목을 선택하면 아래 AI 입력 템플릿이 채워져요. 복사해서 Gemini에 붙여넣기! 🧩</div>
+
+  <div class="pf" id="pfCard"></div>
+
+  <div class="q">
+    <div class="q-h"><span class="qn">1</span> 웹페이지 제목은?</div>
+    <div class="opts" data-q="title" data-multi="false">
+      <div class="opt" data-v="안정과 성장을 한 번에!">안정과 성장을 한 번에!</div>
+      <div class="opt" data-v="미래를 키우는 똑똑한 투자">미래를 키우는 똑똑한 투자</div>
+      <div class="opt" data-v="가치를 보는 눈">가치를 보는 눈</div>
+      <div class="opt" data-v="나의 첫 포트폴리오">나의 첫 포트폴리오</div>
+    </div>
+  </div>
+
+  <div class="q">
+    <div class="q-h"><span class="qn">2</span> 디자인 분위기는?</div>
+    <div class="opts" data-q="design" data-multi="false">
+      <div class="opt" data-v="파스텔 톤으로 귀엽고 사랑스럽게">🌸 파스텔 큐트</div>
+      <div class="opt" data-v="깔끔하고 전문적인 비즈니스 느낌으로">💼 깔끔 프로</div>
+      <div class="opt" data-v="차분하고 자연스러운 내추럴 톤으로">🌿 차분 내추럴</div>
+      <div class="opt" data-v="모던하고 세련된 시크한 느낌으로">✨ 모던 시크</div>
+    </div>
+  </div>
+
+  <div class="q">
+    <div class="q-h"><span class="qn">3</span> 가장 강조하고 싶은 점은?</div>
+    <div class="opts" data-q="point" data-multi="false">
+      <div class="opt" data-v="높은 수익률">📈 수익률</div>
+      <div class="opt" data-v="안정적인 자산 관리">🛡️ 안정성</div>
+      <div class="opt" data-v="가치·신념 있는 브랜드 투자">💚 가치·신념</div>
+      <div class="opt" data-v="위험을 나눈 분산 투자">⚖️ 분산 투자</div>
+    </div>
+  </div>
+
+  <div class="q">
+    <div class="q-h"><span class="qn">4</span> 선택 이유는? <span class="sub">(여러 개 OK)</span></div>
+    <div class="opts" data-q="reason" data-multi="true">
+      <div class="opt multi" data-v="1부에서 분석한 감성 브랜드라서">1부 분석 브랜드</div>
+      <div class="opt multi" data-v="안전하게 원금을 지키려고">원금 안전</div>
+      <div class="opt multi" data-v="성장 가능성이 높아 보여서">성장 가능성</div>
+      <div class="opt multi" data-v="위험을 여러 곳에 나누려고">분산 투자</div>
+      <div class="opt multi" data-v="브랜드의 신념에 공감해서">신념 공감</div>
+    </div>
+  </div>
+
+  <div class="prog"><div class="prog-fill" id="progFill"></div></div>
+  <div class="prog-txt" id="progTxt">0 / 4 선택 완료</div>
+
+  <div class="tmpl-card">
+    <div class="tmpl-h">🤖 Gemini에 넣을 입력 템플릿</div>
+    <div class="tmpl" id="tmpl"><span class="empty">위에서 항목을 선택하면 여기에 AI 입력 템플릿이 완성돼요! 🧩</span></div>
+    <button class="copy-btn" id="copyBtn" disabled>항목을 모두 선택해주세요</button>
+    <a class="gemini-btn" href="https://gemini.google.com/app" target="_blank" rel="noopener">✨ Gemini 열기 (새 탭) →</a>
+  </div>
+
+  <div class="warn">⚠️ <strong>잊지 마세요!</strong> AI가 만든 웹페이지에 "본 포트폴리오는 교육용이며 실제 투자 수익을 보장하지 않습니다" 문구가 꼭 들어가야 해요. AI의 답변도 그대로 믿지 말고 한 번 더 확인하기! 🧐</div>
+
+  <div class="next-row">
+    <a href="part2.html" class="next-btn ghost">‹ 강의 다시 보기</a>
+    <a href="closing.html" class="next-btn primary">🌸 여정 마무리하기 →</a>
+  </div>
+</div>
+
+<div class="toast" id="toast">복사됐어요! 📋</div>
+
+<script>
+(function() {
+  // === 시뮬레이터 결과 불러오기 ===
+  var portfolio = null;
+  try { portfolio = JSON.parse(localStorage.getItem('bloomPortfolio')); } catch(e) {}
+
+  var pfCard = document.getElementById('pfCard');
+  var pfText = ''; // 템플릿에 들어갈 포트폴리오 요약
+  if (portfolio && portfolio.finalAsset) {
+    var pf = portfolio.profit || 0;
+    var pfColor = pf >= 0 ? '#6FA83A' : '#E0578E';
+    var pfSign = pf >= 0 ? '+' : '';
+    var chips = '';
+    var holdLines = '';
+    if (portfolio.holdings && portfolio.holdings.length) {
+      portfolio.holdings.forEach(function(h){
+        chips += '<span class="chip">'+(h.emoji||'')+' '+h.name+' '+h.pct+'%</span>';
+        holdLines += '   - ' + h.name + ' ' + h.pct + '%\n';
+      });
+    }
+    pfCard.innerHTML =
+      '<span class="l">💰 내 결과</span> · 1,000만 → <strong>'+portfolio.finalAsset.toLocaleString()+'만</strong> ' +
+      '<span style="color:'+pfColor+';font-weight:700;">('+pfSign+pf+'만)</span> · ' + (portfolio.type||'') + '<br>' + chips;
+    pfText = '● 최종 성과: 1,000만원 → ' + portfolio.finalAsset.toLocaleString() + '만원 (' + pfSign + (pf/1000*100).toFixed(1) + '%), ' + (portfolio.type||'') + '\n' +
+             '● 포트폴리오 구성:\n' + holdLines;
+  } else {
+    pfCard.innerHTML =
+      '<div class="empty-pf">아직 투자 결과가 없어요 📈<br>모의 투자를 먼저 해주세요!</div>' +
+      '<div style="text-align:center;"><a class="link-btn" href="simulator.html">📈 모의 투자 하러 가기</a></div>';
+    pfText = '● 최종 성과: (모의 투자 결과를 적어요)\n● 포트폴리오 구성: (자산과 비중을 적어요)\n';
+  }
+
+  // === 선택 문제 ===
+  var ans = { title:null, design:null, point:null, reason:[] };
+  document.querySelectorAll('.opts').forEach(function(grp){
+    var q = grp.dataset.q, multi = grp.dataset.multi === 'true';
+    grp.querySelectorAll('.opt').forEach(function(opt){
+      opt.addEventListener('click', function(){
+        var v = opt.dataset.v;
+        if (multi) {
+          opt.classList.toggle('sel');
+          if (opt.classList.contains('sel')) ans.reason.push(v);
+          else ans.reason = ans.reason.filter(function(x){return x!==v;});
+        } else {
+          grp.querySelectorAll('.opt').forEach(function(o){o.classList.remove('sel');});
+          opt.classList.add('sel');
+          ans[q] = v;
+        }
+        render();
+      });
+    });
+  });
+
+  var fullTemplate = '';
+  function render() {
+    var done = 0;
+    if (ans.title) done++; if (ans.design) done++; if (ans.point) done++; if (ans.reason.length) done++;
+    document.getElementById('progFill').style.width = (done/4*100) + '%';
+    document.getElementById('progTxt').textContent = done + ' / 4 선택 완료';
+
+    var tmplEl = document.getElementById('tmpl');
+    var btn = document.getElementById('copyBtn');
+
+    if (done === 0) {
+      tmplEl.innerHTML = '<span class="empty">위에서 항목을 선택하면 여기에 AI 입력 템플릿이 완성돼요! 🧩</span>';
+      btn.disabled = true; btn.classList.remove('ready'); btn.textContent = '항목을 모두 선택해주세요';
+      return;
+    }
+
+    var disp = '중학생 투자 동아리 포트폴리오 소개 웹페이지를 만들어줘.\n\n';
+    disp += '● 제목: <span class="hl">' + (ans.title||'___') + '</span>\n';
+    disp += '● 분위기: <span class="hl">' + (ans.design||'___') + '</span>\n';
+    disp += pfText;
+    disp += '● 강조할 점: <span class="hl">' + (ans.point||'___') + '</span>\n';
+    disp += '● 선택 이유: <span class="hl">' + (ans.reason.length? ans.reason.join(', ') : '___') + '</span>\n';
+    disp += '● 필수 문구: "본 포트폴리오는 교육용이며 실제 투자 수익을 보장하지 않습니다."\n\n';
+    disp += '모바일에서도 잘 보이게 예쁘게 만들어줘!';
+    tmplEl.innerHTML = disp;
+
+    // 복사용 (태그 제거 버전)
+    fullTemplate = disp.replace(/<span class="hl">/g,'').replace(/<\/span>/g,'');
+
+    if (done === 4) { btn.disabled=false; btn.classList.add('ready'); btn.textContent='📋 완성된 템플릿 복사하기'; }
+    else { btn.disabled=true; btn.classList.remove('ready'); btn.textContent='나머지 항목도 선택해주세요 ('+done+'/4)'; }
+  }
+
+  document.getElementById('copyBtn').addEventListener('click', function(){
+    if (this.disabled) return;
+    var toast = document.getElementById('toast');
+    function showToast(msg){ toast.textContent = msg; toast.classList.add('show'); setTimeout(function(){ toast.classList.remove('show'); }, 2200); }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(fullTemplate).then(function(){ showToast('복사됐어요! Gemini에 붙여넣으세요 📋'); }, function(){ prompt('아래 내용을 복사하세요:', fullTemplate); });
+    } else {
+      prompt('아래 내용을 복사하세요:', fullTemplate);
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
