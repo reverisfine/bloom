@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stage 03 · 내 마음의 정원 — BLOOM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.min.css">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { height: 100%; overflow: hidden; }
+body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; color: #1A1A1A; background: #FAF6EC; font-size: 15px; }
+.serif { font-family: 'Playfair Display', serif; }
+.italic-cap { font-family: 'Cormorant Garamond', serif; font-style: italic; }
+
+.home-btn { position: fixed; top: 24px; left: 24px; z-index: 100; padding: 8px 16px; background: rgba(255,255,255,0.9); border: 1px solid rgba(168,197,232,0.5); border-radius: 20px; font-size: 13px; color: #5F5F5F; text-decoration: none; font-family: 'Cormorant Garamond', serif; font-style: italic; transition: all 0.3s; }
+.home-btn:hover { background: #A8C5E8; color: #FFFFFF; }
+
+.stage { width: 100vw; height: 100vh; position: relative; overflow: hidden; }
+.screen { position: absolute; inset: 0; padding: 50px 70px; opacity: 0; transform: translateY(20px); transition: all 0.6s cubic-bezier(0.4,0,0.2,1); pointer-events: none; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+.screen.active { opacity: 1; transform: translateY(0); pointer-events: auto; }
+
+/* 인트로 */
+.intro-center { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 20px; position: relative; z-index: 2; }
+
+/* 진행바 */
+.quiz-wrap { width: 100%; max-width: 680px; }
+.progress-track { height: 6px; background: rgba(168,197,232,0.25); border-radius: 3px; margin-bottom: 32px; overflow: hidden; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, #A8C5E8, #E91A75); border-radius: 3px; transition: width 0.5s ease; width: 16.6%; }
+.q-num { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 17px; color: #A8C5E8; margin-bottom: 10px; }
+.q-title { font-family: 'Playfair Display', serif; font-size: 30px; font-weight: 500; line-height: 1.4; margin-bottom: 32px; }
+.options { display: flex; flex-direction: column; gap: 13px; }
+.opt { padding: 18px 24px; background: #FFFFFF; border: 2px solid transparent; border-radius: 12px; cursor: pointer; transition: all 0.25s ease; font-size: 15px; display: flex; align-items: center; gap: 16px; }
+.opt:hover { border-color: #A8C5E8; transform: translateX(5px); box-shadow: 0 6px 16px rgba(168,197,232,0.25); }
+.opt .mark { width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0; border: 2px solid #A8C5E8; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #A8C5E8; font-family: 'Cormorant Garamond', serif; }
+
+/* 결과 */
+.result-center { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 16px; position: relative; z-index: 2; max-width: 600px; }
+.flower-circle { width: 140px; height: 140px; border-radius: 50%; display: flex; align-items: center; justify-content: center; animation: bloomIn 1s cubic-bezier(0.34,1.56,0.64,1); }
+@keyframes bloomIn { 0% { transform: scale(0) rotate(-30deg); opacity: 0; } 100% { transform: scale(1) rotate(0); opacity: 1; } }
+.coaching { background: #FFFFFF; border-radius: 12px; padding: 22px 28px; font-size: 14.5px; line-height: 1.9; color: #5F5F5F; border-left: 3px solid; }
+.keyword-box { background: rgba(168,197,232,0.15); border-radius: 100px; padding: 14px 36px; font-size: 16px; }
+.btn { padding: 14px 32px; border-radius: 100px; font-size: 14px; cursor: pointer; border: none; transition: all 0.3s; font-family: 'Pretendard', sans-serif; text-decoration: none; display: inline-block; }
+.btn-primary { background: #E91A75; color: #FFF; }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(233,26,117,0.4); }
+.btn-ghost { background: transparent; color: #5F5F5F; border: 1px solid #C8DDB5; }
+.btn-ghost:hover { background: rgba(200,221,181,0.2); }
+
+/* 배경 장식 */
+.bg-deco { position: absolute; pointer-events: none; z-index: 1; }
+@keyframes floatBfly { 0%,100% { transform: translate(0,0) rotate(-5deg); } 50% { transform: translate(8px,-12px) rotate(5deg); } }
+.float-bfly { animation: floatBfly 5s ease-in-out infinite; }
+</style>
+</head>
+<body>
+
+<a href="stage2.html" class="home-btn">‹ 이전으로</a>
+
+<div class="stage">
+
+  <!-- 배경 장식 -->
+  <img src="assets/hydrangea-cluster.png" alt="" class="bg-deco" style="left:-40px; bottom:-30px; width:220px; opacity:0.5;"/>
+  <img src="assets/green-leaves.png" alt="" class="bg-deco" style="right:40px; top:60px; width:120px; opacity:0.4; transform:rotate(15deg);"/>
+  <img src="assets/butterfly.png" alt="" class="bg-deco float-bfly" style="right:120px; bottom:100px; width:46px; opacity:0.7;"/>
+
+  <!-- 인트로 -->
+  <div class="screen active" id="s-intro">
+    <div class="intro-center">
+      <div class="italic-cap" style="font-size: 20px; color: #A8C5E8;">Stage 03 · CREATE</div>
+      <h1 class="serif" style="font-size: 56px; font-weight: 500; line-height: 1.2; margin: 0;">내 마음의 정원<br>가꾸기</h1>
+      <div style="display: flex; align-items: center; gap: 16px; margin: 6px 0;">
+        <div style="width: 50px; height: 1px; background: #A8C5E8;"></div>
+        <span class="italic-cap" style="font-size: 15px; color: #5F5F5F;">My Emotional Garden</span>
+        <div style="width: 50px; height: 1px; background: #A8C5E8;"></div>
+      </div>
+      <p style="font-size: 15px; color: #5F5F5F; line-height: 1.8; max-width: 460px;">지금 내 마음은 어떤 상태일까요? 6가지 질문에 답하고,<br>나에게 필요한 <strong>치유의 꽃</strong>을 찾아보세요.</p>
+      <button class="btn btn-primary" onclick="egStart()" style="margin-top: 14px;">테스트 시작하기 →</button>
+    </div>
+  </div>
+
+  <!-- 퀴즈 -->
+  <div class="screen" id="s-quiz">
+    <div class="quiz-wrap">
+      <div class="progress-track"><div class="progress-fill" id="egProgress"></div></div>
+      <div class="q-num" id="egQNum">Question 01 / 06</div>
+      <div class="q-title" id="egQTitle"></div>
+      <div class="options" id="egOptions"></div>
+    </div>
+  </div>
+
+  <!-- 결과 -->
+  <div class="screen" id="s-result">
+    <div class="result-center">
+      <div class="italic-cap" style="font-size: 16px; color: #A8C5E8;">오늘 너의 마음에 필요한 꽃은</div>
+      <div class="flower-circle" id="egCircle"><span id="egEmoji" style="font-size: 64px;"></span></div>
+      <h2 class="serif" id="egName" style="font-size: 40px; font-weight: 500; margin: 0;"></h2>
+      <div class="italic-cap" id="egLabel" style="font-size: 17px;"></div>
+      <div class="coaching" id="egCoaching"></div>
+      <div class="keyword-box" id="egKeyword"></div>
+      <div style="display: flex; gap: 12px; margin-top: 6px;">
+        <button class="btn btn-ghost" onclick="egRestart()">다시 하기</button>
+        <a class="btn btn-primary" id="egNextBtn" href="stage4.html">다음 단계로 →</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+(function() {
+  var questions = [
+    { t: "오늘 학교에서 열심히 준비한 발표를 마쳤을 때, 내 마음은?", o: [
+      { label: "홀가분하고 뿌듯하다", e: "joy" },
+      { label: "더 잘할 수 있었는데 아쉽고 후회된다", e: "anger" },
+      { label: "너무 긴장해서 진이 다 빠졌다", e: "depress" },
+      { label: "실수했을까 봐 계속 신경 쓰인다", e: "anxiety" } ] },
+    { t: "친한 친구가 요즘 나에게 조금 소홀해진 것 같을 때, 나는?", o: [
+      { label: "\"무슨 일 있어?\" 먼저 밝게 다가간다", e: "joy" },
+      { label: "나한테 화난 게 있나 싶어 짜증이 난다", e: "anger" },
+      { label: "나를 싫어하나 싶어 슬프고 무기력하다", e: "depress" },
+      { label: "내가 뭘 잘못했나 계속 불안하다", e: "anxiety" } ] },
+    { t: "주말에 온전한 자유시간이 생겼다. 가장 하고 싶은 건?", o: [
+      { label: "친구들 만나서 신나게 놀기", e: "joy" },
+      { label: "쌓인 걸 운동·게임으로 확 풀기", e: "anger" },
+      { label: "그냥 아무것도 안 하고 누워있기", e: "depress" },
+      { label: "밀린 할 일부터 정리해야 마음 편함", e: "anxiety" } ] },
+    { t: "요즘 잠자리에 누우면 드는 생각은?", o: [
+      { label: "오늘도 나름 괜찮은 하루였어", e: "joy" },
+      { label: "오늘 그 일, 생각할수록 열받네", e: "anger" },
+      { label: "그냥 다 귀찮고 의욕이 없어", e: "depress" },
+      { label: "내일 그거 어떡하지... 걱정돼", e: "anxiety" } ] },
+    { t: "예상치 못한 변화(시간표·계획 변경)가 생기면 나는?", o: [
+      { label: "오 재밌겠다, 새로운 거 좋아", e: "joy" },
+      { label: "왜 마음대로 바꿔, 짜증나", e: "anger" },
+      { label: "그냥 흘러가는 대로 둔다", e: "depress" },
+      { label: "갑자기 바뀌면 너무 당황스럽다", e: "anxiety" } ] },
+    { t: "지금 내 마음을 날씨로 표현한다면?", o: [
+      { label: "맑고 화창한 봄날 ☀️", e: "joy" },
+      { label: "천둥 치는 먹구름 ⛈️", e: "anger" },
+      { label: "비 오는 흐린 날 🌧️", e: "depress" },
+      { label: "바람 부는 안갯속 🌫️", e: "anxiety" } ] }
+  ];
+  var results = {
+    joy: { name:"튤립", emoji:"🌷", label:"기쁨 · 평온", color:"#BA7517", bg:"#FAEEDA", keyword:"기쁨",
+      coaching:"지금 당신의 마음 정원은 아주 맑고 화창하네요! 이 긍정적인 에너지를 주변 친구들에게도 따뜻한 미소로 나누어 준다면, 정원의 꽃들이 더 활짝 피어날 거예요." },
+    anger: { name:"캐모마일", emoji:"🌼", label:"분노 · 스트레스", color:"#639922", bg:"#EAF3DE", keyword:"분노",
+      coaching:"지금 마음속에 뜨거운 불꽃이 피어올랐군요. 화가 나는 것은 아주 자연스러운 감정이에요. 캐모마일 차 한 잔의 여유처럼, 잠시 숨을 크게 들이마시고 내쉬며 마음의 온도를 천천히 낮춰보세요." },
+    depress: { name:"해바라기", emoji:"🌻", label:"위로가 필요한 마음", color:"#7F77DD", bg:"#EEEDFE", keyword:"위로",
+      coaching:"요즘 조금 지치고 외로운 시간을 보내고 있군요. 해바라기가 늘 해를 바라보듯, 당신의 마음속에도 곧 따뜻한 햇살이 비칠 거예요. 오늘은 나 자신에게 '그동안 애썼어'라고 한마디 건네주세요." },
+    anxiety: { name:"라벤더", emoji:"💜", label:"불안 · 긴장", color:"#D4537E", bg:"#FBEAF0", keyword:"안정",
+      coaching:"마음이 안절부절못하고 긴장되어 있네요. 라벤더의 편안한 향기처럼, 잠시 눈을 감고 아무 생각 없이 쉬어도 괜찮아요. 미래의 걱정은 잠시 내려두고, 지금 이 순간에 집중해 봐요." }
+  };
+  var cur = 0, scores = { joy:0, anger:0, depress:0, anxiety:0 };
+  window.egStart = function() {
+    cur = 0; scores = { joy:0, anger:0, depress:0, anxiety:0 };
+    document.getElementById('s-intro').classList.remove('active');
+    document.getElementById('s-quiz').classList.add('active');
+    renderQ();
+  };
+  function renderQ() {
+    var q = questions[cur];
+    document.getElementById('egQNum').textContent = 'Question ' + String(cur+1).padStart(2,'0') + ' / 06';
+    document.getElementById('egQTitle').textContent = q.t;
+    document.getElementById('egProgress').style.width = ((cur+1)/6*100) + '%';
+    var html = '', marks = ['A','B','C','D'];
+    q.o.forEach(function(opt, i) {
+      html += '<div class="opt" onclick="egAnswer(\'' + opt.e + '\')"><span class="mark">' + marks[i] + '</span><span>' + opt.label + '</span></div>';
+    });
+    document.getElementById('egOptions').innerHTML = html;
+  }
+  window.egAnswer = function(e) { scores[e]++; cur++; if (cur < 6) renderQ(); else showResult(); };
+  function showResult() {
+    var top = Object.keys(scores).reduce(function(a,b){ return scores[a] >= scores[b] ? a : b; });
+    var r = results[top];
+    document.getElementById('s-quiz').classList.remove('active');
+    document.getElementById('s-result').classList.add('active');
+    document.getElementById('egEmoji').textContent = r.emoji;
+    document.getElementById('egCircle').style.background = r.bg;
+    document.getElementById('egName').textContent = r.name;
+    document.getElementById('egLabel').textContent = r.label;
+    document.getElementById('egLabel').style.color = r.color;
+    var c = document.getElementById('egCoaching');
+    c.textContent = r.coaching; c.style.borderLeftColor = r.color;
+    document.getElementById('egKeyword').innerHTML = '✨ 오늘의 내 감정 키워드 · <strong style="color:' + r.color + ';">' + r.keyword + '</strong>';
+    // 감정 키워드 저장 (Stage 4·5에서 사용)
+    try {
+      localStorage.setItem('bloomEmotion', JSON.stringify({ key: top, name: r.name, emoji: r.emoji, label: r.label, color: r.color, keyword: r.keyword }));
+    } catch(err) {}
+    // URL로도 전달 (안전장치)
+    document.getElementById('egNextBtn').href = 'stage4.html?emotion=' + top;
+  }
+  window.egRestart = function() {
+    document.getElementById('s-result').classList.remove('active');
+    document.getElementById('s-intro').classList.add('active');
+  };
+})();
+</script>
+
+</body>
+</html>
