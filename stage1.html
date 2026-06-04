@@ -180,7 +180,7 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
 .slide.active .pop-card { opacity: 1; transform: scale(1); }
 .pop-card:hover { transform: translateY(-6px) scale(1.03); box-shadow: 0 12px 24px rgba(168,197,232,0.3); }
 
-.letter { display: inline-block; opacity: 0; transform: translateY(30px); transition: all 0.5s ease; }
+.letter { display: inline-block; opacity: 0; transform: translateY(30px); transition: all 0.5s ease; cursor: pointer; }
 .slide.active .letter { opacity: 1; transform: translateY(0); }
 .slide.active .letter:nth-child(1) { transition-delay: 0.2s; }
 .slide.active .letter:nth-child(2) { transition-delay: 0.3s; }
@@ -194,6 +194,11 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
 .slide.active .letter:nth-child(11) { transition-delay: 1.2s; }
 .slide.active .letter:nth-child(12) { transition-delay: 1.3s; }
 .slide.active .letter:nth-child(13) { transition-delay: 1.4s; }
+.letter:hover {
+  transform: translateY(-18px) scale(1.15) !important;
+  color: #FFE5EA !important;
+  text-shadow: 0 8px 16px rgba(255,255,255,0.3);
+}
 
 @keyframes flyAcross {
   0% { left: -60px; top: 45%; transform: rotate(-10deg); }
@@ -208,6 +213,12 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
   50% { transform: translate(8px, -12px) rotate(5deg); }
 }
 .float-bfly { animation: floatBfly 4s ease-in-out infinite; }
+
+.next-btn:hover {
+  background: rgba(255,255,255,0.35) !important;
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.15);
+}
 </style>
 </head>
 <body>
@@ -462,7 +473,7 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
   </div>
 </div>
 
-<!-- ===== SLIDE 8: LET'S MINDFUL (수국 음영 + 모서리 장식) ===== -->
+<!-- ===== SLIDE 8: LET'S ANALYZE (수국 음영 + 모서리 장식 + stage2 연결) ===== -->
 <div class="slide" id="slide-8">
   <div style="background: #A8C5E8; margin: -40px -80px -80px; padding: 80px 80px; height: 100vh; position: relative; overflow: hidden;">
     <!-- 모서리 장식 -->
@@ -481,19 +492,20 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
     
     <!-- 중앙 콘텐츠 -->
     <div style="position: relative; z-index: 2; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 28px;">
-      <div class="italic-cap reveal-1" style="font-size: 16px; color: #FFFFFF; opacity: 0.85; letter-spacing: 4px;">Stage 02 · MINDFUL</div>
+      <div class="italic-cap reveal-1" style="font-size: 16px; color: #FFFFFF; opacity: 0.85; letter-spacing: 4px;">Stage 02 · ANALYSIS</div>
       
       <h2 class="serif" style="font-size: 90px; font-weight: 500; color: #FFFFFF; letter-spacing: 6px; margin: 0; line-height: 1;">
-        <span class="letter">L</span><span class="letter">E</span><span class="letter">T</span><span class="letter">'</span><span class="letter">S</span><span style="display: inline-block; width: 24px;"></span><span class="letter">M</span><span class="letter">I</span><span class="letter">N</span><span class="letter">D</span><span class="letter">F</span><span class="letter">U</span><span class="letter">L</span>
+        <span class="letter">L</span><span class="letter">E</span><span class="letter">T</span><span class="letter">'</span><span class="letter">S</span><span style="display: inline-block; width: 24px;"></span><span class="letter">A</span><span class="letter">N</span><span class="letter">A</span><span class="letter">L</span><span class="letter">Y</span><span class="letter">Z</span><span class="letter">E</span>
       </h2>
       
-      <p class="italic-cap reveal-4" style="font-size: 22px; color: #FFFFFF; margin: 0; opacity: 0.95;">그럼, 너의 감정은 어떤 색일까?</p>
+      <p class="italic-cap reveal-4" style="font-size: 22px; color: #FFFFFF; margin: 0; opacity: 0.95;">이 브랜드들, 어떻게 돈을 벌까?</p>
       
       <div class="reveal-5" style="width: 80px; height: 1px; background: #FFFFFF; opacity: 0.5; margin: 12px 0;"></div>
       
-      <div class="reveal-5" style="background: rgba(255,255,255,0.2); padding: 20px 40px; border-radius: 100px; border: 1px solid rgba(255,255,255,0.3); backdrop-filter: blur(10px);">
-        <p style="font-size: 15px; color: #FFFFFF; margin: 0;"><strong>다음 25분</strong> · AI랑 같이 나만의 심리테스트 만들기</p>
-      </div>
+      <a href="stage2.html" class="reveal-5 next-btn" style="background: rgba(255,255,255,0.2); padding: 20px 40px; border-radius: 100px; border: 1px solid rgba(255,255,255,0.4); backdrop-filter: blur(10px); text-decoration: none; display: inline-flex; align-items: center; gap: 12px; transition: all 0.3s ease;">
+        <span style="font-size: 15px; color: #FFFFFF;"><strong>다음 25분</strong> · BMC로 브랜드 분석하기</span>
+        <span style="font-size: 18px; color: #FFFFFF;">→</span>
+      </a>
     </div>
   </div>
 </div>
@@ -511,7 +523,7 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
   <div class="dot" data-slide="5"><span class="dot-label">P&G</span></div>
   <div class="dot" data-slide="6"><span class="dot-label">Patagonia</span></div>
   <div class="dot" data-slide="7"><span class="dot-label">정리</span></div>
-  <div class="dot" data-slide="8"><span class="dot-label">LET'S MINDFUL</span></div>
+  <div class="dot" data-slide="8"><span class="dot-label">LET'S ANALYZE</span></div>
 </div>
 
 <div class="slide-counter" id="counter">01 / 08</div>
@@ -519,7 +531,6 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
 <script>
 (function() {
   var current = 1, total = 8;
-  var slides = document.querySelectorAll('.slide');
   var dots = document.querySelectorAll('.dot');
   var prevBtn = document.getElementById('prevBtn');
   var nextBtn = document.getElementById('nextBtn');
@@ -531,16 +542,13 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
     transitioning = true;
     var oldSlide = document.getElementById('slide-' + current);
     var newSlide = document.getElementById('slide-' + num);
-    
     newSlide.style.transform = direction === 'next' ? 'translateX(100%)' : 'translateX(-100%)';
     newSlide.style.opacity = '0';
     void newSlide.offsetWidth;
-    
     oldSlide.style.opacity = '0';
     oldSlide.style.transform = direction === 'next' ? 'translateX(-100%)' : 'translateX(100%)';
     newSlide.style.opacity = '1';
     newSlide.style.transform = 'translateX(0)';
-    
     setTimeout(function() {
       oldSlide.classList.remove('active');
       oldSlide.style.transform = ''; oldSlide.style.opacity = '';
@@ -549,7 +557,6 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
       transitioning = false;
       if (num === 6) triggerCountUp();
     }, 700);
-    
     current = num;
     updateUI();
   }
