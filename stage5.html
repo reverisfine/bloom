@@ -137,7 +137,6 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; color: #FFF; backgr
     document.getElementById('startOverlay').style.display = 'none';
   };
 
-  // 영상 업로드
   document.getElementById('videoInput').addEventListener('change', function(e) {
     var file = e.target.files[0];
     if (!file) return;
@@ -146,7 +145,6 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; color: #FFF; backgr
     document.getElementById('uploadBtn').innerHTML = '<span>✓</span><span>내 영상 업로드 완료</span>';
   });
 
-  // 기본 영상
   window.loadDefault = function() {
     var key = 'anxiety';
     try { var s = localStorage.getItem('bloomEmotion'); if (s) key = JSON.parse(s).key; } catch(err) {}
@@ -159,11 +157,8 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; color: #FFF; backgr
     var v = document.getElementById('bloomVideo');
     videoReady = false;
     hasVideo = false;
-
-    // 핸들러 먼저 등록
     v.onloadeddata = function() {
-      hasVideo = true;
-      videoReady = true;
+      hasVideo = true; videoReady = true;
       v.style.display = 'block';
       document.getElementById('svgFlower').style.display = 'none';
       flash('🌸 ' + label + ' 준비 완료! 슬라이더나 손으로 피워보세요');
@@ -180,7 +175,6 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; color: #FFF; backgr
       hasVideo = false;
       flash('⚠️ 영상을 못 불러왔어요.<br>주소: ' + src + '<br>파일명을 확인하거나, 슬라이더로 진행하세요.', 5000);
     };
-
     v.src = src;
     v.load();
   }
@@ -209,7 +203,6 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; color: #FFF; backgr
   function animate() { bloom += (targetBloom - bloom) * 0.15; render(bloom); requestAnimationFrame(animate); }
   animate();
 
-  // 재생바 드래그
   var track = document.getElementById('playTrack'), dragging = false;
   function seek(e) {
     var rect = track.getBoundingClientRect();
@@ -222,7 +215,6 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; color: #FFF; backgr
   document.addEventListener('mouseup', function(){ dragging = false; });
   track.addEventListener('click', seek);
 
-  // 웹캠
   window.enableCamera = function() {
     document.getElementById('camBox').classList.remove('hidden');
     document.getElementById('camBtn').style.display = 'none';
