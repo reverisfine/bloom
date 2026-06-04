@@ -24,10 +24,10 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
 .nav-arrow:disabled { opacity: 0.3; cursor: not-allowed; }
 .nav-prev { left: 24px; } .nav-next { right: 24px; }
 
-.dots { position: fixed; right: 26px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 10px; z-index: 100; }
+.dots { position: fixed; right: 26px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 9px; z-index: 100; }
 .dot { width: 9px; height: 9px; border-radius: 50%; background: rgba(168,197,232,0.3); cursor: pointer; transition: all 0.3s ease; position: relative; }
 .dot:hover { background: rgba(168,197,232,0.7); }
-.dot.active { background: #E91A75; height: 26px; border-radius: 5px; }
+.dot.active { background: #E91A75; height: 24px; border-radius: 5px; }
 .dot-label { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); font-size: 11px; color: #5F5F5F; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 0.2s ease; background: rgba(255,255,255,0.95); padding: 4px 10px; border-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
 .dot:hover .dot-label { opacity: 1; }
 
@@ -56,6 +56,10 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
 .snum { width: 26px; height: 26px; border-radius: 50%; border: 1.5px solid #A8C5E8; color: #A8C5E8; font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .pill-label { display: inline-block; border: 1px solid #A8C5E8; border-radius: 100px; padding: 5px 16px; font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 13px; color: #A8C5E8; margin-bottom: 14px; }
 
+.flow-box { background: #FFF; border: 1px solid #C8DDB5; border-radius: 14px; padding: 18px 24px; text-align: center; flex: 1; max-width: 240px; }
+.flow-arrow { font-size: 30px; color: #E91A75; }
+.brand-chip { display: inline-block; background: rgba(168,197,232,0.2); border-radius: 100px; padding: 5px 14px; font-size: 13px; margin: 3px; }
+
 .quiz-card { background: #FFFFFF; border-radius: 16px; padding: 24px 28px; box-shadow: 0 6px 20px rgba(168,197,232,0.2); }
 .statement { background: #FAF6EC; border-radius: 10px; padding: 15px 20px; font-size: 14px; line-height: 1.7; margin-bottom: 18px; }
 .ox-row { display: flex; gap: 16px; justify-content: center; margin-bottom: 6px; }
@@ -74,7 +78,7 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
 .shake { animation: shk 0.4s; }
 
 .pop-card { opacity: 0; transform: scale(0.8); transition: all 0.5s cubic-bezier(0.34,1.56,0.64,1); }
-.pop-card:nth-child(1){transition-delay:.1s} .pop-card:nth-child(2){transition-delay:.25s} .pop-card:nth-child(3){transition-delay:.4s}
+.pop-card:nth-child(1){transition-delay:.1s} .pop-card:nth-child(2){transition-delay:.25s} .pop-card:nth-child(3){transition-delay:.4s} .pop-card:nth-child(4){transition-delay:.55s}
 .slide.active .pop-card { opacity: 1; transform: scale(1); }
 
 .letter { display: inline-block; opacity: 0; transform: translateY(30px); transition: all 0.5s ease; cursor: pointer; }
@@ -85,8 +89,6 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
 .crossing-bfly { position: absolute; width: 42px; opacity: 0.85; z-index: 1; }
 @keyframes flyAcross { 0% { left: -60px; top: 45%; } 50% { top: 25%; } 100% { left: calc(100% + 60px); top: 55%; } }
 .slide.active .crossing-bfly { animation: flyAcross 11s ease-in-out 1.5s infinite; }
-.next-btn { background: rgba(255,255,255,0.2); padding: 18px 36px; border-radius: 100px; border: 1px solid rgba(255,255,255,0.4); backdrop-filter: blur(10px); text-decoration: none; display: inline-flex; align-items: center; gap: 12px; transition: all 0.3s ease; }
-.next-btn:hover { background: rgba(255,255,255,0.35); transform: translateY(-3px); box-shadow: 0 10px 24px rgba(0,0,0,0.15); }
 .btn-link { display: inline-flex; align-items: center; gap: 8px; padding: 14px 30px; background: #E91A75; color: #FFF; border-radius: 100px; font-size: 14px; text-decoration: none; transition: all 0.3s; }
 .btn-link:hover { background: #C71060; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(233,26,117,0.4); }
 </style>
@@ -95,42 +97,72 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
 
 <a href="stage5.html" class="home-btn">‹ 1부로</a>
 
-<!-- 고정 배경 수국 -->
 <img src="assets/hydrangea-cluster.png" alt="" class="bg-deco" style="left:-30px; bottom:-20px; width:170px; opacity:0.3;"/>
 <img src="assets/green-leaves.png" alt="" class="bg-deco" style="right:30px; top:70px; width:90px; opacity:0.25; transform:rotate(20deg);"/>
 
 <div class="slides-container">
 
-<!-- SLIDE 1: 팩트 체크 -->
+<!-- SLIDE 1: 연결 다리 -->
 <div class="slide active" id="slide-1">
+  <div class="slide-inner" style="text-align:center;">
+    <div class="reveal-1">
+      <div class="stage-label">Bridge · 1부에서 2부로</div>
+      <h1 class="serif" style="font-size: 46px; font-weight: 500; line-height: 1.2; margin: 4px 0 0;">감성이 곧 <span style="color:#E91A75;">가치</span>가 될 때</h1>
+      <p style="font-size: 15px; color: #5F5F5F; max-width: 620px; margin: 14px auto 0; line-height: 1.8;">1부에서 우리는 <strong>감정을 브랜드로</strong> 표현하고, 사람의 마음을 움직이는 <strong>감성 마케팅</strong>을 배웠어요.</p>
+    </div>
+    <div class="reveal-2" style="display: flex; align-items: center; justify-content: center; gap: 18px; margin: 28px 0;">
+      <div class="flow-box">
+        <div style="font-size: 32px;">🌸</div>
+        <div style="font-size: 14px; font-weight: 600; margin-top: 6px;">1부 · 감성 브랜딩</div>
+        <div style="font-size: 12px; color: #888;">마음을 움직이는 브랜드</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box" style="border-color: #E91A75;">
+        <div style="font-size: 32px;">💰</div>
+        <div style="font-size: 14px; font-weight: 600; margin-top: 6px; color:#E91A75;">2부 · 가치 투자</div>
+        <div style="font-size: 12px; color: #888;">가치를 알아보는 투자자</div>
+      </div>
+    </div>
+    <div class="reveal-3" style="background: rgba(233,26,117,0.06); border-radius: 14px; padding: 22px 28px; max-width: 660px; margin: 0 auto;">
+      <p class="serif" style="font-size: 22px; line-height: 1.5;">"내가 사랑하는 그 브랜드,<br>좋은 <span style="color:#E91A75;">투자처</span>이기도 할까?"</p>
+      <div style="margin-top: 12px;">
+        <span class="brand-chip">🍎 애플</span><span class="brand-chip">🌿 파타고니아</span><span class="brand-chip">👕 무신사</span><span class="brand-chip">🎬 넷플릭스</span>
+      </div>
+      <p style="font-size: 14px; color: #5F5F5F; margin-top: 12px;">이제 <strong>투자자의 눈</strong>으로 브랜드의 가치를 따져봐요!</p>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 2: 팩트 체크 (브랜드 버전) -->
+<div class="slide" id="slide-2">
   <div class="slide-inner">
     <div class="reveal-1" style="margin-bottom: 22px;">
       <div class="stage-label">AI Activity · Fact Check</div>
-      <div class="head">금융 사건, 팩트 체크하기</div>
-      <p style="font-size: 15px; color: #5F5F5F; margin: 0;">AI를 탐정처럼 활용해 <strong>'사실'과 '의견'</strong>을 엄격히 구분해봐요</p>
+      <div class="head">그 브랜드, 진짜 가치 확인하기</div>
+      <p style="font-size: 15px; color: #5F5F5F; margin: 0;">투자 전, AI가 준 정보가 <strong>'사실'인지 '의견'인지</strong> 탐정처럼 검증해요</p>
     </div>
     <div class="two-col">
       <div>
         <div class="goal-box reveal-2" style="margin-bottom: 18px;">
           <div class="italic-cap" style="font-size: 13px; color: #A8C5E8; margin-bottom: 4px;">활동 목표</div>
-          <div style="font-size: 14px; line-height: 1.6;">AI로 정보를 조사하고 교차 검증해, 정보의 사실 여부를 판단하는 능력 기르기</div>
+          <div style="font-size: 14px; line-height: 1.6;">투자하려는 브랜드 정보를 AI로 조사하고, 사실 여부를 교차 검증하는 능력 기르기</div>
         </div>
         <div class="reveal-3">
-          <div class="step"><div class="snum">1</div><div style="font-size:14px;"><strong>사건 선택</strong><br><span style="font-size:13px;color:#888;">조사할 금융 사건 (2008 금융위기, 2020 팬데믹 등)</span></div></div>
-          <div class="step"><div class="snum">2</div><div style="font-size:14px;"><strong>AI 인터뷰 & 정보 수집</strong><br><span style="font-size:13px;color:#888;">원인·과정·결과를 AI에게 질문</span></div></div>
+          <div class="step"><div class="snum">1</div><div style="font-size:14px;"><strong>브랜드 선택</strong><br><span style="font-size:13px;color:#888;">1부에서 분석한 브랜드 중 하나 고르기</span></div></div>
+          <div class="step"><div class="snum">2</div><div style="font-size:14px;"><strong>AI 인터뷰 & 정보 수집</strong><br><span style="font-size:13px;color:#888;">그 회사가 어떻게 돈 버는지·실적·평판 질문</span></div></div>
           <div class="step"><div class="snum">3</div><div style="font-size:14px;"><strong>사실 검증 (Fact Check)</strong><br><span style="font-size:13px;color:#888;">체크리스트로 비판적 검토</span></div></div>
-          <div class="step"><div class="snum">4</div><div style="font-size:14px;"><strong>3문장 요약</strong> <span style="font-size:12px;color:#888;">무슨 일? → 왜? → 영향은?</span></div></div>
+          <div class="step"><div class="snum">4</div><div style="font-size:14px;"><strong>3문장 요약</strong> <span style="font-size:12px;color:#888;">어떤 회사? → 어떻게 돈 벌어? → 투자 매력은?</span></div></div>
         </div>
       </div>
       <div>
         <div class="reveal-2" style="font-size: 13px; color: #888; margin-bottom: 8px;">📋 아래 텍스트를 복사해 생성형 AI에 붙여넣으세요</div>
         <div class="code-card reveal-3" style="margin-bottom: 18px;">
           <div class="fname">prompt_example.txt</div>
-          <div style="font-size: 14px; line-height: 1.8;">"2008년 글로벌 금융위기가 왜 발생했는지, 세계 경제에 어떤 영향을 미쳤는지 <span class="hl">신뢰할 수 있는 언론 기사나 보고서</span>를 근거로 설명해줘."</div>
+          <div style="font-size: 14px; line-height: 1.8;">"<span class="hl">파타고니아</span>가 어떻게 돈을 버는지, 최근 실적과 평판은 어떤지 <span class="hl">신뢰할 수 있는 언론 기사나 보고서</span>를 근거로 알려줘."</div>
         </div>
         <div class="card-w reveal-4">
           <div style="font-size: 15px; font-weight: 600; color: #3A6B0E; margin-bottom: 12px;">✅ 사실검증 체크리스트</div>
-          <div style="font-size:13px; line-height:1.5; margin-bottom:10px;"><strong>☑ 사실과 의견 구분</strong> <span style="color:#888;">— 객관적 사실인가, 주관적 주장인가?</span></div>
+          <div style="font-size:13px; line-height:1.5; margin-bottom:10px;"><strong>☑ 사실과 의견 구분</strong> <span style="color:#888;">— 객관적 수치인가, 주관적 평가인가?</span></div>
           <div style="font-size:13px; line-height:1.5; margin-bottom:10px;"><strong>☑ 출처의 명확성</strong> <span style="color:#888;">— 출처가 명시됐는가?</span></div>
           <div style="font-size:13px; line-height:1.5;"><strong>☑ 근거 링크 직접 확인</strong> <span style="color:#888;">— 링크를 직접 눌러봤는가?</span></div>
         </div>
@@ -139,8 +171,8 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
   </div>
 </div>
 
-<!-- SLIDE 2: AI 윤리 -->
-<div class="slide" id="slide-2">
+<!-- SLIDE 3: AI 윤리 -->
+<div class="slide" id="slide-3">
   <div class="slide-inner">
     <div class="reveal-1" style="margin-bottom: 22px;">
       <div class="stage-label">AI Ethics & Bias</div>
@@ -169,8 +201,8 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
   </div>
 </div>
 
-<!-- SLIDE 3: 퀴즈 -->
-<div class="slide" id="slide-3">
+<!-- SLIDE 4: 퀴즈 -->
+<div class="slide" id="slide-4">
   <div class="slide-inner">
     <div class="reveal-1" style="text-align: center; margin-bottom: 24px;">
       <div class="stage-label">AI Literacy Quiz</div>
@@ -199,20 +231,20 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
   </div>
 </div>
 
-<!-- SLIDE 4: 실습 표지 -->
-<div class="slide" id="slide-4">
+<!-- SLIDE 5: 실습 표지 -->
+<div class="slide" id="slide-5">
   <div class="slide-inner" style="text-align: center;">
     <div class="italic-cap reveal-1" style="font-size: 20px; color: #A8C5E8; margin-bottom: 8px;">실습하기 💡</div>
     <h1 class="serif reveal-2" style="font-size: 52px; font-weight: 500; line-height: 1.25;">생성형 AI를 활용한<br><span style="color:#E91A75;">금융 포트폴리오</span> 제작</h1>
-    <p class="reveal-3" style="font-size: 16px; color: #5F5F5F; margin: 22px 0 30px;">1부에서 분석한 <strong>감성 브랜드</strong>를 떠올리며, 나만의 투자 포트폴리오를 짜봐요!</p>
+    <p class="reveal-3" style="font-size: 16px; color: #5F5F5F; margin: 22px 0 30px;">1부에서 분석한 <strong>감성 브랜드</strong>에 투자하는 나만의 포트폴리오를 짜봐요!</p>
     <div class="reveal-4" style="display: inline-flex; gap: 16px; background: #FFFFFF; border: 1px solid #C8DDB5; border-radius: 14px; padding: 16px 28px;">
       <span>💰 금융 포트폴리오</span><span style="color:#C8DDB5;">|</span><span style="color:#A8C5E8;">💬 창의적 생성 · 데이터 활용</span>
     </div>
   </div>
 </div>
 
-<!-- SLIDE 5: 시뮬레이터 규칙 -->
-<div class="slide" id="slide-5">
+<!-- SLIDE 6: 시뮬레이터 규칙 -->
+<div class="slide" id="slide-6">
   <div class="slide-inner">
     <div class="reveal-1" style="margin-bottom: 20px;">
       <div class="stage-label">AI Activity · Simulator</div>
@@ -248,8 +280,8 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
   </div>
 </div>
 
-<!-- SLIDE 6: 포트폴리오 구성 -->
-<div class="slide" id="slide-6">
+<!-- SLIDE 7: 포트폴리오 구성 -->
+<div class="slide" id="slide-7">
   <div class="slide-inner">
     <div class="reveal-1" style="margin-bottom: 20px;">
       <div class="stage-label">AI Activity</div>
@@ -284,8 +316,8 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
   </div>
 </div>
 
-<!-- SLIDE 7: 웹페이지 생성 -->
-<div class="slide" id="slide-7">
+<!-- SLIDE 8: 웹페이지 생성 -->
+<div class="slide" id="slide-8">
   <div class="slide-inner">
     <div class="reveal-1" style="margin-bottom: 20px;">
       <div class="stage-label">AI Activity</div>
@@ -320,8 +352,8 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
   </div>
 </div>
 
-<!-- SLIDE 8: AI 답변 검증 -->
-<div class="slide" id="slide-8">
+<!-- SLIDE 9: AI 답변 검증 -->
+<div class="slide" id="slide-9">
   <div class="slide-inner">
     <div class="reveal-1" style="margin-bottom: 22px;">
       <div class="stage-label">AI Prompting</div>
@@ -336,8 +368,8 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
   </div>
 </div>
 
-<!-- SLIDE 9: 발표하기 -->
-<div class="slide" id="slide-9" style="padding: 0;">
+<!-- SLIDE 10: 발표하기 -->
+<div class="slide" id="slide-10" style="padding: 0;">
   <div style="background: #A8C5E8; width: 100%; height: 100vh; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center;">
     <img src="assets/hydrangea-cluster.png" alt="" style="position:absolute; left:-30px; top:-20px; width:200px;"/>
     <img src="assets/hydrangea-cluster.png" alt="" style="position:absolute; right:-30px; bottom:-10px; width:200px;"/>
@@ -365,22 +397,23 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
 <button class="nav-arrow nav-next" id="nextBtn">›</button>
 
 <div class="dots">
-  <div class="dot active" data-slide="1"><span class="dot-label">팩트체크</span></div>
-  <div class="dot" data-slide="2"><span class="dot-label">AI 윤리</span></div>
-  <div class="dot" data-slide="3"><span class="dot-label">퀴즈</span></div>
-  <div class="dot" data-slide="4"><span class="dot-label">실습 표지</span></div>
-  <div class="dot" data-slide="5"><span class="dot-label">시뮬레이터 규칙</span></div>
-  <div class="dot" data-slide="6"><span class="dot-label">구성하기</span></div>
-  <div class="dot" data-slide="7"><span class="dot-label">웹페이지 생성</span></div>
-  <div class="dot" data-slide="8"><span class="dot-label">답변 검증</span></div>
-  <div class="dot" data-slide="9"><span class="dot-label">발표하기</span></div>
+  <div class="dot active" data-slide="1"><span class="dot-label">1부→2부 연결</span></div>
+  <div class="dot" data-slide="2"><span class="dot-label">브랜드 팩트체크</span></div>
+  <div class="dot" data-slide="3"><span class="dot-label">AI 윤리</span></div>
+  <div class="dot" data-slide="4"><span class="dot-label">퀴즈</span></div>
+  <div class="dot" data-slide="5"><span class="dot-label">실습 표지</span></div>
+  <div class="dot" data-slide="6"><span class="dot-label">시뮬레이터 규칙</span></div>
+  <div class="dot" data-slide="7"><span class="dot-label">구성하기</span></div>
+  <div class="dot" data-slide="8"><span class="dot-label">웹페이지 생성</span></div>
+  <div class="dot" data-slide="9"><span class="dot-label">답변 검증</span></div>
+  <div class="dot" data-slide="10"><span class="dot-label">발표하기</span></div>
 </div>
 
-<div class="slide-counter" id="counter">01 / 09</div>
+<div class="slide-counter" id="counter">01 / 10</div>
 
 <script>
 (function() {
-  var current = 1, total = 9;
+  var current = 1, total = 10;
   var dots = document.querySelectorAll('.dot');
   var prevBtn = document.getElementById('prevBtn');
   var nextBtn = document.getElementById('nextBtn');
