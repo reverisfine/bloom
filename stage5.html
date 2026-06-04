@@ -187,7 +187,7 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; color: #FFF; backgr
     if (hasVideo && videoReady) {
       var vid = document.getElementById('bloomVideo');
       if (vid.duration && !isNaN(vid.duration)) {
-        try { vid.currentTime = ratio * (vid.duration - 0.05); } catch(e) {}
+        try { vid.currentTime = (1 - ratio) * (vid.duration - 0.05); } catch(e) {}
       }
     } else {
       var petals = document.getElementById('petals');
