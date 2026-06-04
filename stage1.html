@@ -40,17 +40,17 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
 
 .dots {
   position: fixed; right: 30px; top: 50%; transform: translateY(-50%);
-  display: flex; flex-direction: column; gap: 12px; z-index: 100;
+  display: flex; flex-direction: column; gap: 10px; z-index: 100;
 }
 .dot {
-  width: 10px; height: 10px; border-radius: 50%;
+  width: 9px; height: 9px; border-radius: 50%;
   background: rgba(168, 197, 232, 0.3); cursor: pointer;
   transition: all 0.3s ease; position: relative;
 }
 .dot:hover { background: rgba(168, 197, 232, 0.7); }
-.dot.active { background: #E91A75; height: 30px; border-radius: 5px; }
+.dot.active { background: #E91A75; height: 26px; border-radius: 5px; }
 .dot-label {
-  position: absolute; right: 22px; top: 50%; transform: translateY(-50%);
+  position: absolute; right: 20px; top: 50%; transform: translateY(-50%);
   font-size: 12px; color: #5F5F5F; white-space: nowrap;
   opacity: 0; pointer-events: none; transition: opacity 0.2s ease;
   background: rgba(255,255,255,0.95); padding: 5px 12px; border-radius: 4px;
@@ -103,82 +103,55 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
 }
 .quiz-feedback.show { max-height: 120px; padding: 16px 20px; opacity: 1; }
 
-.case-area { display: grid; grid-template-columns: 320px 1fr; gap: 36px; align-items: stretch; min-height: 380px; }
-.case-card {
-  background: #A8C5E8; border-radius: 8px;
-  padding: 28px 20px; display: flex; flex-direction: column;
-  align-items: center; justify-content: center; text-align: center;
-  position: relative; overflow: hidden; cursor: pointer;
-  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-}
-.case-card:hover { transform: translateY(-4px); box-shadow: 0 16px 32px rgba(168,197,232,0.5); }
-.case-card:not(.opened) { animation: cardBreath 3s ease-in-out infinite; }
-@keyframes cardBreath {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(168,197,232,0.4); }
-  50% { box-shadow: 0 0 0 12px rgba(168,197,232,0); }
-}
-.card-content { width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: all 0.5s ease; }
-.card-content.minimized { transform: scale(0.75); }
+/* ===== 사례 슬라이드 (영상 + 메시지 확인) ===== */
+.case-wrap { max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: 1.15fr 1fr; gap: 40px; align-items: center; min-height: 420px; }
+.case-video { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 10px; background: #1A1A1A; box-shadow: 0 10px 30px rgba(0,0,0,0.15); }
+.case-video iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+.case-right { display: flex; flex-direction: column; }
+.case-name { font-size: 13px; letter-spacing: 3px; color: #A8C5E8; font-weight: 600; margin-bottom: 6px; }
+.case-title { font-size: 32px; font-weight: 500; line-height: 1.25; margin: 0 0 14px; }
+.case-tag { display: inline-block; padding: 5px 14px; background: #FBEAF0; color: #993556; font-size: 12px; border-radius: 30px; margin-bottom: 18px; width: fit-content; }
 
-.click-hint {
-  position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
-  font-size: 12px; color: #FFFFFF; opacity: 0.85;
-  font-family: 'Cormorant Garamond', serif; font-style: italic;
-  animation: hintPulse 2s ease-in-out infinite;
+.guess-box { background: #FFFFFF; border: 1px dashed #A8C5E8; border-radius: 10px; padding: 20px 24px; }
+.guess-q { font-size: 15px; font-weight: 500; margin: 0 0 14px; color: #1A1A1A; }
+.reveal-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 12px 24px; background: #A8C5E8; color: #FFFFFF;
+  border: none; border-radius: 30px; font-size: 14px; font-weight: 500;
+  cursor: pointer; font-family: inherit; transition: all 0.3s;
 }
-@keyframes hintPulse {
-  0%, 100% { opacity: 0.6; transform: translateX(-50%) translateY(0); }
-  50% { opacity: 1; transform: translateX(-50%) translateY(-3px); }
-}
-.case-card.opened .click-hint { display: none; }
+.reveal-btn:hover { background: #8FB3DC; transform: translateY(-2px); box-shadow: 0 6px 16px rgba(168,197,232,0.4); }
 
-.reset-btn {
-  position: absolute; top: 16px; right: 16px;
-  width: 28px; height: 28px; background: rgba(255,255,255,0.2);
-  border: 1px solid rgba(255,255,255,0.4); border-radius: 50%;
-  color: #FFFFFF; font-size: 14px; cursor: pointer;
-  opacity: 0; transition: opacity 0.3s;
-  display: flex; align-items: center; justify-content: center;
-}
-.case-card.opened .reset-btn { opacity: 1; }
-.reset-btn:hover { background: rgba(255,255,255,0.4); }
-
-.case-detail {
-  opacity: 0; transform: translateX(20px);
-  transition: all 0.6s ease 0.2s; pointer-events: none;
-  display: flex; flex-direction: column; justify-content: center;
-}
-.case-detail.shown { opacity: 1; transform: translateX(0); pointer-events: auto; }
-
-.pulse-badge { animation: pulseB 2s ease-in-out infinite; }
-@keyframes pulseB {
-  0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255,255,255,0.6); }
-  50% { transform: scale(1.05); box-shadow: 0 0 0 12px rgba(255,255,255,0); }
-}
-
-.quote-emphasis { display: inline-block; }
-.slide.active .quote-emphasis { animation: quoteFade 1.2s ease 0.8s both; }
-@keyframes quoteFade {
-  0% { opacity: 0; transform: scale(0.8); }
-  60% { opacity: 1; transform: scale(1.1); }
-  100% { opacity: 1; transform: scale(1); }
-}
-
+.answer-box { max-height: 0; overflow: hidden; opacity: 0; transition: all 0.6s cubic-bezier(0.4,0,0.2,1); }
+.answer-box.show { max-height: 400px; opacity: 1; margin-top: 18px; }
+.answer-box p { font-size: 14px; line-height: 1.9; color: #5F5F5F; margin: 0 0 12px; }
+.point-card { background: #FFFFFF; border: 1px solid #C8DDB5; padding: 14px 18px; border-radius: 6px; }
+.point-card .pl { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 12px; color: #639922; margin-bottom: 4px; }
+.point-card p { font-size: 13px; margin: 0; line-height: 1.6; color: #1A1A1A; }
+.bar-track { height: 12px; background: #FAF6EC; border-radius: 6px; overflow: hidden; }
+.bar-fill { height: 100%; background: linear-gradient(90deg, #A8C5E8, #E91A75); border-radius: 6px; width: 0; transition: width 1.4s ease; }
+.bar-fill.go { width: 75%; }
 .count-num { font-weight: 600; color: #E91A75; }
-.bar-track { height: 14px; background: #FAF6EC; border-radius: 7px; overflow: hidden; }
-.bar-fill { height: 100%; background: linear-gradient(90deg, #A8C5E8, #E91A75); border-radius: 7px; width: 0; transition: width 1.5s ease 0.5s; }
-.slide.active .bar-fill { width: 75%; }
 
-.pop-card {
-  opacity: 0; transform: scale(0.7);
-  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
+/* ===== 슬라이드 7 정리 ===== */
+.sum-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; position: relative; z-index: 2; max-width: 980px; margin-left: auto; margin-right: auto; }
+.sum-card { background: #FFFFFF; border-radius: 14px; padding: 22px 14px 18px; text-align: center; box-shadow: 0 6px 16px rgba(168,197,232,0.18); position: relative; overflow: hidden; transition: all 0.3s; }
+.sum-card:hover { transform: translateY(-5px); box-shadow: 0 12px 24px rgba(168,197,232,0.3); }
+.sum-top { height: 4px; border-radius: 4px; margin: -22px -14px 16px; }
+.sum-ill { width: 64px; height: 64px; margin: 0 auto 12px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+.sum-ill svg { width: 38px; height: 38px; }
+.sum-num { font-size: 12px; color: #A8C5E8; font-family: 'Cormorant Garamond', serif; font-style: italic; }
+.sum-name { font-size: 19px; font-weight: 500; margin: 4px 0 6px; }
+.sum-desc { font-size: 11px; color: #8A7F6A; }
+.sum-brand { font-size: 11px; color: #5F5F5F; margin-top: 8px; padding-top: 8px; border-top: 1px dashed #EAE2CE; }
+.deco-h { position: absolute; opacity: 0.45; pointer-events: none; z-index: 1; }
+
+.pop-card { opacity: 0; transform: scale(0.7); transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
 .pop-card:nth-child(1) { transition-delay: 0.1s; }
-.pop-card:nth-child(2) { transition-delay: 0.3s; }
-.pop-card:nth-child(3) { transition-delay: 0.5s; }
-.pop-card:nth-child(4) { transition-delay: 0.7s; }
+.pop-card:nth-child(2) { transition-delay: 0.25s; }
+.pop-card:nth-child(3) { transition-delay: 0.4s; }
+.pop-card:nth-child(4) { transition-delay: 0.55s; }
 .slide.active .pop-card { opacity: 1; transform: scale(1); }
-.pop-card:hover { transform: translateY(-6px) scale(1.03); box-shadow: 0 12px 24px rgba(168,197,232,0.3); }
 
 .letter { display: inline-block; opacity: 0; transform: translateY(30px); transition: all 0.5s ease; cursor: pointer; }
 .slide.active .letter { opacity: 1; transform: translateY(0); }
@@ -194,11 +167,7 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
 .slide.active .letter:nth-child(11) { transition-delay: 1.2s; }
 .slide.active .letter:nth-child(12) { transition-delay: 1.3s; }
 .slide.active .letter:nth-child(13) { transition-delay: 1.4s; }
-.letter:hover {
-  transform: translateY(-18px) scale(1.15) !important;
-  color: #FFE5EA !important;
-  text-shadow: 0 8px 16px rgba(255,255,255,0.3);
-}
+.letter:hover { transform: translateY(-18px) scale(1.15) !important; color: #FFE5EA !important; text-shadow: 0 8px 16px rgba(255,255,255,0.3); }
 
 @keyframes flyAcross {
   0% { left: -60px; top: 45%; transform: rotate(-10deg); }
@@ -242,7 +211,7 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
     <p class="italic-cap reveal-4" style="font-size: 26px; color: #5F5F5F; margin: 28px 0 0;">
       감정이 어떻게 비즈니스가 될까?
     </p>
-    <p class="reveal-5" style="font-size: 13px; color: #888; margin-top: 80px;">⏱ 10분 · BLOOM Stage 01</p>
+    <p class="reveal-5" style="font-size: 13px; color: #888; margin-top: 80px;">⏱ 15분 · BLOOM Stage 01</p>
   </div>
 </div>
 
@@ -273,38 +242,19 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
 
 <!-- ===== SLIDE 3: Case 01 — Dove ===== -->
 <div class="slide" id="slide-3">
-  <div class="italic-cap reveal-1" style="font-size: 16px; color: #A8C5E8; margin-bottom: 14px;">Case 01</div>
-  
-  <div class="case-area">
-    <div class="case-card" id="card-1" onclick="toggleCase(1)">
-      <button class="reset-btn" onclick="event.stopPropagation(); closeCase(1)">×</button>
-      <div class="card-content" id="content-1">
-        <svg viewBox="0 0 120 80" style="width: 150px; height: 100px; margin-bottom: 16px;">
-          <path d="M 20 50 Q 15 35 30 32 Q 35 30 42 32 L 55 25 Q 65 22 75 28 L 95 22 Q 105 22 100 30 L 88 38 Q 95 42 92 50 L 75 55 Q 60 58 45 55 Q 30 55 20 50 Z" fill="#FFFFFF"/>
-          <path d="M 100 30 L 110 28 L 105 35 Z" fill="#FFD580"/>
-          <circle cx="92" cy="32" r="1.5" fill="#5F5F5F"/>
-          <path d="M 50 40 Q 60 45 70 42" stroke="#A8C5E8" stroke-width="1" fill="none" opacity="0.6"/>
-        </svg>
-        <div style="font-size: 16px; letter-spacing: 8px; color: #FFFFFF; font-weight: 300;">DOVE</div>
-        <div style="width: 40px; height: 1px; background: #FFFFFF; opacity: 0.5; margin: 14px 0;"></div>
-        <div class="italic-cap" style="font-size: 14px; color: #FFFFFF;">Real Beauty</div>
-        <div class="italic-cap" style="font-size: 11px; color: #FFFFFF; opacity: 0.7; margin-top: 4px;">2013</div>
-      </div>
-      <div class="click-hint">▶ 클릭해서 자세히 보기</div>
-    </div>
-    
-    <div class="case-detail" id="detail-1">
-      <h2 class="serif" style="font-size: 34px; font-weight: 500; line-height: 1.2; margin: 0 0 14px;">"당신은 이미<br>아름다워요"</h2>
-      <div style="display: inline-block; padding: 5px 14px; background: #FBEAF0; color: #993556; font-size: 12px; border-radius: 30px; margin-bottom: 18px; width: fit-content;">자기 수용 · 자존감</div>
-      <p style="font-size: 14px; line-height: 1.9; color: #5F5F5F; margin: 0 0 12px;">
-        법의학 화가가 한 번은 여성들이 <strong>자기 자신을 묘사한 대로</strong>, 한 번은 <strong>다른 사람이 묘사한 대로</strong> 그렸어요.
-      </p>
-      <p style="font-size: 14px; line-height: 1.9; color: #5F5F5F; margin: 0 0 16px;">
-        모든 여성은 다른 사람이 본 자신이 훨씬 더 아름다웠어요.
-      </p>
-      <div style="background: #FFFFFF; border: 1px solid #C8DDB5; padding: 14px 18px; border-radius: 6px;">
-        <div class="italic-cap" style="font-size: 12px; color: #639922; margin-bottom: 4px;">💡 포인트</div>
-        <p style="font-size: 13px; margin: 0; line-height: 1.6;">화장품 회사가 "예뻐지세요" 대신 <strong>"이미 아름답다"</strong>고 말했어요.</p>
+  <div class="case-wrap">
+    <div class="case-video reveal-1"><iframe src="https://www.youtube.com/embed/pOq71eKI5Mg?rel=0&modestbranding=1" allow="encrypted-media; picture-in-picture" allowfullscreen></iframe></div>
+    <div class="case-right">
+      <div class="case-name reveal-2">CASE 01 · DOVE</div>
+      <h2 class="serif case-title reveal-2">"당신은 이미<br>아름다워요"</h2>
+      <div class="case-tag reveal-3">자기 수용 · 자존감</div>
+      <div class="guess-box reveal-3">
+        <p class="guess-q">🤔 화장품 회사가 이 영상으로 <strong>무엇을 팔았을까요?</strong></p>
+        <button class="reveal-btn" onclick="revealAns(1)">💡 메시지 확인하기</button>
+        <div class="answer-box" id="ans-1">
+          <p>법의학 화가가 한 번은 여성들이 <strong>자기 자신을 묘사한 대로</strong>, 한 번은 <strong>다른 사람이 묘사한 대로</strong> 그렸어요. 모든 여성은 다른 사람이 본 자신이 훨씬 더 아름다웠어요.</p>
+          <div class="point-card"><div class="pl">💡 포인트</div><p>화장품 회사가 "예뻐지세요" 대신 <strong>"이미 아름답다"</strong>고 말했어요.</p></div>
+        </div>
       </div>
     </div>
   </div>
@@ -312,38 +262,19 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
 
 <!-- ===== SLIDE 4: Case 02 — Thai Life ===== -->
 <div class="slide" id="slide-4">
-  <div class="italic-cap reveal-1" style="font-size: 16px; color: #A8C5E8; margin-bottom: 14px;">Case 02</div>
-  
-  <div class="case-area">
-    <div class="case-card" id="card-2" onclick="toggleCase(2)">
-      <button class="reset-btn" onclick="event.stopPropagation(); closeCase(2)">×</button>
-      <div class="card-content" id="content-2">
-        <svg viewBox="0 0 100 100" style="width: 130px; height: 130px; margin-bottom: 12px;">
-          <path d="M 30 50 Q 25 30 35 25 Q 40 22 45 28 L 48 45 Q 50 50 48 55 Q 45 60 38 58 Q 30 55 30 50 Z" fill="#FFFFFF" opacity="0.95"/>
-          <path d="M 70 50 Q 75 30 65 25 Q 60 22 55 28 L 52 45 Q 50 50 52 55 Q 55 60 62 58 Q 70 55 70 50 Z" fill="#FFFFFF" opacity="0.95"/>
-          <path d="M 50 45 C 50 40, 45 38, 45 42 C 45 38, 40 38, 40 43 C 40 48, 50 55, 50 55 C 50 55, 60 48, 60 43 C 60 38, 55 38, 55 42 C 55 38, 50 40, 50 45 Z" fill="#FFE5EA"/>
-        </svg>
-        <div style="font-size: 13px; letter-spacing: 5px; color: #FFFFFF; font-weight: 300;">THAI LIFE</div>
-        <div style="font-size: 10px; letter-spacing: 3px; color: #FFFFFF; opacity: 0.85; margin-top: 2px;">INSURANCE</div>
-        <div style="width: 40px; height: 1px; background: #FFFFFF; opacity: 0.5; margin: 12px 0;"></div>
-        <div class="italic-cap" style="font-size: 14px; color: #FFFFFF;">Unsung Hero</div>
-        <div class="pulse-badge" style="margin-top: 10px; padding: 5px 12px; background: rgba(255,255,255,0.25); border-radius: 30px; font-size: 10px; color: #FFFFFF;">✅ 방금 본 영상</div>
-      </div>
-      <div class="click-hint">▶ 클릭해서 자세히 보기</div>
-    </div>
-    
-    <div class="case-detail" id="detail-2">
-      <h2 class="serif" style="font-size: 34px; font-weight: 500; line-height: 1.2; margin: 0 0 14px;">한 사람의<br>작은 선행 이야기</h2>
-      <div style="display: inline-block; padding: 5px 14px; background: #FBEAF0; color: #993556; font-size: 12px; border-radius: 30px; margin-bottom: 18px; width: fit-content;">선행 · 따뜻함</div>
-      <p style="font-size: 14px; line-height: 1.9; color: #5F5F5F; margin: 0 0 12px;">
-        매일 길거리 식물에 물 주고, 노인에게 자리 양보하고, 가난한 모녀에게 돈을 주는 한 남자. 받는 건 <strong>"고마워요" 한마디도 아니에요</strong>.
-      </p>
-      <p style="font-size: 14px; line-height: 1.9; color: #5F5F5F; margin: 0 0 16px;">
-        그런데도 매일 계속해요. — <strong>그 행동이 그를 행복하게 만드니까</strong>.
-      </p>
-      <div style="background: #FFFFFF; border: 1px solid #C8DDB5; padding: 14px 18px; border-radius: 6px;">
-        <div class="italic-cap" style="font-size: 12px; color: #639922; margin-bottom: 4px;">💡 포인트</div>
-        <p style="font-size: 13px; margin: 0; line-height: 1.6;">보험 회사가 "보험 가입하세요" 대신 <strong>"선하게 살아요"</strong>라고 말했어요.</p>
+  <div class="case-wrap">
+    <div class="case-video reveal-1"><iframe src="https://www.youtube.com/embed/uaWA2GbcnJU?rel=0&modestbranding=1" allow="encrypted-media; picture-in-picture" allowfullscreen></iframe></div>
+    <div class="case-right">
+      <div class="case-name reveal-2">CASE 02 · THAI LIFE</div>
+      <h2 class="serif case-title reveal-2">한 사람의<br>작은 선행 이야기</h2>
+      <div class="case-tag reveal-3">선행 · 따뜻함</div>
+      <div class="guess-box reveal-3">
+        <p class="guess-q">🤔 보험 회사가 이 영상으로 <strong>무엇을 팔았을까요?</strong></p>
+        <button class="reveal-btn" onclick="revealAns(2)">💡 메시지 확인하기</button>
+        <div class="answer-box" id="ans-2">
+          <p>매일 길거리 식물에 물 주고, 노인을 돕는 한 남자. 받는 건 "고마워요" 한마디도 아니에요. 그런데도 계속해요 — <strong>그 행동이 그를 행복하게 만드니까</strong>.</p>
+          <div class="point-card"><div class="pl">💡 포인트</div><p>보험 회사가 "보험 가입하세요" 대신 <strong>"선하게 살아요"</strong>라고 말했어요.</p></div>
+        </div>
       </div>
     </div>
   </div>
@@ -351,40 +282,19 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
 
 <!-- ===== SLIDE 5: Case 03 — P&G ===== -->
 <div class="slide" id="slide-5">
-  <div class="italic-cap reveal-1" style="font-size: 16px; color: #A8C5E8; margin-bottom: 14px;">Case 03</div>
-  
-  <div class="case-area">
-    <div class="case-card" id="card-3" onclick="toggleCase(3)">
-      <button class="reset-btn" onclick="event.stopPropagation(); closeCase(3)">×</button>
-      <div class="card-content" id="content-3">
-        <svg viewBox="0 0 100 60" style="width: 160px; height: 96px; margin-bottom: 16px;">
-          <text x="15" y="50" font-family="Georgia, serif" font-size="48" font-weight="bold" fill="#FFFFFF">P</text>
-          <text x="42" y="45" font-family="Georgia, serif" font-size="28" font-style="italic" fill="#FFFFFF" opacity="0.85">&amp;</text>
-          <text x="62" y="50" font-family="Georgia, serif" font-size="48" font-weight="bold" fill="#FFFFFF">G</text>
-        </svg>
-        <div style="font-size: 11px; letter-spacing: 3px; color: #FFFFFF; opacity: 0.9; font-weight: 300;">PROCTER &amp; GAMBLE</div>
-        <div style="width: 40px; height: 1px; background: #FFFFFF; opacity: 0.5; margin: 14px 0;"></div>
-        <div class="italic-cap" style="font-size: 14px; color: #FFFFFF;">Thank You, Mom</div>
-        <div class="italic-cap" style="font-size: 11px; color: #FFFFFF; opacity: 0.7; margin-top: 4px;">2012 Olympics</div>
-      </div>
-      <div class="click-hint">▶ 클릭해서 자세히 보기</div>
-    </div>
-    
-    <div class="case-detail" id="detail-3">
-      <h2 class="serif" style="font-size: 34px; font-weight: 500; line-height: 1.2; margin: 0 0 14px;">세상에서 가장<br>힘든 직업, 엄마</h2>
-      <div style="display: inline-block; padding: 5px 14px; background: #FBEAF0; color: #993556; font-size: 12px; border-radius: 30px; margin-bottom: 18px; width: fit-content;">가족 · 감사</div>
-      <p style="font-size: 14px; line-height: 1.9; color: #5F5F5F; margin: 0 0 12px;">
-        새벽 도시락, 비 오는 운동장 픽업, 다친 아이 안아주기. <strong>올림픽 금메달리스트들의 엄마</strong>가 매일 했던 일.
-      </p>
-      <p style="font-size: 14px; line-height: 1.9; color: #5F5F5F; margin: 0 0 16px;">
-        광고 마지막 단 한마디.
-      </p>
-      <div style="text-align: center; margin: 20px 0;">
-        <span class="quote-emphasis serif" style="font-size: 32px; color: #E91A75; letter-spacing: 3px;">"Thank you, Mom."</span>
-      </div>
-      <div style="background: #FFFFFF; border: 1px solid #C8DDB5; padding: 14px 18px; border-radius: 6px;">
-        <div class="italic-cap" style="font-size: 12px; color: #639922; margin-bottom: 4px;">💡 포인트</div>
-        <p style="font-size: 13px; margin: 0; line-height: 1.6;">비누·세제 회사가 <strong>"엄마한테 감사하세요"</strong>라고 말했어요.</p>
+  <div class="case-wrap">
+    <div class="case-video reveal-1"><iframe src="https://www.youtube.com/embed/BnBvlz8EaZ0?rel=0&modestbranding=1" allow="encrypted-media; picture-in-picture" allowfullscreen></iframe></div>
+    <div class="case-right">
+      <div class="case-name reveal-2">CASE 03 · P&amp;G</div>
+      <h2 class="serif case-title reveal-2">세상에서 가장<br>힘든 직업, 엄마</h2>
+      <div class="case-tag reveal-3">가족 · 감사</div>
+      <div class="guess-box reveal-3">
+        <p class="guess-q">🤔 비누·세제 회사가 이 영상으로 <strong>무엇을 팔았을까요?</strong></p>
+        <button class="reveal-btn" onclick="revealAns(3)">💡 메시지 확인하기</button>
+        <div class="answer-box" id="ans-3">
+          <p>새벽 도시락, 비 오는 운동장 픽업. <strong>올림픽 금메달리스트들의 엄마</strong>가 매일 했던 일. 광고 마지막 단 한마디 — "Thank you, Mom."</p>
+          <div class="point-card"><div class="pl">💡 포인트</div><p>비누·세제 회사가 <strong>"엄마한테 감사하세요"</strong>라고 말했어요.</p></div>
+        </div>
       </div>
     </div>
   </div>
@@ -392,118 +302,184 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
 
 <!-- ===== SLIDE 6: Case 04 — Patagonia ===== -->
 <div class="slide" id="slide-6">
-  <div class="italic-cap reveal-1" style="font-size: 16px; color: #A8C5E8; margin-bottom: 14px;">Case 04</div>
-  
-  <div class="case-area">
-    <div class="case-card" id="card-4" onclick="toggleCase(4)">
-      <button class="reset-btn" onclick="event.stopPropagation(); closeCase(4)">×</button>
-      <div class="card-content" id="content-4">
-        <svg viewBox="0 0 120 70" style="width: 170px; height: 100px; margin-bottom: 12px;">
-          <path d="M 10 65 L 28 35 L 38 45 L 55 20 L 75 38 L 88 28 L 110 65 Z" fill="#FFFFFF"/>
-          <path d="M 28 35 L 38 45 L 35 60 Z" fill="#A8C5E8" opacity="0.4"/>
-          <path d="M 55 20 L 75 38 L 65 55 Z" fill="#A8C5E8" opacity="0.3"/>
-        </svg>
-        <div style="font-size: 15px; letter-spacing: 6px; color: #FFFFFF; font-weight: 600;">patagonia</div>
-        <div style="width: 40px; height: 1px; background: #FFFFFF; opacity: 0.5; margin: 14px 0;"></div>
-        <div class="italic-cap" style="font-size: 14px; color: #FFFFFF;">Don't Buy This Jacket</div>
-        <div class="italic-cap" style="font-size: 11px; color: #FFFFFF; opacity: 0.7; margin-top: 4px;">2011 · NYT</div>
-      </div>
-      <div class="click-hint">▶ 클릭해서 자세히 보기</div>
-    </div>
-    
-    <div class="case-detail" id="detail-4">
-      <h2 class="serif" style="font-size: 34px; font-weight: 500; line-height: 1.2; margin: 0 0 14px;">"이 재킷,<br>사지 마세요"</h2>
-      <div style="display: inline-block; padding: 5px 14px; background: #FBEAF0; color: #993556; font-size: 12px; border-radius: 30px; margin-bottom: 18px; width: fit-content;">가치 · 신념</div>
-      <p style="font-size: 14px; line-height: 1.9; color: #5F5F5F; margin: 0 0 14px;">
-        블랙 프라이데이에 모두가 "사세요!"를 외칠 때, 파타고니아는 <strong>본인 회사 재킷 사진 옆에 "사지 마세요"</strong>.
-      </p>
-      
-      <div style="background: #FFFFFF; border: 1px solid #C8DDB5; padding: 16px 20px; border-radius: 6px; margin: 16px 0;">
-        <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px;">
-          <span style="font-size: 13px; color: #5F5F5F;">결과: 매출 증가율</span>
-          <span class="serif" style="font-size: 32px; font-weight: 600; color: #E91A75;">+<span class="count-num" data-target="30">0</span>%</span>
+  <div class="case-wrap">
+    <div class="case-video reveal-1"><iframe src="https://www.youtube.com/embed/sCdpu2Nb1Fo?rel=0&modestbranding=1" allow="encrypted-media; picture-in-picture" allowfullscreen></iframe></div>
+    <div class="case-right">
+      <div class="case-name reveal-2">CASE 04 · PATAGONIA</div>
+      <h2 class="serif case-title reveal-2">"이 재킷,<br>사지 마세요"</h2>
+      <div class="case-tag reveal-3">가치 · 신념</div>
+      <div class="guess-box reveal-3">
+        <p class="guess-q">🤔 옷 회사가 "사지 마세요"라고 한 이유는?</p>
+        <button class="reveal-btn" onclick="revealAns(4)">💡 메시지 확인하기</button>
+        <div class="answer-box" id="ans-4">
+          <p>블랙 프라이데이에 모두가 "사세요!"를 외칠 때, 파타고니아는 <strong>본인 회사 재킷 사진 옆에 "사지 마세요"</strong>라고 했어요.</p>
+          <div style="background:#FFFFFF; border:1px solid #C8DDB5; padding:14px 18px; border-radius:6px; margin-bottom:12px;">
+            <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:8px;">
+              <span style="font-size:12px; color:#5F5F5F;">결과: 매출 증가율</span>
+              <span class="serif" style="font-size:26px; font-weight:600; color:#E91A75;">+<span class="count-num" id="pataCount" data-target="30">0</span>%</span>
+            </div>
+            <div class="bar-track"><div class="bar-fill" id="pataBar"></div></div>
+          </div>
+          <div class="point-card"><div class="pl">💡 포인트</div><p>자기 제품 안 팔겠다며 <strong>"환경을 진심으로 생각해요"</strong> 신념을 보여줬어요.</p></div>
         </div>
-        <div class="bar-track"><div class="bar-fill"></div></div>
-      </div>
-      
-      <div style="background: #FFFFFF; border: 1px solid #C8DDB5; padding: 14px 18px; border-radius: 6px;">
-        <div class="italic-cap" style="font-size: 12px; color: #639922; margin-bottom: 4px;">💡 포인트</div>
-        <p style="font-size: 13px; margin: 0; line-height: 1.6;">자기 제품 안 팔겠다고 하면서 <strong>"환경을 진심으로 생각해요"</strong> 신념을 보여줬어요.</p>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ===== SLIDE 7: 정리 ===== -->
+<!-- ===== SLIDE 7: Case 05 — Apple ===== -->
 <div class="slide" id="slide-7">
-  <div class="italic-cap reveal-1" style="font-size: 16px; color: #A8C5E8; margin-bottom: 8px;">Summary</div>
-  <h2 class="serif reveal-2" style="font-size: 40px; font-weight: 500; line-height: 1.2; margin: 0 0 8px;">감정은 마케팅의 무게중심</h2>
-  <p class="italic-cap reveal-3" style="font-size: 17px; color: #5F5F5F; margin: 0 0 32px;">슬픔과 기쁨만이 아니에요</p>
-  
-  <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-bottom: 32px;">
-    <div class="pop-card" style="background: #FFFFFF; border: 1px solid #C8DDB5; padding: 22px 16px; border-radius: 8px; text-align: center;">
-      <div class="italic-cap" style="font-size: 13px; color: #A8C5E8; margin-bottom: 8px;">case 01</div>
-      <div class="serif" style="font-size: 20px; font-weight: 500; margin-bottom: 8px;">자기 자신</div>
-      <div style="font-size: 12px; color: #5F5F5F;">자기 수용 · Dove</div>
+  <div class="case-wrap">
+    <div class="case-video reveal-1"><iframe src="https://www.youtube.com/embed/Og637tBf91s?rel=0&modestbranding=1" allow="encrypted-media; picture-in-picture" allowfullscreen></iframe></div>
+    <div class="case-right">
+      <div class="case-name reveal-2">CASE 05 · APPLE</div>
+      <h2 class="serif case-title reveal-2">"오해"받던<br>아이의 반전</h2>
+      <div class="case-tag reveal-3">가족 · 따뜻함</div>
+      <div class="guess-box reveal-3">
+        <p class="guess-q">🤔 애플이 이 영상으로 <strong>무엇을 팔았을까요?</strong></p>
+        <button class="reveal-btn" onclick="revealAns(5)">💡 메시지 확인하기</button>
+        <div class="answer-box" id="ans-5">
+          <p>가족 모임 내내 폰만 보던 10대. 다들 실망하지만 — 사실 그 아이는 <strong>가족의 행복한 순간을 영상으로 만들고 있었어요</strong>. 마지막에 모두가 뭉클.</p>
+          <div class="point-card"><div class="pl">💡 포인트</div><p>애플이 "아이폰 사세요" 대신 <strong>"기술로 마음을 잇는다"</strong>고 말했어요.</p></div>
+        </div>
+      </div>
     </div>
-    <div class="pop-card" style="background: #FFFFFF; border: 1px solid #C8DDB5; padding: 22px 16px; border-radius: 8px; text-align: center;">
-      <div class="italic-cap" style="font-size: 13px; color: #A8C5E8; margin-bottom: 8px;">case 02</div>
-      <div class="serif" style="font-size: 20px; font-weight: 500; margin-bottom: 8px;">타인</div>
-      <div style="font-size: 12px; color: #5F5F5F;">따뜻함 · Thai Life</div>
-    </div>
-    <div class="pop-card" style="background: #FFFFFF; border: 1px solid #C8DDB5; padding: 22px 16px; border-radius: 8px; text-align: center;">
-      <div class="italic-cap" style="font-size: 13px; color: #A8C5E8; margin-bottom: 8px;">case 03</div>
-      <div class="serif" style="font-size: 20px; font-weight: 500; margin-bottom: 8px;">가족</div>
-      <div style="font-size: 12px; color: #5F5F5F;">감사 · P&G</div>
-    </div>
-    <div class="pop-card" style="background: #FFFFFF; border: 1px solid #C8DDB5; padding: 22px 16px; border-radius: 8px; text-align: center;">
-      <div class="italic-cap" style="font-size: 13px; color: #A8C5E8; margin-bottom: 8px;">case 04</div>
-      <div class="serif" style="font-size: 20px; font-weight: 500; margin-bottom: 8px;">가치</div>
-      <div style="font-size: 12px; color: #5F5F5F;">신념 · Patagonia</div>
-    </div>
-  </div>
-  
-  <div class="reveal-5" style="background: #FFFFFF; border-left: 3px solid #A8C5E8; padding: 20px 26px; max-width: 800px; margin: 0 auto;">
-    <p style="font-size: 16px; line-height: 1.9; color: #1A1A1A; margin: 0;">
-      이 4개 브랜드의 공통점은 단 하나 — <strong>제품이 아니라 감정을 팔았어요</strong>.
-    </p>
-    <p style="font-size: 14px; line-height: 1.8; color: #5F5F5F; margin: 10px 0 0;">
-      그리고 사람들은 그 감정에 마음을 열었어요.
-    </p>
   </div>
 </div>
 
-<!-- ===== SLIDE 8: LET'S ANALYZE (수국 음영 + 모서리 장식 + stage2 연결) ===== -->
+<!-- ===== SLIDE 8: Case 06 — Nike ===== -->
 <div class="slide" id="slide-8">
+  <div class="case-wrap">
+    <div class="case-video reveal-1"><iframe src="https://www.youtube.com/embed/WW2yKgU8wko?rel=0&modestbranding=1" allow="encrypted-media; picture-in-picture" allowfullscreen></iframe></div>
+    <div class="case-right">
+      <div class="case-name reveal-2">CASE 06 · NIKE</div>
+      <h2 class="serif case-title reveal-2">"미친 꿈을<br>꿔라"</h2>
+      <div class="case-tag reveal-3">도전 · 신념</div>
+      <div class="guess-box reveal-3">
+        <p class="guess-q">🤔 나이키가 이 영상으로 <strong>무엇을 팔았을까요?</strong></p>
+        <button class="reveal-btn" onclick="revealAns(6)">💡 메시지 확인하기</button>
+        <div class="answer-box" id="ans-6">
+          <p>장애, 편견, 한계를 뛰어넘은 선수들의 이야기. <strong>"꿈이 미쳤다고 비웃거든, 좋아 — 그대로 가"</strong>. 불가능을 가능으로 바꾼 사람들을 응원해요.</p>
+          <div class="point-card"><div class="pl">💡 포인트</div><p>나이키가 "신발 사세요" 대신 <strong>"무언가를 믿어라"</strong>라고 말했어요.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 9: Case 07 — 박카스 ===== -->
+<div class="slide" id="slide-9">
+  <div class="case-wrap">
+    <div class="case-video reveal-1"><iframe src="https://www.youtube.com/embed/iKOfLUS1CBU?rel=0&modestbranding=1" allow="encrypted-media; picture-in-picture" allowfullscreen></iframe></div>
+    <div class="case-right">
+      <div class="case-name reveal-2">CASE 07 · 박카스</div>
+      <h2 class="serif case-title reveal-2">"나를<br>아끼자"</h2>
+      <div class="case-tag reveal-3">위로 · 응원</div>
+      <div class="guess-box reveal-3">
+        <p class="guess-q">🤔 피로회복제 회사가 이 영상으로 <strong>무엇을 팔았을까요?</strong></p>
+        <button class="reveal-btn" onclick="revealAns(7)">💡 메시지 확인하기</button>
+        <div class="answer-box" id="ans-7">
+          <p>지친 일상 속 콜센터 직원, 취준생, 엄마·아빠… <strong>매일 애쓰는 평범한 사람들</strong>에게 건네는 한마디. 남이 아니라 <strong>나 자신</strong>에게 박카스를 건네요.</p>
+          <div class="point-card"><div class="pl">💡 포인트</div><p>피로회복제 회사가 "피로 푸세요" 대신 <strong>"너 자신을 아껴줘"</strong>라고 말했어요.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 10: Case 08 — Coca-Cola ===== -->
+<div class="slide" id="slide-10">
+  <div class="case-wrap">
+    <div class="case-video reveal-1"><iframe src="https://www.youtube.com/embed/2msbfN81Gm0?rel=0&modestbranding=1" allow="encrypted-media; picture-in-picture" allowfullscreen></iframe></div>
+    <div class="case-right">
+      <div class="case-name reveal-2">CASE 08 · COCA-COLA</div>
+      <h2 class="serif case-title reveal-2">"온 세상에<br>콜라를 사주고 싶어요"</h2>
+      <div class="case-tag reveal-3">화합 · 평화</div>
+      <div class="guess-box reveal-3">
+        <p class="guess-q">🤔 콜라 회사가 이 영상으로 <strong>무엇을 팔았을까요?</strong></p>
+        <button class="reveal-btn" onclick="revealAns(8)">💡 메시지 확인하기</button>
+        <div class="answer-box" id="ans-8">
+          <p>전 세계 젊은이들이 언덕에 모여 한 손에 콜라를 들고 <strong>"세계는 하나"</strong>를 노래해요. 냉전 시대, 평화와 화합을 열망하는 사람들의 주제가가 됐어요.</p>
+          <div class="point-card"><div class="pl">💡 포인트</div><p>음료 회사가 "콜라 마셔요" 대신 <strong>"세계가 하나 되길"</strong> 노래했어요.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SLIDE 11: 정리 (풍성하게) ===== -->
+<div class="slide" id="slide-11" style="display:flex; flex-direction:column; justify-content:center;">
+  <svg class="deco-h" style="top:30px; right:40px; width:150px;" viewBox="0 0 100 100"><g fill="#A8C5E8" opacity="0.4"><circle cx="30" cy="30" r="9"/><circle cx="48" cy="24" r="9"/><circle cx="42" cy="42" r="9"/><circle cx="60" cy="38" r="9"/><circle cx="38" cy="14" r="7"/></g></svg>
+  <svg class="deco-h" style="bottom:40px; left:50px; width:130px;" viewBox="0 0 100 100"><g fill="#C8DDB5" opacity="0.5"><ellipse cx="40" cy="55" rx="22" ry="11" transform="rotate(-30 40 55)"/><ellipse cx="55" cy="42" rx="20" ry="10" transform="rotate(20 55 42)"/></g></svg>
+
+  <div style="text-align: center; margin-bottom: 24px; position: relative; z-index: 2;">
+    <div class="italic-cap reveal-1" style="font-size: 16px; color: #A8C5E8;">Summary</div>
+    <h2 class="serif reveal-2" style="font-size: 40px; font-weight: 500; line-height: 1.2; margin: 4px 0;">감정은 마케팅의 무게중심</h2>
+    <p class="italic-cap reveal-3" style="font-size: 16px; color: #5F5F5F; margin: 0;">슬픔과 기쁨만이 아니에요 — 4가지 감정의 방향</p>
+  </div>
+  
+  <div class="sum-grid">
+    <div class="sum-card pop-card">
+      <div class="sum-top" style="background:#E8A7C5;"></div>
+      <div class="sum-ill" style="background:#FBEAF0;"><svg viewBox="0 0 24 24" fill="none" stroke="#D4537E" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M5 21c0-4 3-6 7-6s7 2 7 6" stroke-linecap="round"/></svg></div>
+      <div class="sum-num">case 01</div>
+      <div class="sum-name serif">자기 자신</div>
+      <div class="sum-desc">나를 있는 그대로</div>
+      <div class="sum-brand">자기 수용 · <strong>Dove</strong></div>
+    </div>
+    <div class="sum-card pop-card">
+      <div class="sum-top" style="background:#F0C088;"></div>
+      <div class="sum-ill" style="background:#FBF0DE;"><svg viewBox="0 0 24 24" fill="none" stroke="#C08A2A" stroke-width="1.6"><path d="M12 21s-7-4.5-9-9c-1.5-3.5 1-7 4.5-6 2 .6 3 2 4.5 4 1.5-2 2.5-3.4 4.5-4 3.5-1 6 2.5 4.5 6-2 4.5-9 9-9 9z" stroke-linejoin="round"/></svg></div>
+      <div class="sum-num">case 02</div>
+      <div class="sum-name serif">타인</div>
+      <div class="sum-desc">곁의 사람에게</div>
+      <div class="sum-brand">따뜻함 · <strong>Thai Life</strong></div>
+    </div>
+    <div class="sum-card pop-card">
+      <div class="sum-top" style="background:#A8C5E8;"></div>
+      <div class="sum-ill" style="background:#EAF1FA;"><svg viewBox="0 0 24 24" fill="none" stroke="#5A82B0" stroke-width="1.6"><path d="M12 21C7 17 3 13 3 8.5 3 5.5 5.5 4 8 5c1.5.6 2.5 2 4 4M12 21c5-4 9-8 9-12.5C21 5.5 18.5 4 16 5c-1.5.6-2.5 2-4 4"/></svg></div>
+      <div class="sum-num">case 03</div>
+      <div class="sum-name serif">가족</div>
+      <div class="sum-desc">고마운 마음</div>
+      <div class="sum-brand">감사 · <strong>P&amp;G</strong></div>
+    </div>
+    <div class="sum-card pop-card">
+      <div class="sum-top" style="background:#9BBF7F;"></div>
+      <div class="sum-ill" style="background:#EDF3E4;"><svg viewBox="0 0 24 24" fill="none" stroke="#5E8A3A" stroke-width="1.6"><path d="M3 20h18M7 20l5-14 5 14M9 14h6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="sum-num">case 04</div>
+      <div class="sum-name serif">가치</div>
+      <div class="sum-desc">믿는 신념</div>
+      <div class="sum-brand">신념 · <strong>Patagonia</strong></div>
+    </div>
+  </div>
+  
+  <div class="reveal-5" style="background: #FFFFFF; border-left: 4px solid #A8C5E8; padding: 20px 26px; max-width: 760px; margin: 0 auto; border-radius: 0 10px 10px 0; box-shadow: 0 6px 16px rgba(168,197,232,0.15); position: relative; z-index: 2;">
+    <p class="serif" style="font-size: 16px; line-height: 1.9; color: #1A1A1A; margin: 0;">이 브랜드들의 공통점은 단 하나 — <strong style="color:#E91A75;">제품이 아니라 감정을 팔았어요.</strong></p>
+    <p style="font-size: 13px; line-height: 1.8; color: #5F5F5F; margin: 8px 0 0;">그리고 사람들은 그 감정에 마음을 열었어요. 🦋</p>
+  </div>
+</div>
+
+<!-- ===== SLIDE 12: LET'S ANALYZE ===== -->
+<div class="slide" id="slide-12">
   <div style="background: #A8C5E8; margin: -40px -80px -80px; padding: 80px 80px; height: 100vh; position: relative; overflow: hidden;">
-    <!-- 모서리 장식 -->
     <img src="assets/hydrangea-cluster.png" alt="" style="position: absolute; left: -30px; top: -20px; width: 220px;"/>
     <img src="assets/green-leaves.png" alt="" style="position: absolute; right: 50px; top: 50px; width: 110px; opacity: 0.65;"/>
     <img src="assets/butterfly.png" alt="" class="float-bfly" style="position: absolute; right: 200px; top: 70px; width: 48px;"/>
     <img src="assets/green-leaves.png" alt="" style="position: absolute; left: 70px; bottom: 80px; width: 140px; opacity: 0.7; transform: rotate(20deg);"/>
     <img src="assets/hydrangea-cluster.png" alt="" style="position: absolute; right: -30px; bottom: -10px; width: 210px;"/>
     <img src="assets/butterfly.png" alt="" class="float-bfly" style="position: absolute; left: 220px; top: 50px; width: 36px;"/>
-    
-    <!-- 중앙 배경 큰 수국 (음영) -->
     <img src="assets/hydrangea-main.png" alt="" style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 500px; opacity: 0.15;"/>
-    
-    <!-- 가로지르는 나비 -->
     <img src="assets/butterfly.png" alt="" class="crossing-bfly"/>
     
-    <!-- 중앙 콘텐츠 -->
     <div style="position: relative; z-index: 2; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 28px;">
       <div class="italic-cap reveal-1" style="font-size: 16px; color: #FFFFFF; opacity: 0.85; letter-spacing: 4px;">Stage 02 · ANALYSIS</div>
-      
       <h2 class="serif" style="font-size: 90px; font-weight: 500; color: #FFFFFF; letter-spacing: 6px; margin: 0; line-height: 1;">
         <span class="letter">L</span><span class="letter">E</span><span class="letter">T</span><span class="letter">'</span><span class="letter">S</span><span style="display: inline-block; width: 24px;"></span><span class="letter">A</span><span class="letter">N</span><span class="letter">A</span><span class="letter">L</span><span class="letter">Y</span><span class="letter">Z</span><span class="letter">E</span>
       </h2>
-      
       <p class="italic-cap reveal-4" style="font-size: 22px; color: #FFFFFF; margin: 0; opacity: 0.95;">이 브랜드들, 어떻게 돈을 벌까?</p>
-      
       <div class="reveal-5" style="width: 80px; height: 1px; background: #FFFFFF; opacity: 0.5; margin: 12px 0;"></div>
-      
       <a href="stage2.html" class="reveal-5 next-btn" style="background: rgba(255,255,255,0.2); padding: 20px 40px; border-radius: 100px; border: 1px solid rgba(255,255,255,0.4); backdrop-filter: blur(10px); text-decoration: none; display: inline-flex; align-items: center; gap: 12px; transition: all 0.3s ease;">
-        <span style="font-size: 15px; color: #FFFFFF;"><strong>다음 25분</strong> · BMC로 브랜드 분석하기</span>
+        <span style="font-size: 15px; color: #FFFFFF;"><strong>다음 20분</strong> · BMC로 브랜드 분석하기</span>
         <span style="font-size: 18px; color: #FFFFFF;">→</span>
       </a>
     </div>
@@ -522,15 +498,19 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
   <div class="dot" data-slide="4"><span class="dot-label">Thai Life</span></div>
   <div class="dot" data-slide="5"><span class="dot-label">P&G</span></div>
   <div class="dot" data-slide="6"><span class="dot-label">Patagonia</span></div>
-  <div class="dot" data-slide="7"><span class="dot-label">정리</span></div>
-  <div class="dot" data-slide="8"><span class="dot-label">LET'S ANALYZE</span></div>
+  <div class="dot" data-slide="7"><span class="dot-label">Apple</span></div>
+  <div class="dot" data-slide="8"><span class="dot-label">Nike</span></div>
+  <div class="dot" data-slide="9"><span class="dot-label">박카스</span></div>
+  <div class="dot" data-slide="10"><span class="dot-label">Coca-Cola</span></div>
+  <div class="dot" data-slide="11"><span class="dot-label">정리</span></div>
+  <div class="dot" data-slide="12"><span class="dot-label">LET'S ANALYZE</span></div>
 </div>
 
-<div class="slide-counter" id="counter">01 / 08</div>
+<div class="slide-counter" id="counter">01 / 12</div>
 
 <script>
 (function() {
-  var current = 1, total = 8;
+  var current = 1, total = 12;
   var dots = document.querySelectorAll('.dot');
   var prevBtn = document.getElementById('prevBtn');
   var nextBtn = document.getElementById('nextBtn');
@@ -555,7 +535,6 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
       newSlide.classList.add('active');
       newSlide.style.transform = ''; newSlide.style.opacity = '';
       transitioning = false;
-      if (num === 6) triggerCountUp();
     }, 700);
     current = num;
     updateUI();
@@ -566,19 +545,6 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
     counter.textContent = String(current).padStart(2, '0') + ' / ' + String(total).padStart(2, '0');
     prevBtn.disabled = (current === 1);
     nextBtn.disabled = (current === total);
-  }
-  
-  function triggerCountUp() {
-    var el = document.querySelector('#slide-6 .count-num');
-    if (!el || el.dataset.done) return;
-    el.dataset.done = '1';
-    var target = parseInt(el.dataset.target);
-    var cur = 0, dur = 1500, inc = target / (dur / 16);
-    var t = setInterval(function() {
-      cur += inc;
-      if (cur >= target) { el.textContent = target; clearInterval(t); }
-      else { el.textContent = Math.floor(cur); }
-    }, 16);
   }
 
   nextBtn.addEventListener('click', function() { if (current < total) showSlide(current + 1, 'next'); });
@@ -600,37 +566,36 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
     var fb = document.getElementById('qFeedback');
     if (isCorrect) {
       el.classList.add('correct');
-      fb.style.background = '#EAF3DE';
-      fb.style.borderLeft = '3px solid #639922';
-      fb.style.color = '#27500A';
+      fb.style.background = '#EAF3DE'; fb.style.borderLeft = '3px solid #639922'; fb.style.color = '#27500A';
       fb.innerHTML = '<strong>✓ 정답!</strong> Thai Life Insurance — 태국 보험회사예요. 보험을 "팔지" 않고 선한 삶의 가치를 보여줬죠.';
     } else {
       el.classList.add('wrong');
-      fb.style.background = '#FBEAF0';
-      fb.style.borderLeft = '3px solid #D4537E';
-      fb.style.color = '#993556';
+      fb.style.background = '#FBEAF0'; fb.style.borderLeft = '3px solid #D4537E'; fb.style.color = '#993556';
       fb.innerHTML = '<strong>✗ 다시 생각해봐요!</strong> 영상에서 어떤 메시지를 전했는지 떠올려보세요.';
       setTimeout(function() { el.classList.remove('wrong'); }, 600);
     }
     fb.classList.add('show');
   };
   
-  window.toggleCase = function(n) {
-    var card = document.getElementById('card-' + n);
-    var content = document.getElementById('content-' + n);
-    var detail = document.getElementById('detail-' + n);
-    if (card.classList.contains('opened')) {
-      closeCase(n);
-    } else {
-      card.classList.add('opened');
-      content.classList.add('minimized');
-      detail.classList.add('shown');
+  window.revealAns = function(n) {
+    var box = document.getElementById('ans-' + n);
+    box.classList.add('show');
+    if (n === 4) {
+      setTimeout(function() {
+        var bar = document.getElementById('pataBar');
+        if (bar) bar.classList.add('bar-fill'), bar.style.width = '75%';
+        var el = document.getElementById('pataCount');
+        if (el && !el.dataset.done) {
+          el.dataset.done = '1';
+          var target = parseInt(el.dataset.target), cur = 0, inc = target / (1400/16);
+          var t = setInterval(function() {
+            cur += inc;
+            if (cur >= target) { el.textContent = target; clearInterval(t); }
+            else { el.textContent = Math.floor(cur); }
+          }, 16);
+        }
+      }, 300);
     }
-  };
-  window.closeCase = function(n) {
-    document.getElementById('card-' + n).classList.remove('opened');
-    document.getElementById('content-' + n).classList.remove('minimized');
-    document.getElementById('detail-' + n).classList.remove('shown');
   };
 })();
 </script>
