@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>모의 투자 시뮬레이터 — BLOOM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.min.css">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; color: #5A4A55; background: #FFF8F0; font-size: 15px; min-height: 100vh; padding: 30px 20px 60px; }
+.serif { font-family: 'Playfair Display', serif; }
+
+.blob { position: fixed; border-radius: 50%; pointer-events: none; z-index: 0; }
+.home-btn { position: fixed; top: 20px; left: 20px; z-index: 100; padding: 9px 18px; background: #FFFFFF; border: none; border-radius: 100px; font-size: 13px; color: #B88AA8; text-decoration: none; font-weight: 600; box-shadow: 0 3px 0 #F3E1D5; transition: all 0.3s; }
+.home-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 0 #F3E1D5; }
+
+.wrap { max-width: 940px; margin: 0 auto; position: relative; z-index: 2; }
+.label { font-size: 13px; color: #B6A4DD; font-weight: 700; letter-spacing: 1px; text-align: center; }
+.ttl { font-size: 30px; font-weight: 700; color: #5A4A55; text-align: center; margin: 4px 0 6px; }
+.subt { font-size: 14px; color: #8A7A85; text-align: center; margin-bottom: 20px; }
+
+.screen { display: none; }
+.screen.active { display: block; animation: fade 0.5s ease; }
+@keyframes fade { from { opacity:0; transform: translateY(10px);} to { opacity:1; transform: translateY(0);} }
+
+.budget-bar { background: #FFFFFF; border-radius: 22px; padding: 16px 26px; box-shadow: 0 6px 0 #F3E1D5; display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px; position: sticky; top: 16px; z-index: 50; }
+.b-item { text-align: center; }
+.b-num { font-size: 24px; font-weight: 700; }
+.b-lbl { font-size: 11px; color: #9A8A95; }
+
+.group-h { font-size: 16px; font-weight: 700; margin: 18px 0 10px; display: flex; align-items: center; gap: 8px; }
+.cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.card { background: #FFFFFF; border-radius: 18px; padding: 16px 12px; text-align: center; box-shadow: 0 5px 0 #F3E1D5; border: 2px solid transparent; transition: all 0.2s; }
+.card.on { border-color: #FF9EC4; box-shadow: 0 5px 0 #FFC4DD; background: #FFF7FB; }
+.card.stable.on { border-color: #8FC0E8; box-shadow: 0 5px 0 #C5DDF2; background: #F5FAFE; }
+.c-emoji { font-size: 38px; line-height: 1; }
+.c-name { font-size: 13px; font-weight: 700; margin-top: 6px; }
+.c-meta { font-size: 11px; color: #9A8A95; margin-top: 2px; }
+.c-input { width: 100%; margin-top: 10px; border: 2px solid #F0E0E8; border-radius: 12px; padding: 7px; text-align: center; font-family: inherit; font-size: 15px; font-weight: 700; color: #FF6FA5; }
+.c-input:focus { outline: none; border-color: #FF9EC4; }
+.card.stable .c-input { color: #5A8AC0; border-color: #DCEAF6; }
+.card.stable .c-input:focus { border-color: #8FC0E8; }
+
+.result-panel { background: #FFFFFF; border-radius: 22px; padding: 20px 26px; box-shadow: 0 6px 0 #F3E1D5; margin-top: 22px; }
+.bar-track { height: 26px; background: #F3E8EE; border-radius: 13px; overflow: hidden; display: flex; margin: 10px 0; }
+.seg { height: 100%; transition: width 0.3s ease; }
+.status-msg { font-weight: 700; }
+.warn { color: #E0578E; } .ok { color: #6FA83A; }
+
+.cta-btn { display: block; width: 100%; margin-top: 16px; padding: 16px; background: #E0DDE8; color: #FFF; border: none; border-radius: 100px; font-size: 16px; font-weight: 700; cursor: not-allowed; font-family: inherit; transition: all 0.3s; }
+.cta-btn.ready { background: #FF6FA5; cursor: pointer; box-shadow: 0 5px 0 #E0578E; }
+.cta-btn.ready:hover { transform: translateY(-2px); box-shadow: 0 7px 0 #E0578E; }
+
+/* 라운드 화면 */
+.round-card { background: #FFFFFF; border-radius: 24px; padding: 30px 34px; box-shadow: 0 6px 0 #F3E1D5; }
+.news-banner { background: #5A4A55; color: #FFF3F8; border-radius: 20px; padding: 22px 26px; text-align: center; margin-bottom: 22px; }
+.news-emoji { font-size: 56px; line-height: 1; }
+.news-title { font-size: 22px; font-weight: 700; margin: 8px 0 4px; }
+.news-desc { font-size: 14px; opacity: 0.9; }
+.chart-wrap { position: relative; height: 200px; margin: 18px 0; }
+.move-list { display: flex; flex-direction: column; gap: 7px; }
+.move-row { display: flex; align-items: center; gap: 10px; padding: 9px 14px; background: #FFF8F0; border-radius: 14px; font-size: 14px; }
+.move-pct { margin-left: auto; font-weight: 700; }
+.up { color: #6FA83A; } .down { color: #E0578E; }
+.asset-now { text-align: center; margin: 16px 0; }
+.asset-now .v { font-size: 32px; font-weight: 700; }
+
+.res-stat { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin: 18px 0; }
+.stat-box { background: #FFFFFF; border-radius: 18px; padding: 16px 12px; text-align: center; box-shadow: 0 5px 0 #F3E1D5; }
+.stat-num { font-size: 26px; font-weight: 700; }
+.stat-lbl { font-size: 11px; color: #9A8A95; margin-top: 2px; }
+.holdings { background: #FFFFFF; border-radius: 18px; padding: 16px 20px; box-shadow: 0 5px 0 #F3E1D5; margin-bottom: 16px; }
+.hold-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; font-size: 14px; border-bottom: 1px dashed #F0E0E8; }
+.hold-row:last-child { border-bottom: none; }
+.comment-box { background: #FFF3F8; border-radius: 18px; padding: 18px 22px; font-size: 14px; line-height: 1.7; }
+
+.act-btn { display: inline-flex; align-items: center; gap: 8px; padding: 15px 34px; background: #FF6FA5; color: #FFF; border: none; border-radius: 100px; font-size: 16px; font-weight: 700; cursor: pointer; font-family: inherit; box-shadow: 0 5px 0 #E0578E; transition: all 0.3s; text-decoration: none; }
+.act-btn:hover { transform: translateY(-2px); box-shadow: 0 7px 0 #E0578E; }
+.ghost-btn { background: #FFF; color: #B88AA8; box-shadow: 0 5px 0 #F3E1D5; }
+.disclaimer { font-size: 11px; color: #B0A0AB; text-align: center; margin-top: 16px; line-height: 1.5; }
+
+.round-pips { display: flex; gap: 8px; justify-content: center; margin-bottom: 16px; }
+.pip { width: 10px; height: 10px; border-radius: 50%; background: #F0E0E8; }
+.pip.on { background: #FF6FA5; width: 26px; border-radius: 5px; }
+</style>
+</head>
+<body>
+
+<a href="part2.html" class="home-btn">‹ 강의로</a>
+<div class="blob" style="width:160px;height:160px;background:#FFE3EF;left:-50px;bottom:-50px;opacity:0.6;"></div>
+<div class="blob" style="width:120px;height:120px;background:#EDE6FB;right:-30px;top:60px;opacity:0.5;"></div>
+
+<div class="wrap">
+
+<!-- 화면 1: 포트폴리오 구성 -->
+<div class="screen active" id="screen-build">
+  <div class="label">🎮 모의 투자 시뮬레이터</div>
+  <div class="ttl">1,000만원으로 포트폴리오 짜기!</div>
+  <div class="subt">1부에서 분석한 <strong>감성 브랜드</strong>를 떠올리며 투자해봐요 ✨</div>
+
+  <div class="budget-bar">
+    <div class="b-item"><div class="b-num" style="color:#5A4A55;">1,000<span style="font-size:14px;">만원</span></div><div class="b-lbl">총 예산</div></div>
+    <div class="b-item"><div class="b-num" id="usedV" style="color:#FF6FA5;">0만원</div><div class="b-lbl">투자한 금액</div></div>
+    <div class="b-item"><div class="b-num" id="pctV" style="color:#B6A4DD;">0%</div><div class="b-lbl">비중 합계</div></div>
+  </div>
+
+  <div class="group-h" style="color:#5A8AC0;">🛡️ 안정형 카드 <span style="font-size:12px;color:#9A8A95;font-weight:400;">— 안전하게 지켜요</span></div>
+  <div class="cards" id="stableCards"></div>
+
+  <div class="group-h" style="color:#FF6FA5;">🚀 성장형 카드 <span style="font-size:12px;color:#9A8A95;font-weight:400;">— 1부 감성 브랜드에 투자!</span></div>
+  <div class="cards" id="growthCards"></div>
+
+  <div class="result-panel">
+    <div style="display:flex; justify-content:space-between; font-size:13px; margin-bottom:4px;"><span style="font-weight:700;">📊 내 포트폴리오 비중</span><span id="statusMsg" class="status-msg warn">비중을 100%로 맞춰주세요!</span></div>
+    <div class="bar-track" id="barTrack"></div>
+    <button class="cta-btn" id="ctaBtn" disabled>비중을 100%로 맞추면 투자를 시작할 수 있어요</button>
+  </div>
+</div>
+
+<!-- 화면 2: 라운드 (뉴스 이벤트) -->
+<div class="screen" id="screen-round">
+  <div class="label">📈 모의 투자 진행 중</div>
+  <div class="round-pips" id="pips"></div>
+  <div class="round-card">
+    <div class="news-banner">
+      <div class="news-emoji" id="newsEmoji">📰</div>
+      <div class="news-title" id="newsTitle">뉴스 제목</div>
+      <div class="news-desc" id="newsDesc">뉴스 설명</div>
+    </div>
+    <div class="asset-now">
+      <div class="b-lbl">현재 내 자산</div>
+      <div class="v" id="assetNow">1,000만원</div>
+      <div id="assetChange" style="font-size:14px;font-weight:700;"></div>
+    </div>
+    <div class="chart-wrap"><canvas id="chart"></canvas></div>
+    <div style="font-size:13px;font-weight:700;margin-bottom:8px;">📊 이번 라운드 종목별 변화</div>
+    <div class="move-list" id="moveList"></div>
+    <div style="text-align:center;margin-top:22px;">
+      <button class="act-btn" id="roundBtn" onclick="nextRound()">다음 라운드 →</button>
+    </div>
+  </div>
+</div>
+
+<!-- 화면 3: 최종 결과 -->
+<div class="screen" id="screen-final">
+  <div style="text-align:center;">
+    <div style="font-size:60px;" id="finalEmoji">🎉</div>
+    <div class="label">투자 종료! 최종 결과</div>
+    <div class="ttl" id="finalTitle" style="font-size:28px;">나의 투자 성적표</div>
+  </div>
+  <div class="res-stat">
+    <div class="stat-box"><div class="stat-num" id="finalAsset" style="color:#5A4A55;font-size:22px;">-</div><div class="stat-lbl">최종 자산</div></div>
+    <div class="stat-box"><div class="stat-num" id="finalProfit" style="color:#6FA83A;">-</div><div class="stat-lbl">손익 (원금 1,000만원)</div></div>
+    <div class="stat-box"><div class="stat-num" id="finalType" style="color:#B6A4DD;font-size:20px;">-</div><div class="stat-lbl">투자 성향</div></div>
+  </div>
+  <div class="chart-wrap" style="height:180px;"><canvas id="finalChart"></canvas></div>
+  <div class="holdings" id="finalHoldings"></div>
+  <div class="comment-box" id="finalComment"></div>
+  <div style="display:flex;gap:10px;margin-top:20px;">
+    <button class="act-btn ghost-btn" style="flex:1;justify-content:center;" onclick="restart()">🔄 다시 투자하기</button>
+    <a class="act-btn" style="flex:1;justify-content:center;" href="part2.html">웹페이지 만들러 →</a>
+  </div>
+  <div class="disclaimer">⚠️ 본 시뮬레이터는 교육용이며, 수익률과 뉴스는 가상의 시나리오예요.<br>실제 투자 수익을 보장하지 않습니다.</div>
+</div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script>
+(function() {
+  var stable = [
+    { id:'deposit', emoji:'🐷', name:'정기예금', meta:'안전 최고', color:'#8FC0E8' },
+    { id:'bond', emoji:'🏦', name:'우량채권', meta:'안정적', color:'#5A8AC0' },
+    { id:'daiso', emoji:'🛒', name:'다이소', meta:'가성비', color:'#7FB5DD' }
+  ];
+  var growth = [
+    { id:'apple', emoji:'🍎', name:'애플', meta:'멋짐+쉬움', color:'#FF9EC4' },
+    { id:'pata', emoji:'🌿', name:'파타고니아', meta:'신념 브랜드', color:'#9FD8B8' },
+    { id:'netflix', emoji:'🎬', name:'넷플릭스', meta:'구독 모델', color:'#E0578E' },
+    { id:'musinsa', emoji:'👕', name:'무신사', meta:'10·20대 팬덤', color:'#C79FE0' },
+    { id:'startup', emoji:'🚀', name:'스타트업', meta:'고위험 고수익', color:'#FFB570' }
+  ];
+  var all = stable.concat(growth);
+
+  // 뉴스 이벤트: 각 종목의 라운드별 등락(%) 
+  var rounds = [
+    {
+      emoji:'🌍', title:'라운드 1 · 글로벌 경기 침체!',
+      desc:'경제가 얼어붙었어요. 안전한 자산은 버티고, 위험한 자산은 흔들려요.',
+      moves:{ deposit:3, bond:4, daiso:5, apple:-8, pata:-5, netflix:-10, musinsa:-12, startup:-35 }
+    },
+    {
+      emoji:'🔥', title:'라운드 2 · AI·기술 열풍!',
+      desc:'혁신 기업이 주목받아요. 성장주와 스타트업이 활짝 피어났어요!',
+      moves:{ deposit:3, bond:3, daiso:4, apple:18, pata:6, netflix:20, musinsa:16, startup:45 }
+    },
+    {
+      emoji:'💚', title:'라운드 3 · 착한 소비 트렌드!',
+      desc:'1부에서 배운 가치·감성 브랜드가 빛을 발해요. 신념 있는 브랜드가 사랑받아요!',
+      moves:{ deposit:3, bond:4, daiso:12, apple:5, pata:22, netflix:6, musinsa:10, startup:-5 }
+    }
+  ];
+
+  var portfolio = {}; // id -> 만원
+  var currentRound = 0;
+  var assetHistory = [1000]; // 라운드별 총자산
+  var holdingValues = {}; // id -> 현재 가치(만원)
+  var chart = null, finalChart = null;
+
+  // ===== 화면 1: 구성 =====
+  function cardHTML(c, isStable) {
+    return '<div class="card ' + (isStable?'stable':'') + '" id="card-' + c.id + '">' +
+      '<div class="c-emoji">' + c.emoji + '</div>' +
+      '<div class="c-name">' + c.name + '</div>' +
+      '<div class="c-meta">' + c.meta + '</div>' +
+      '<input class="c-input" type="number" min="0" max="100" step="5" placeholder="0%" data-id="' + c.id + '">' +
+      '</div>';
+  }
+  document.getElementById('stableCards').innerHTML = stable.map(function(c){ return cardHTML(c,true); }).join('');
+  document.getElementById('growthCards').innerHTML = growth.map(function(c){ return cardHTML(c,false); }).join('');
+
+  function getVal(id) { var el = document.querySelector('.c-input[data-id="'+id+'"]'); return parseInt(el.value) || 0; }
+
+  function updateBuild() {
+    var total = 0;
+    all.forEach(function(c) {
+      var v = getVal(c.id);
+      total += v;
+      document.getElementById('card-' + c.id).classList.toggle('on', v > 0);
+    });
+    document.getElementById('usedV').textContent = (total * 10) + '만원';
+    document.getElementById('pctV').textContent = total + '%';
+    var pct = document.getElementById('pctV'), msg = document.getElementById('statusMsg'), cta = document.getElementById('ctaBtn');
+    if (total === 100) {
+      pct.style.color = '#6FA83A'; msg.textContent = '완벽해요! 100% 달성 🎉'; msg.className = 'status-msg ok';
+      cta.classList.add('ready'); cta.disabled = false; cta.textContent = '🚀 투자 시작하기!';
+    } else if (total > 100) {
+      pct.style.color = '#E0578E'; msg.textContent = (total-100) + '% 초과! 줄여주세요'; msg.className = 'status-msg warn';
+      cta.classList.remove('ready'); cta.disabled = true; cta.textContent = '비중을 100%로 맞춰주세요';
+    } else {
+      pct.style.color = '#B6A4DD'; msg.textContent = '앞으로 ' + (100-total) + '% 남았어요'; msg.className = 'status-msg warn';
+      cta.classList.remove('ready'); cta.disabled = true; cta.textContent = '비중을 100%로 맞추면 투자를 시작할 수 있어요';
+    }
+    var track = document.getElementById('barTrack'); track.innerHTML = '';
+    all.forEach(function(c) {
+      var v = getVal(c.id);
+      if (v > 0) { var seg = document.createElement('div'); seg.className = 'seg'; seg.style.width = v + '%'; seg.style.background = c.color; track.appendChild(seg); }
+    });
+  }
+  document.querySelectorAll('.c-input').forEach(function(inp){ inp.addEventListener('input', updateBuild); });
+  updateBuild();
+
+  document.getElementById('ctaBtn').addEventListener('click', startInvest);
+
+  function startInvest() {
+    all.forEach(function(c) {
+      var v = getVal(c.id);
+      if (v > 0) { portfolio[c.id] = v * 10; holdingValues[c.id] = v * 10; }
+    });
+    currentRound = 0;
+    assetHistory = [1000];
+    showScreen('round');
+    renderRound();
+  }
+
+  // ===== 화면 2: 라운드 =====
+  function renderRound() {
+    var r = rounds[currentRound];
+    document.getElementById('newsEmoji').textContent = r.emoji;
+    document.getElementById('newsTitle').textContent = r.title;
+    document.getElementById('newsDesc').textContent = r.desc;
+
+    var pips = document.getElementById('pips'); pips.innerHTML = '';
+    for (var i=0;i<rounds.length;i++){ var p=document.createElement('div'); p.className='pip'+(i===currentRound?' on':''); pips.appendChild(p); }
+
+    var moveList = document.getElementById('moveList'); moveList.innerHTML = '';
+    var prevAsset = assetHistory[assetHistory.length-1];
+    Object.keys(portfolio).forEach(function(id) {
+      var c = all.filter(function(x){return x.id===id;})[0];
+      var mv = r.moves[id] || 0;
+      holdingValues[id] = holdingValues[id] * (1 + mv/100);
+      var sign = mv >= 0 ? '+' : '';
+      var cls = mv >= 0 ? 'up' : 'down';
+      var arrow = mv > 0 ? '📈' : (mv < 0 ? '📉' : '➡️');
+      moveList.innerHTML += '<div class="move-row"><span style="font-size:20px;">' + c.emoji + '</span>' +
+        '<span style="font-weight:600;">' + c.name + '</span>' +
+        '<span class="move-pct ' + cls + '">' + arrow + ' ' + sign + mv + '%</span></div>';
+    });
+
+    var newAsset = 0;
+    Object.keys(holdingValues).forEach(function(id){ newAsset += holdingValues[id]; });
+    newAsset = Math.round(newAsset);
+    assetHistory.push(newAsset);
+
+    document.getElementById('assetNow').textContent = newAsset.toLocaleString() + '만원';
+    var diff = newAsset - prevAsset;
+    var ac = document.getElementById('assetChange');
+    if (diff > 0) { ac.textContent = '▲ ' + diff + '만원 상승!'; ac.className = 'up'; ac.style.color='#6FA83A'; }
+    else if (diff < 0) { ac.textContent = '▼ ' + Math.abs(diff) + '만원 하락'; ac.style.color='#E0578E'; }
+    else { ac.textContent = '변화 없음'; ac.style.color='#9A8A95'; }
+
+    drawChart();
+
+    var btn = document.getElementById('roundBtn');
+    btn.textContent = (currentRound >= rounds.length-1) ? '🏁 최종 결과 보기 →' : '다음 라운드 →';
+  }
+
+  function drawChart() {
+    var ctx = document.getElementById('chart').getContext('2d');
+    var labels = ['시작'];
+    for (var i=1;i<assetHistory.length;i++) labels.push('R'+i);
+    if (chart) chart.destroy();
+    chart = new Chart(ctx, {
+      type:'line',
+      data:{ labels:labels, datasets:[{ data:assetHistory, borderColor:'#FF6FA5', backgroundColor:'rgba(255,111,165,0.1)', borderWidth:3, fill:true, tension:0.3, pointRadius:5, pointBackgroundColor:'#FF6FA5' }] },
+      options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{ y:{ ticks:{callback:function(v){return v+'만';}}, grid:{color:'#F3E8EE'} }, x:{grid:{display:false}} } }
+    });
+  }
+
+  window.nextRound = function() {
+    if (currentRound >= rounds.length-1) { showFinal(); return; }
+    currentRound++;
+    renderRound();
+  };
+
+  // ===== 화면 3: 최종 =====
+  function showFinal() {
+    showScreen('final');
+    var finalAsset = assetHistory[assetHistory.length-1];
+    var profit = finalAsset - 1000;
+    var profitPct = (profit/1000*100).toFixed(1);
+
+    document.getElementById('finalAsset').textContent = finalAsset.toLocaleString() + '만원';
+    var fp = document.getElementById('finalProfit');
+    if (profit >= 0) { fp.textContent = '+' + profit + '만원 (+' + profitPct + '%)'; fp.style.color='#6FA83A'; document.getElementById('finalEmoji').textContent='🎉'; }
+    else { fp.textContent = profit + '만원 (' + profitPct + '%)'; fp.style.color='#E0578E'; document.getElementById('finalEmoji').textContent='😢'; }
+
+    var stableW=0, growthW=0;
+    Object.keys(portfolio).forEach(function(id){ if (stable.filter(function(x){return x.id===id;}).length) stableW+=portfolio[id]; else growthW+=portfolio[id]; });
+    var type = stableW > growthW ? '안정형 🛡️' : growthW > stableW ? '성장형 🚀' : '균형형 ⚖️';
+    document.getElementById('finalType').textContent = type;
+
+    // 최종 차트
+    var ctx = document.getElementById('finalChart').getContext('2d');
+    var labels = ['시작']; for (var i=1;i<assetHistory.length;i++) labels.push('R'+i);
+    if (finalChart) finalChart.destroy();
+    finalChart = new Chart(ctx, {
+      type:'line',
+      data:{ labels:labels, datasets:[{ data:assetHistory, borderColor:'#FF6FA5', backgroundColor:'rgba(255,111,165,0.1)', borderWidth:3, fill:true, tension:0.3, pointRadius:5, pointBackgroundColor:'#FF6FA5' }] },
+      options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{ y:{ ticks:{callback:function(v){return v+'만';}}, grid:{color:'#F3E8EE'} }, x:{grid:{display:false}} } }
+    });
+
+    // 종목별 최종
+    var fh = document.getElementById('finalHoldings');
+    fh.innerHTML = '<div style="font-size:13px;font-weight:700;margin-bottom:6px;">💼 종목별 최종 성과</div>';
+    Object.keys(portfolio).forEach(function(id) {
+      var c = all.filter(function(x){return x.id===id;})[0];
+      var start = portfolio[id], now = Math.round(holdingValues[id]);
+      var d = now - start, dpct = (d/start*100).toFixed(0);
+      var cls = d>=0?'up':'down', sign=d>=0?'+':'';
+      fh.innerHTML += '<div class="hold-row"><span style="font-size:18px;">' + c.emoji + '</span>' +
+        '<span style="width:80px;font-weight:600;">' + c.name + '</span>' +
+        '<span style="color:#9A8A95;font-size:13px;">' + start + '만 → ' + now + '만</span>' +
+        '<span class="move-pct ' + cls + '">' + sign + dpct + '%</span></div>';
+    });
+
+    // 코멘트
+    var comment = '';
+    if (profit >= 200) comment = '🎉 <strong>대박! 투자 천재인데요?</strong> 위험과 기회를 잘 읽었어요. 하지만 운도 따랐다는 걸 기억해요 — 투자에 100% 정답은 없어요!';
+    else if (profit >= 0) comment = '👍 <strong>안정적으로 잘 지켰어요!</strong> 큰 손실 없이 자산을 키웠네요. 분산의 힘이죠.';
+    else if (profit >= -150) comment = '😅 <strong>아쉽게 손실이 났어요.</strong> 괜찮아요! 어떤 뉴스에 어떤 종목이 흔들렸는지 분석해보면 다음엔 더 잘할 수 있어요.';
+    else comment = '😢 <strong>큰 손실이 났네요.</strong> 한 종목에 너무 몰빵하지 않았는지 돌아봐요. 분산 투자가 왜 중요한지 몸으로 배운 값진 경험이에요!';
+    comment += '<br><br>💡 <strong>분석해볼까요?</strong> 어떤 뉴스가 내 자산을 흔들었나요? 안정형과 성장형 중 뭐가 더 컸나요? 발표 때 이 이야기를 담아보세요!';
+    document.getElementById('finalComment').innerHTML = comment;
+
+    // 저장
+    try {
+      var held = Object.keys(portfolio).map(function(id){ var c=all.filter(function(x){return x.id===id;})[0]; return { name:c.name, emoji:c.emoji, pct:portfolio[id]/10 }; });
+      localStorage.setItem('bloomPortfolio', JSON.stringify({ holdings:held, finalAsset:finalAsset, profit:profit, profitPct:profitPct, type:type }));
+    } catch(e) {}
+  }
+
+  // ===== 공통 =====
+  function showScreen(name) {
+    document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('active'); });
+    document.getElementById('screen-' + name).classList.add('active');
+    window.scrollTo(0,0);
+  }
+  window.restart = function() {
+    portfolio = {}; holdingValues = {}; currentRound = 0; assetHistory = [1000];
+    document.querySelectorAll('.c-input').forEach(function(i){ i.value=''; });
+    updateBuild();
+    showScreen('build');
+  };
+})();
+</script>
+
+</body>
+</html>
