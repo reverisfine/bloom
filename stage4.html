@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stage 04 · 감정을 꽃으로 — BLOOM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.min.css">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { height: 100%; overflow: hidden; }
+body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; color: #1A1A1A; background: #FAF6EC; font-size: 15px; }
+.serif { font-family: 'Playfair Display', serif; }
+.italic-cap { font-family: 'Cormorant Garamond', serif; font-style: italic; }
+
+.home-btn { position: fixed; top: 24px; left: 24px; z-index: 100; padding: 8px 16px; background: rgba(255,255,255,0.9); border: 1px solid rgba(168,197,232,0.5); border-radius: 20px; font-size: 13px; color: #5F5F5F; text-decoration: none; font-family: 'Cormorant Garamond', serif; font-style: italic; transition: all 0.3s; }
+.home-btn:hover { background: #A8C5E8; color: #FFFFFF; }
+
+.stage { width: 100vw; height: 100vh; position: relative; overflow: hidden; }
+.screen { position: absolute; inset: 0; padding: 44px 70px; opacity: 0; transform: translateY(20px); transition: all 0.6s cubic-bezier(0.4,0,0.2,1); pointer-events: none; overflow-y: auto; }
+.screen.active { opacity: 1; transform: translateY(0); pointer-events: auto; }
+.screen-inner { max-width: 1060px; margin: 0 auto; min-height: 100%; display: flex; flex-direction: column; justify-content: center; }
+
+/* 인트로 */
+.intro-center { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 18px; position: relative; z-index: 2; }
+.emotion-pill { display: inline-flex; align-items: center; gap: 10px; padding: 10px 24px; border-radius: 100px; font-size: 15px; }
+
+/* 빌더 */
+.builder-head { text-align: center; margin-bottom: 24px; }
+.builder-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: start; }
+.blanks { display: flex; flex-direction: column; gap: 14px; }
+.blank-row { background: #FFFFFF; border: 1px solid #E8E0CC; border-radius: 12px; padding: 14px 18px; transition: all 0.3s; }
+.blank-row.filled { border-color: #639922; background: #FAFCF6; }
+.blank-label { font-size: 12px; color: #A8C5E8; font-family: 'Cormorant Garamond', serif; font-style: italic; margin-bottom: 8px; }
+.blank-label b { color: #1A1A1A; font-family: 'Pretendard', sans-serif; font-style: normal; font-size: 14px; font-weight: 600; margin-right: 6px; }
+.blank-select { width: 100%; padding: 10px 14px; border: 1px solid #C8DDB5; border-radius: 8px; font-family: 'Pretendard', sans-serif; font-size: 14px; color: #1A1A1A; background: #FAF6EC; cursor: pointer; outline: none; transition: all 0.2s; }
+.blank-select:focus { border-color: #A8C5E8; }
+.blank-fixed { padding: 10px 14px; background: rgba(233,26,117,0.08); border-radius: 8px; font-size: 14px; color: #E91A75; font-weight: 600; }
+
+/* 프롬프트 미리보기 */
+.prompt-panel { position: sticky; top: 0; }
+.prompt-card { background: #1A1A1A; border-radius: 16px; padding: 26px; color: #FAF6EC; }
+.prompt-card .ttl { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 14px; color: #A8C5E8; margin-bottom: 14px; }
+.prompt-text { font-size: 15px; line-height: 1.9; min-height: 120px; }
+.prompt-text .ph { color: #6B6B6B; }
+.prompt-text .done { color: #FFE5EA; }
+.copy-btn { width: 100%; margin-top: 18px; padding: 14px; background: #E91A75; color: #FFF; border: none; border-radius: 10px; font-size: 15px; font-weight: 500; cursor: pointer; transition: all 0.3s; font-family: 'Pretendard', sans-serif; }
+.copy-btn:hover { background: #C71060; transform: translateY(-2px); }
+.copy-btn:disabled { background: #555; cursor: not-allowed; transform: none; }
+.gemini-link { display: block; text-align: center; margin-top: 12px; font-size: 13px; color: #A8C5E8; text-decoration: none; }
+.gemini-link:hover { text-decoration: underline; }
+
+.btn { padding: 14px 32px; border-radius: 100px; font-size: 14px; cursor: pointer; border: none; transition: all 0.3s; font-family: 'Pretendard', sans-serif; text-decoration: none; display: inline-block; }
+.btn-primary { background: #E91A75; color: #FFF; }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(233,26,117,0.4); }
+
+.guide-step { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 12px; }
+.guide-num { width: 24px; height: 24px; border-radius: 50%; background: #A8C5E8; color: #FFF; font-size: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-family: 'Cormorant Garamond', serif; }
+
+.bg-deco { position: absolute; pointer-events: none; z-index: 1; }
+@keyframes floatBfly { 0%,100% { transform: translate(0,0) rotate(-5deg); } 50% { transform: translate(8px,-12px) rotate(5deg); } }
+.float-bfly { animation: floatBfly 5s ease-in-out infinite; }
+</style>
+</head>
+<body>
+
+<a href="stage3.html" class="home-btn">‹ 이전으로</a>
+
+<div class="stage">
+  <img src="assets/hydrangea-cluster.png" alt="" class="bg-deco" style="left:-40px; bottom:-30px; width:200px; opacity:0.4;"/>
+  <img src="assets/butterfly.png" alt="" class="bg-deco float-bfly" style="right:80px; top:80px; width:42px; opacity:0.6;"/>
+
+  <!-- 화면 1: 인트로 -->
+  <div class="screen active" id="s-intro">
+    <div class="screen-inner">
+      <div class="intro-center">
+        <div class="italic-cap" style="font-size: 20px; color: #A8C5E8;">Stage 04 · VISUALIZE</div>
+        <h1 class="serif" style="font-size: 54px; font-weight: 500; line-height: 1.2; margin: 0;">감정을 꽃으로<br>피워봐요</h1>
+        <p style="font-size: 15px; color: #5F5F5F; line-height: 1.8; max-width: 460px;">앞에서 찾은 내 감정을 AI로 시각화할 거예요.<br><strong>좋은 프롬프트</strong>를 만드는 법을 배우면서요!</p>
+        <div class="emotion-pill" id="emotionPill" style="background: rgba(168,197,232,0.15);">
+          <span id="pillEmoji" style="font-size: 24px;">🌸</span>
+          <span>내 감정의 꽃 · <strong id="pillName">불러오는 중...</strong></span>
+        </div>
+        <button class="btn btn-primary" onclick="goBuilder()" style="margin-top: 10px;">프롬프트 만들러 가기 →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 화면 2: 빌더 -->
+  <div class="screen" id="s-builder">
+    <div class="screen-inner">
+      <div class="builder-head">
+        <div class="italic-cap" style="font-size: 14px; color: #A8C5E8;">Prompt Builder</div>
+        <h2 class="serif" style="font-size: 30px; font-weight: 500; margin: 4px 0;">빈칸을 채워 프롬프트를 완성하세요</h2>
+        <p style="font-size: 13px; color: #5F5F5F;">좋은 AI 그림 프롬프트는 <strong>주제 + 색감 + 분위기 + 스타일 + 배경</strong>으로 이루어져요</p>
+      </div>
+
+      <div class="builder-layout">
+        <!-- 왼쪽: 빈칸들 -->
+        <div class="blanks">
+          <div class="blank-row filled">
+            <div class="blank-label"><b>① 주제</b> 어떤 꽃?</div>
+            <div class="blank-fixed" id="blankFlower">🌸 내 감정의 꽃</div>
+          </div>
+          <div class="blank-row" id="row-color">
+            <div class="blank-label"><b>② 색감</b> 어떤 색?</div>
+            <select class="blank-select" id="sel-color" onchange="updatePrompt()">
+              <option value="">선택하세요</option>
+              <option value="부드러운 파스텔 색감">부드러운 파스텔 색감</option>
+              <option value="선명하고 생생한 색감">선명하고 생생한 색감</option>
+              <option value="따뜻한 노을빛 색감">따뜻한 노을빛 색감</option>
+              <option value="차분한 모노톤 색감">차분한 모노톤 색감</option>
+            </select>
+          </div>
+          <div class="blank-row" id="row-mood">
+            <div class="blank-label"><b>③ 분위기</b> 어떤 느낌?</div>
+            <select class="blank-select" id="sel-mood" onchange="updatePrompt()">
+              <option value="">선택하세요</option>
+              <option value="차분하고 평온한 분위기">차분하고 평온한 분위기</option>
+              <option value="밝고 경쾌한 분위기">밝고 경쾌한 분위기</option>
+              <option value="몽환적이고 신비로운 분위기">몽환적이고 신비로운 분위기</option>
+              <option value="따뜻하고 포근한 분위기">따뜻하고 포근한 분위기</option>
+            </select>
+          </div>
+          <div class="blank-row" id="row-style">
+            <div class="blank-label"><b>④ 그림 스타일</b> 어떤 그림체?</div>
+            <select class="blank-select" id="sel-style" onchange="updatePrompt()">
+              <option value="">선택하세요</option>
+              <option value="부드러운 수채화 스타일">수채화 스타일</option>
+              <option value="깔끔한 디지털 일러스트 스타일">디지털 일러스트</option>
+              <option value="질감이 살아있는 유화 스타일">유화 스타일</option>
+              <option value="미니멀한 라인아트 스타일">미니멀 라인아트</option>
+            </select>
+          </div>
+          <div class="blank-row" id="row-bg">
+            <div class="blank-label"><b>⑤ 배경</b> 어떤 배경?</div>
+            <select class="blank-select" id="sel-bg" onchange="updatePrompt()">
+              <option value="">선택하세요</option>
+              <option value="안개 낀 들판 배경">안개 낀 들판</option>
+              <option value="햇살 가득한 정원 배경">햇살 가득한 정원</option>
+              <option value="깔끔한 단색 배경">단순한 단색 배경</option>
+              <option value="별빛 가득한 밤하늘 배경">밤하늘 별빛</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- 오른쪽: 프롬프트 미리보기 -->
+        <div class="prompt-panel">
+          <div class="prompt-card">
+            <div class="ttl">✨ 완성된 프롬프트 (실시간)</div>
+            <div class="prompt-text" id="promptText"></div>
+            <button class="copy-btn" id="copyBtn" onclick="copyPrompt()" disabled>빈칸을 모두 채우면 복사할 수 있어요</button>
+            <a href="https://gemini.google.com" target="_blank" class="gemini-link">→ Gemini 열어서 붙여넣기 🌸</a>
+          </div>
+          <div style="background: rgba(168,197,232,0.12); border-radius: 12px; padding: 16px 18px; margin-top: 16px;">
+            <div class="guide-step"><div class="guide-num">1</div><div style="font-size: 13px; color: #5F5F5F;">왼쪽 빈칸을 모두 선택해요</div></div>
+            <div class="guide-step"><div class="guide-num">2</div><div style="font-size: 13px; color: #5F5F5F;">완성된 프롬프트를 <strong>복사</strong>해요</div></div>
+            <div class="guide-step"><div class="guide-num">3</div><div style="font-size: 13px; color: #5F5F5F;">Gemini에 붙여넣고 이미지를 만들어요</div></div>
+            <div class="guide-step" style="margin-bottom:0;"><div class="guide-num">4</div><div style="font-size: 13px; color: #5F5F5F;">마음에 들면 이미지를 <strong>저장</strong>해요!</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div style="text-align: center; margin-top: 24px;">
+        <a class="btn btn-primary" href="stage5.html">이미지 만들었어요, 다음으로 →</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+(function() {
+  // 감정 데이터 (Stage 3 결과에 따라)
+  var flowerData = {
+    joy:     { name:"튤립", emoji:"🌷", color:"#BA7517", desc:"노란 튤립 꽃" },
+    anger:   { name:"캐모마일", emoji:"🌼", color:"#639922", desc:"하얀 캐모마일 꽃" },
+    depress: { name:"해바라기", emoji:"🌻", color:"#7F77DD", desc:"노란 해바라기 꽃" },
+    anxiety: { name:"라벤더", emoji:"💜", color:"#D4537E", desc:"보라색 라벤더 꽃" }
+  };
+
+  var current = flowerData.anxiety; // 기본값
+
+  // localStorage 또는 URL에서 감정 불러오기
+  function loadEmotion() {
+    var key = null;
+    try {
+      var saved = localStorage.getItem('bloomEmotion');
+      if (saved) key = JSON.parse(saved).key;
+    } catch(e) {}
+    if (!key) {
+      var params = new URLSearchParams(window.location.search);
+      key = params.get('emotion');
+    }
+    if (key && flowerData[key]) current = flowerData[key];
+
+    document.getElementById('pillEmoji').textContent = current.emoji;
+    document.getElementById('pillName').textContent = current.name;
+    document.getElementById('emotionPill').style.background = current.color + '22';
+    document.getElementById('blankFlower').textContent = current.emoji + ' ' + current.name;
+  }
+  loadEmotion();
+
+  window.goBuilder = function() {
+    document.getElementById('s-intro').classList.remove('active');
+    document.getElementById('s-builder').classList.add('active');
+    updatePrompt();
+  };
+
+  window.updatePrompt = function() {
+    var color = document.getElementById('sel-color').value;
+    var mood = document.getElementById('sel-mood').value;
+    var style = document.getElementById('sel-style').value;
+    var bg = document.getElementById('sel-bg').value;
+
+    // 빈칸 채움 표시
+    [['sel-color','row-color'],['sel-mood','row-mood'],['sel-style','row-style'],['sel-bg','row-bg']].forEach(function(p) {
+      var v = document.getElementById(p[0]).value;
+      document.getElementById(p[1]).classList.toggle('filled', !!v);
+    });
+
+    var html = '<span class="done">' + current.desc + '</span>, ';
+    html += color ? '<span class="done">' + color + '</span>' : '<span class="ph">[색감]</span>';
+    html += ', ';
+    html += mood ? '<span class="done">' + mood + '</span>' : '<span class="ph">[분위기]</span>';
+    html += ', ';
+    html += style ? '<span class="done">' + style + '</span>' : '<span class="ph">[스타일]</span>';
+    html += ', ';
+    html += bg ? '<span class="done">' + bg + '</span>' : '<span class="ph">[배경]</span>';
+    document.getElementById('promptText').innerHTML = html;
+
+    var allFilled = color && mood && style && bg;
+    var btn = document.getElementById('copyBtn');
+    btn.disabled = !allFilled;
+    btn.textContent = allFilled ? '📋 프롬프트 복사하기' : '빈칸을 모두 채우면 복사할 수 있어요';
+  };
+
+  window.copyPrompt = function() {
+    var color = document.getElementById('sel-color').value;
+    var mood = document.getElementById('sel-mood').value;
+    var style = document.getElementById('sel-style').value;
+    var bg = document.getElementById('sel-bg').value;
+    var text = current.desc + ', ' + color + ', ' + mood + ', ' + style + ', ' + bg;
+    navigator.clipboard.writeText(text).then(function() {
+      var btn = document.getElementById('copyBtn');
+      btn.textContent = '✓ 복사 완료! Gemini에 붙여넣으세요';
+      setTimeout(function() { btn.textContent = '📋 프롬프트 복사하기'; }, 2500);
+    }).catch(function() {
+      alert('복사된 프롬프트:\n\n' + text);
+    });
+  };
+})();
+</script>
+
+</body>
+</html>
