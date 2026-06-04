@@ -71,7 +71,7 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
 .blank-select:focus { border-color: #A8C5E8; }
 .blank-fixed { padding: 10px 14px; background: rgba(233,26,117,0.08); border-radius: 8px; font-size: 14px; color: #E91A75; font-weight: 600; }
 
-.prompt-card { background: #1A1A1A; border-radius: 16px; padding: 24px; color: #FAF6EC; position: sticky; top: 0; }
+.prompt-card { background: #1A1A1A; border-radius: 16px; padding: 24px; color: #FAF6EC; }
 .prompt-card .ttl { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 14px; color: #A8C5E8; margin-bottom: 12px; }
 .prompt-text { font-size: 15px; line-height: 1.9; min-height: 100px; }
 .prompt-text .ph { color: #6B6B6B; }
@@ -82,11 +82,17 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
 .gemini-link { display: block; text-align: center; margin-top: 12px; font-size: 13px; color: #A8C5E8; text-decoration: none; }
 .gemini-link:hover { text-decoration: underline; }
 
-/* 다운로드 백업 박스 */
 .backup-box { background: rgba(186,117,23,0.08); border: 1px dashed #C9A227; border-radius: 12px; padding: 14px 18px; margin-top: 14px; }
 .backup-label { font-size: 12.5px; color: #8A6410; margin-bottom: 10px; line-height: 1.5; }
 .download-btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; background: #FFFFFF; border: 1px solid #C9A227; border-radius: 100px; font-size: 13px; color: #8A6410; text-decoration: none; transition: all 0.3s; }
 .download-btn:hover { background: #C9A227; color: #FFF; }
+
+/* 완성 예시 프롬프트 */
+.pro-box { background: #FFFFFF; border: 1px solid #C8DDB5; border-radius: 12px; padding: 16px 18px; margin-top: 14px; }
+.pro-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: #3A6B0E; margin-bottom: 8px; }
+.pro-text { font-size: 12.5px; line-height: 1.7; color: #5F5F5F; background: #FAFCF6; border-radius: 8px; padding: 12px 14px; max-height: 130px; overflow-y: auto; }
+.pro-copy { width: 100%; margin-top: 10px; padding: 10px; background: #639922; color: #FFF; border: none; border-radius: 8px; font-size: 13px; cursor: pointer; transition: all 0.3s; font-family: 'Pretendard', sans-serif; }
+.pro-copy:hover { background: #4F7A1B; }
 
 .tip-box { background: rgba(233,26,117,0.06); border-radius: 10px; padding: 14px 18px; margin-top: 14px; font-size: 12.5px; line-height: 1.7; color: #5F5F5F; }
 
@@ -225,7 +231,7 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
               <option value="차분하고 평온한 분위기">차분하고 평온한 분위기</option>
               <option value="밝고 경쾌한 분위기">밝고 경쾌한 분위기</option>
               <option value="몽환적이고 신비로운 분위기">몽환적이고 신비로운 분위기</option>
-              <option value="따뜻하고 포근한 분위기">따뜻하고 포근한 분위기</option>
+              <option value="우아하고 드라마틱한 분위기">우아하고 드라마틱한 분위기</option>
             </select>
           </div>
           <div class="blank-row" id="row-style">
@@ -235,18 +241,18 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
               <option value="">선택하세요</option>
               <option value="부드러운 수채화 스타일">수채화 스타일</option>
               <option value="깔끔한 디지털 일러스트 스타일">디지털 일러스트</option>
-              <option value="질감이 살아있는 유화 스타일">유화 스타일</option>
+              <option value="초고화질 정물 사진 스타일">초고화질 사진 스타일</option>
               <option value="미니멀한 라인아트 스타일">미니멀 라인아트</option>
             </select>
           </div>
           <div class="blank-row" id="row-bg">
             <div class="blank-label"><b>⑤ 배경</b></div>
-            <div class="blank-why">왜? 배경까지 정하면 하나의 작품이 완성돼요</div>
+            <div class="blank-why">왜? 검은 배경이면 꽃이 더 빛나 보여요</div>
             <select class="blank-select" id="sel-bg" onchange="updatePrompt()">
               <option value="">선택하세요</option>
+              <option value="완벽한 순흑색 배경">완벽한 순흑색 배경 (추천 ⭐)</option>
               <option value="안개 낀 들판 배경">안개 낀 들판</option>
               <option value="햇살 가득한 정원 배경">햇살 가득한 정원</option>
-              <option value="깔끔한 검은 배경">깔끔한 검은 배경</option>
               <option value="별빛 가득한 밤하늘 배경">밤하늘 별빛</option>
             </select>
           </div>
@@ -258,11 +264,21 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
             <button class="copy-btn" id="copyBtn" onclick="copyPrompt()" disabled>빈칸을 모두 채우면 복사할 수 있어요</button>
             <a href="https://gemini.google.com" target="_blank" class="gemini-link">→ Gemini 열어서 붙여넣기 🌸</a>
           </div>
+
+          <!-- 완성 예시 프롬프트 (선생님 제공) -->
+          <div class="pro-box">
+            <div class="pro-head">⭐ 더 멋지게! — 완성 예시 프롬프트</div>
+            <div style="font-size: 11.5px; color: #888; margin-bottom: 8px;">전문가처럼 자세히 쓰면 이런 결과가 나와요. 그대로 복사해서 써도 좋아요!</div>
+            <div class="pro-text" id="proText"></div>
+            <button class="pro-copy" onclick="copyPro()">📋 완성 예시 복사하기</button>
+          </div>
+
           <!-- 이미지 다운로드 백업 -->
           <div class="backup-box">
             <div class="backup-label">🎨 <strong>이미지 만들기가 어렵나요?</strong><br>미리 준비된 내 감정의 꽃 이미지를 받아서 다음 단계에 쓸 수 있어요.</div>
             <a class="download-btn" id="imgDownload" href="#" download><span>⬇️</span><span id="imgDownloadLabel">내 꽃 이미지 받기</span></a>
           </div>
+
           <div class="tip-box">
             🔍 <strong>기억해요!</strong> 한 번에 마음에 안 들면 여러 번 만들어보세요. 완성하면 <strong>"Gemini로 만들었어요"</strong> 출처를 밝혀요!
           </div>
@@ -280,10 +296,14 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
 <script>
 (function() {
   var flowerData = {
-    joy:     { name:"튤립", emoji:"🌷", color:"#BA7517", desc:"노란 튤립 꽃", img:"assets/flower-joy.png" },
-    anger:   { name:"캐모마일", emoji:"🌼", color:"#639922", desc:"하얀 캐모마일 꽃", img:"assets/flower-anger.png" },
-    depress: { name:"해바라기", emoji:"🌻", color:"#7F77DD", desc:"노란 해바라기 꽃", img:"assets/flower-depress.png" },
-    anxiety: { name:"라벤더", emoji:"💜", color:"#D4537E", desc:"보라색 라벤더 꽃", img:"assets/flower-anxiety.png" }
+    joy:     { name:"튤립", emoji:"🌷", color:"#BA7517", desc:"노란 튤립 꽃", img:"assets/flower-joy.png",
+      pro:"완벽한 무광 순흑색 배경 앞에 놓인 싱그럽고 화사한 튤립 한 송이, 왼쪽 상단에서 들어오는 극적인 스튜디오 측면 조명, 강렬한 고대비 키아로스쿠로 효과, 하이라이트를 받아 화사하게 빛나는 밝은 색 꽃잎, 매끄럽고 부드러운 꽃잎의 곡선, 표면의 미세한 질감이 생생하게 살아있는 짙은 녹색 줄기와 잎사귀, 매크로 렌즈로 촬영한 듯한 초고화질 정물 사진 스타일, 우아하고 드라마틱한 분위기, 극도로 상세한 디테일, 마스터피스" },
+    anger:   { name:"캐모마일", emoji:"🌼", color:"#639922", desc:"하얀 캐모마일 꽃", img:"assets/flower-anger.png",
+      pro:"완벽한 무광 순흑색 배경 앞에 놓인 싱그럽고 순수한 하얀 캐모마일 꽃 한 송이, 왼쪽 상단에서 들어오는 극적인 스튜디오 측면 조명, 강렬한 고대비 키아로스쿠로 효과, 하이라이트를 받아 맑게 빛나는 하얀 꽃잎과 노란 중앙, 가녀리고 섬세한 꽃잎의 결, 표면의 미세한 잔털과 솜털 질감이 생생하게 살아있는 짙은 녹색 줄기와 잎사귀, 매크로 렌즈로 촬영한 듯한 초고화질 정물 사진 스타일, 우아하고 드라마틱한 분위기, 극도로 상세한 디테일, 마스터피스" },
+    depress: { name:"해바라기", emoji:"🌻", color:"#7F77DD", desc:"노란 해바라기 꽃", img:"assets/flower-depress.png",
+      pro:"완벽한 무광 순흑색 배경 앞에 놓인 싱그럽고 거대한 해바라기 한 송이, 왼쪽 상단에서 들어오는 극적인 스튜디오 측면 조명, 강렬한 고대비 키아로스쿠로 효과, 하이라이트를 받아 강렬하게 빛나는 따뜻한 황금빛 노란색 꽃잎, 정교하고 촘촘한 기하학적 패턴의 짙은 암갈색 중앙 씨앗 디스크, 표면의 미세한 잔털과 솜털 질감이 생생하게 살아있는 짙은 녹색 줄기와 잎사귀, 매크로 렌즈로 촬영한 듯한 초고화질 정물 사진 스타일, 우아하고 드라마틱한 분위기, 극도로 상세한 디테일, 마스터피스" },
+    anxiety: { name:"라벤더", emoji:"💜", color:"#D4537E", desc:"보라색 라벤더 꽃", img:"assets/flower-anxiety.png",
+      pro:"완벽한 무광 순흑색 배경 앞에 놓인 싱그럽고 우아한 보라색 라벤더 꽃 한 송이, 왼쪽 상단에서 들어오는 극적인 스튜디오 측면 조명, 강렬한 고대비 키아로스쿠로 효과, 하이라이트를 받아 은은하게 빛나는 보랏빛 꽃송이, 섬세하게 줄지어 핀 작은 꽃들, 표면의 미세한 잔털과 솜털 질감이 생생하게 살아있는 은녹색 줄기와 잎사귀, 매크로 렌즈로 촬영한 듯한 초고화질 정물 사진 스타일, 우아하고 드라마틱한 분위기, 극도로 상세한 디테일, 마스터피스" }
   };
   var current = flowerData.anxiety;
 
@@ -296,10 +316,10 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
     document.getElementById('pillName').textContent = current.name;
     document.getElementById('emotionPill').style.background = current.color + '22';
     document.getElementById('blankFlower').textContent = current.emoji + ' ' + current.name;
-    // 다운로드 버튼 연결
     var dl = document.getElementById('imgDownload');
     dl.href = current.img;
     document.getElementById('imgDownloadLabel').textContent = current.name + ' 이미지 받기';
+    document.getElementById('proText').textContent = current.pro;
   }
   loadEmotion();
 
@@ -338,6 +358,13 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
       btn.textContent = '✓ 복사 완료! Gemini에 붙여넣으세요';
       setTimeout(function() { btn.textContent = '📋 프롬프트 복사하기'; }, 2500);
     }).catch(function() { alert('복사된 프롬프트:\n\n' + text); });
+  };
+
+  window.copyPro = function() {
+    navigator.clipboard.writeText(current.pro).then(function() {
+      event.target.textContent = '✓ 완성 예시 복사 완료!';
+      setTimeout(function() { event.target.textContent = '📋 완성 예시 복사하기'; }, 2500);
+    }).catch(function() { alert('복사된 프롬프트:\n\n' + current.pro); });
   };
 })();
 </script>
