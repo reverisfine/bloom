@@ -15,110 +15,124 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
 .italic-cap { font-family: 'Cormorant Garamond', serif; font-style: italic; }
 
 .slides-container { position: relative; width: 100vw; height: 100vh; overflow: hidden; }
-.slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; padding: 40px 64px 70px; opacity: 0; transform: translateX(100%); transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.4,0,0.2,1); pointer-events: none; overflow-y: auto; display: flex; flex-direction: column; justify-content: center; }
+.slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; padding: 44px 64px 70px; opacity: 0; transform: translateX(100%); transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.4,0,0.2,1); pointer-events: none; overflow-y: auto; display: flex; flex-direction: column; justify-content: center; }
 .slide.active { opacity: 1; transform: translateX(0); pointer-events: auto; }
-.slide-inner { max-width: 1140px; margin: 0 auto; width: 100%; }
+.slide-inner { max-width: 1120px; margin: 0 auto; width: 100%; position: relative; z-index: 2; }
 
-.nav-arrow { position: fixed; top: 50%; transform: translateY(-50%); width: 50px; height: 50px; border-radius: 50%; background: rgba(255,255,255,0.95); border: 1px solid rgba(63,81,128,0.4); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 24px; color: #5F5F5F; z-index: 100; transition: all 0.3s ease; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
-.nav-arrow:hover { background: #3F5180; color: #FFFFFF; transform: translateY(-50%) scale(1.1); }
+.nav-arrow { position: fixed; top: 50%; transform: translateY(-50%); width: 50px; height: 50px; border-radius: 50%; background: rgba(255,255,255,0.95); border: 1px solid rgba(168,197,232,0.5); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 24px; color: #5F5F5F; z-index: 100; transition: all 0.3s ease; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+.nav-arrow:hover { background: #A8C5E8; color: #FFFFFF; transform: translateY(-50%) scale(1.1); }
 .nav-arrow:disabled { opacity: 0.3; cursor: not-allowed; }
 .nav-prev { left: 24px; } .nav-next { right: 24px; }
 
 .dots { position: fixed; right: 26px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 10px; z-index: 100; }
-.dot { width: 9px; height: 9px; border-radius: 50%; background: rgba(63,81,128,0.25); cursor: pointer; transition: all 0.3s ease; position: relative; }
-.dot:hover { background: rgba(63,81,128,0.6); }
+.dot { width: 9px; height: 9px; border-radius: 50%; background: rgba(168,197,232,0.3); cursor: pointer; transition: all 0.3s ease; position: relative; }
+.dot:hover { background: rgba(168,197,232,0.7); }
 .dot.active { background: #E91A75; height: 26px; border-radius: 5px; }
 .dot-label { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); font-size: 11px; color: #5F5F5F; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 0.2s ease; background: rgba(255,255,255,0.95); padding: 4px 10px; border-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
 .dot:hover .dot-label { opacity: 1; }
 
 .slide-counter { position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%); font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 14px; color: #5F5F5F; z-index: 100; background: rgba(255,255,255,0.7); padding: 6px 18px; border-radius: 30px; }
-.home-btn { position: fixed; top: 22px; left: 22px; z-index: 100; padding: 8px 16px; background: rgba(255,255,255,0.9); border: 1px solid rgba(63,81,128,0.4); border-radius: 20px; font-size: 13px; color: #5F5F5F; text-decoration: none; font-family: 'Cormorant Garamond', serif; font-style: italic; transition: all 0.3s; }
-.home-btn:hover { background: #3F5180; color: #FFFFFF; }
+.home-btn { position: fixed; top: 22px; left: 22px; z-index: 100; padding: 8px 16px; background: rgba(255,255,255,0.9); border: 1px solid rgba(168,197,232,0.5); border-radius: 20px; font-size: 13px; color: #5F5F5F; text-decoration: none; font-family: 'Cormorant Garamond', serif; font-style: italic; transition: all 0.3s; }
+.home-btn:hover { background: #A8C5E8; color: #FFFFFF; }
 
-/* 헤더 바 (PPT 느낌) */
-.head-bar { background: #3F5180; border-radius: 14px; padding: 18px 32px; margin-bottom: 26px; }
-.head-bar h1 { font-size: 34px; font-weight: 700; color: #F2A88F; margin: 0; }
-.pill-label { display: inline-block; border: 1px solid #2BB8C4; border-radius: 100px; padding: 5px 18px; font-size: 13px; font-weight: 600; color: #2BB8C4; letter-spacing: 1px; margin-bottom: 14px; }
+.bg-deco { position: fixed; pointer-events: none; z-index: 1; }
+@keyframes floatBfly { 0%,100% { transform: translate(0,0) rotate(-5deg); } 50% { transform: translate(8px,-12px) rotate(5deg); } }
+.float-bfly { animation: floatBfly 5s ease-in-out infinite; }
+
+.stage-label { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 16px; color: #A8C5E8; }
+.head { font-family: 'Playfair Display', serif; font-size: 34px; font-weight: 500; margin: 2px 0 6px; line-height: 1.2; }
 
 .reveal-1,.reveal-2,.reveal-3,.reveal-4 { opacity: 0; transform: translateY(18px); transition: all 0.6s ease; }
 .reveal-2 { transition-delay: 0.12s; } .reveal-3 { transition-delay: 0.26s; } .reveal-4 { transition-delay: 0.4s; }
 .slide.active .reveal-1,.slide.active .reveal-2,.slide.active .reveal-3,.slide.active .reveal-4 { opacity: 1; transform: translateY(0); }
 
-.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
-.card-box { background: #FFFFFF; border: 1px solid #E2E8E0; border-radius: 14px; padding: 22px 26px; }
-.goal-box { background: #FFFCF0; border-left: 4px solid #E8C547; border-radius: 0 10px 10px 0; padding: 16px 22px; margin-bottom: 18px; }
-.step-item { display: flex; gap: 14px; align-items: flex-start; margin-bottom: 14px; }
-.step-num { width: 26px; height: 26px; border-radius: 50%; border: 1.5px solid #5BA3AC; color: #2BB8C4; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.code-card { background: #1B2A3A; border-radius: 14px; padding: 22px 26px; color: #E8EEF2; }
-.code-card .fname { font-size: 12px; color: #7F94A8; margin-bottom: 14px; font-family: monospace; }
-.highlight-y { color: #F5C84C; font-weight: 600; }
-.dark-note { background: #1B2A3A; border-radius: 12px; padding: 16px 22px; color: #E8EEF2; }
-.dark-note .nt { color: #F5C84C; font-weight: 600; margin-bottom: 6px; }
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+.card-w { background: #FFFFFF; border: 1px solid #C8DDB5; border-radius: 12px; padding: 20px 24px; }
+.goal-box { background: rgba(168,197,232,0.15); border-left: 3px solid #A8C5E8; border-radius: 0 8px 8px 0; padding: 16px 20px; }
+.code-card { background: #1A1A1A; border-radius: 12px; padding: 20px 24px; color: #FAF6EC; }
+.code-card .fname { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 12px; color: #A8C5E8; margin-bottom: 12px; }
+.hl { color: #FFE5EA; font-weight: 600; }
+.step { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 13px; }
+.snum { width: 26px; height: 26px; border-radius: 50%; border: 1.5px solid #A8C5E8; color: #A8C5E8; font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.pill-label { display: inline-block; border: 1px solid #A8C5E8; border-radius: 100px; padding: 5px 16px; font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 13px; color: #A8C5E8; margin-bottom: 14px; }
 
-/* 퀴즈 */
-.quiz-card { background: #FFFFFF; border-radius: 16px; padding: 26px 30px; box-shadow: 0 6px 20px rgba(0,0,0,0.06); }
-.quiz-q { font-size: 14px; color: #5F5F5F; margin-bottom: 14px; }
-.quiz-q b { font-size: 22px; color: #1A1A1A; font-family: 'Playfair Display', serif; margin-right: 8px; }
-.statement { background: #F4F6F4; border-radius: 10px; padding: 16px 20px; font-size: 14px; line-height: 1.7; margin-bottom: 18px; }
-.ox-row { display: flex; gap: 16px; justify-content: center; margin-bottom: 8px; }
-.ox-btn { width: 70px; height: 70px; border-radius: 50%; border: 3px solid #C8DDB5; background: #FFF; font-size: 28px; font-weight: 700; cursor: pointer; transition: all 0.25s; color: #999; }
+.quiz-card { background: #FFFFFF; border-radius: 16px; padding: 24px 28px; box-shadow: 0 6px 20px rgba(168,197,232,0.2); }
+.statement { background: #FAF6EC; border-radius: 10px; padding: 15px 20px; font-size: 14px; line-height: 1.7; margin-bottom: 18px; }
+.ox-row { display: flex; gap: 16px; justify-content: center; margin-bottom: 6px; }
+.ox-btn { width: 66px; height: 66px; border-radius: 50%; border: 3px solid #C8DDB5; background: #FFF; font-size: 26px; font-weight: 700; cursor: pointer; transition: all 0.25s; color: #BBB; }
 .ox-btn:hover { transform: scale(1.08); }
-.ox-btn.correct { background: #2BB8A0; border-color: #2BB8A0; color: #FFF; }
-.ox-btn.wrong { background: #E0607E; border-color: #E0607E; color: #FFF; }
-.mc-opt { display: flex; align-items: center; gap: 12px; padding: 12px 18px; background: #F4F6F4; border-radius: 10px; margin-bottom: 8px; cursor: pointer; transition: all 0.25s; font-size: 14px; border: 2px solid transparent; }
+.ox-btn.correct { background: #639922; border-color: #639922; color: #FFF; }
+.ox-btn.wrong { background: #D4537E; border-color: #D4537E; color: #FFF; }
+.mc-opt { display: flex; align-items: center; gap: 12px; padding: 12px 18px; background: #FAF6EC; border-radius: 10px; margin-bottom: 8px; cursor: pointer; transition: all 0.25s; font-size: 14px; border: 2px solid transparent; }
 .mc-opt:hover { background: #FFF; border-color: #A8C5E8; }
-.mc-opt.correct { background: #EAF3DE; border-color: #2BB8A0; }
-.mc-opt.wrong { background: #FBEAF0; border-color: #E0607E; }
-.mc-num { width: 24px; height: 24px; border-radius: 6px; background: #E8E8E8; display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0; }
-.answer-box { margin-top: 14px; padding: 14px 18px; border-radius: 10px; font-size: 13px; line-height: 1.7; max-height: 0; overflow: hidden; opacity: 0; transition: all 0.5s ease; }
-.answer-box.show { max-height: 160px; opacity: 1; }
+.mc-opt.correct { background: #EAF3DE; border-color: #639922; }
+.mc-opt.wrong { background: #FBEAF0; border-color: #D4537E; }
+.mc-num { width: 24px; height: 24px; border-radius: 6px; background: #E8E0CC; display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0; }
+.ans { margin-top: 14px; padding: 14px 18px; border-radius: 10px; font-size: 13px; line-height: 1.7; max-height: 0; overflow: hidden; opacity: 0; transition: all 0.5s ease; }
+.ans.show { max-height: 160px; opacity: 1; }
+@keyframes shk { 0%,100%{transform:translateX(0);} 25%{transform:translateX(-5px);} 75%{transform:translateX(5px);} }
+.shake { animation: shk 0.4s; }
 
-.rubric-item { display: flex; gap: 14px; align-items: flex-start; margin-bottom: 16px; }
-.rubric-icon { font-size: 22px; flex-shrink: 0; }
+.pop-card { opacity: 0; transform: scale(0.8); transition: all 0.5s cubic-bezier(0.34,1.56,0.64,1); }
+.pop-card:nth-child(1){transition-delay:.1s} .pop-card:nth-child(2){transition-delay:.25s} .pop-card:nth-child(3){transition-delay:.4s}
+.slide.active .pop-card { opacity: 1; transform: scale(1); }
 
+.letter { display: inline-block; opacity: 0; transform: translateY(30px); transition: all 0.5s ease; cursor: pointer; }
+.slide.active .letter { opacity: 1; transform: translateY(0); }
+.slide.active .letter:nth-child(1){transition-delay:.2s} .slide.active .letter:nth-child(2){transition-delay:.3s} .slide.active .letter:nth-child(3){transition-delay:.4s} .slide.active .letter:nth-child(4){transition-delay:.5s} .slide.active .letter:nth-child(5){transition-delay:.6s} .slide.active .letter:nth-child(7){transition-delay:.8s} .slide.active .letter:nth-child(8){transition-delay:.9s} .slide.active .letter:nth-child(9){transition-delay:1s} .slide.active .letter:nth-child(10){transition-delay:1.1s} .slide.active .letter:nth-child(11){transition-delay:1.2s}
+.letter:hover { transform: translateY(-16px) scale(1.12) !important; color: #FFE5EA !important; }
+
+.crossing-bfly { position: absolute; width: 42px; opacity: 0.85; z-index: 1; }
+@keyframes flyAcross { 0% { left: -60px; top: 45%; } 50% { top: 25%; } 100% { left: calc(100% + 60px); top: 55%; } }
+.slide.active .crossing-bfly { animation: flyAcross 11s ease-in-out 1.5s infinite; }
+.next-btn { background: rgba(255,255,255,0.2); padding: 18px 36px; border-radius: 100px; border: 1px solid rgba(255,255,255,0.4); backdrop-filter: blur(10px); text-decoration: none; display: inline-flex; align-items: center; gap: 12px; transition: all 0.3s ease; }
+.next-btn:hover { background: rgba(255,255,255,0.35); transform: translateY(-3px); box-shadow: 0 10px 24px rgba(0,0,0,0.15); }
 .btn-link { display: inline-flex; align-items: center; gap: 8px; padding: 14px 30px; background: #E91A75; color: #FFF; border-radius: 100px; font-size: 14px; text-decoration: none; transition: all 0.3s; }
-.btn-link:hover { background: #C71060; transform: translateY(-2px); }
-
-@keyframes shake { 0%,100%{transform:translateX(0);} 25%{transform:translateX(-6px);} 75%{transform:translateX(6px);} }
-.shake { animation: shake 0.4s; }
+.btn-link:hover { background: #C71060; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(233,26,117,0.4); }
 </style>
 </head>
 <body>
 
-<a href="index.html" class="home-btn">‹ 메인으로</a>
+<a href="stage5.html" class="home-btn">‹ 1부로</a>
+
+<!-- 고정 배경 수국 -->
+<img src="assets/hydrangea-cluster.png" alt="" class="bg-deco" style="left:-30px; bottom:-20px; width:170px; opacity:0.3;"/>
+<img src="assets/green-leaves.png" alt="" class="bg-deco" style="right:30px; top:70px; width:90px; opacity:0.25; transform:rotate(20deg);"/>
 
 <div class="slides-container">
 
 <!-- SLIDE 1: 팩트 체크 -->
 <div class="slide active" id="slide-1">
   <div class="slide-inner">
-    <div class="head-bar reveal-1"><h1>AI활동 · 금융 사건 팩트 체크하기</h1></div>
+    <div class="reveal-1" style="margin-bottom: 22px;">
+      <div class="stage-label">AI Activity · Fact Check</div>
+      <div class="head">금융 사건, 팩트 체크하기</div>
+      <p style="font-size: 15px; color: #5F5F5F; margin: 0;">AI를 탐정처럼 활용해 <strong>'사실'과 '의견'</strong>을 엄격히 구분해봐요</p>
+    </div>
     <div class="two-col">
       <div>
-        <p class="reveal-2" style="font-size: 22px; font-weight: 600; line-height: 1.5; margin-bottom: 20px;">AI를 탐정처럼 활용해 사건을 조사하고,<br><span style="color:#2BB8C4;">'사실'과 '의견'</span>을 엄격히 구분해봐요.</p>
-        <div class="goal-box reveal-3">
-          <div style="font-size: 13px; color: #B58A1A; margin-bottom: 4px;">🚩 활동 목표</div>
-          <div style="font-size: 14px;">AI로 정보를 조사하고 교차 검증해, 정보의 사실 여부를 판단하는 능력 기르기</div>
+        <div class="goal-box reveal-2" style="margin-bottom: 18px;">
+          <div class="italic-cap" style="font-size: 13px; color: #A8C5E8; margin-bottom: 4px;">활동 목표</div>
+          <div style="font-size: 14px; line-height: 1.6;">AI로 정보를 조사하고 교차 검증해, 정보의 사실 여부를 판단하는 능력 기르기</div>
         </div>
-        <div class="reveal-4">
-          <div style="font-size: 15px; font-weight: 600; color: #2BB8C4; margin-bottom: 14px;">🔍 활동 방법 · step by step</div>
-          <div class="step-item"><div class="step-num">1</div><div><b>사건 선택</b><br><span style="font-size:13px;color:#888;">조별로 조사할 금융 사건 (2008 금융위기, 2020 팬데믹 등)</span></div></div>
-          <div class="step-item"><div class="step-num">2</div><div><b>AI 인터뷰 & 정보 수집</b><br><span style="font-size:13px;color:#888;">사건의 원인·과정·결과를 AI에게 질문</span></div></div>
-          <div class="step-item"><div class="step-num">3</div><div><b>사실 검증 (Fact Check)</b><br><span style="font-size:13px;color:#888;">체크리스트로 AI 답변을 비판적으로 검토</span></div></div>
-          <div class="step-item"><div class="step-num">4</div><div><b>3문장 요약</b> <span style="font-size:12px;color:#888;">무슨 일? → 왜? → 영향은?</span></div></div>
+        <div class="reveal-3">
+          <div class="step"><div class="snum">1</div><div style="font-size:14px;"><strong>사건 선택</strong><br><span style="font-size:13px;color:#888;">조사할 금융 사건 (2008 금융위기, 2020 팬데믹 등)</span></div></div>
+          <div class="step"><div class="snum">2</div><div style="font-size:14px;"><strong>AI 인터뷰 & 정보 수집</strong><br><span style="font-size:13px;color:#888;">원인·과정·결과를 AI에게 질문</span></div></div>
+          <div class="step"><div class="snum">3</div><div style="font-size:14px;"><strong>사실 검증 (Fact Check)</strong><br><span style="font-size:13px;color:#888;">체크리스트로 비판적 검토</span></div></div>
+          <div class="step"><div class="snum">4</div><div style="font-size:14px;"><strong>3문장 요약</strong> <span style="font-size:12px;color:#888;">무슨 일? → 왜? → 영향은?</span></div></div>
         </div>
       </div>
       <div>
-        <div style="font-size: 13px; color: #5F5F5F; margin-bottom: 10px;">📋 아래 텍스트를 복사해 생성형 AI에 붙여넣으세요</div>
-        <div class="code-card reveal-3" style="margin-bottom: 20px;">
-          <div class="fname">> PROMPT_EXAMPLE.txt</div>
-          <div style="font-size: 14px; line-height: 1.8;">"2008년 글로벌 금융위기가 왜 발생했는지, 그리고 그 결과 세계 경제에 어떤 영향을 미쳤는지 <span class="highlight-y">신뢰할 수 있는 언론 기사나 보고서</span>를 근거로 설명해줘."</div>
+        <div class="reveal-2" style="font-size: 13px; color: #888; margin-bottom: 8px;">📋 아래 텍스트를 복사해 생성형 AI에 붙여넣으세요</div>
+        <div class="code-card reveal-3" style="margin-bottom: 18px;">
+          <div class="fname">prompt_example.txt</div>
+          <div style="font-size: 14px; line-height: 1.8;">"2008년 글로벌 금융위기가 왜 발생했는지, 세계 경제에 어떤 영향을 미쳤는지 <span class="hl">신뢰할 수 있는 언론 기사나 보고서</span>를 근거로 설명해줘."</div>
         </div>
-        <div class="card-box reveal-4">
-          <div style="font-size: 16px; font-weight: 600; margin-bottom: 14px;">✅ 사실검증 체크리스트</div>
-          <div style="margin-bottom: 12px;"><b style="font-size:14px;">☑ 사실과 의견 구분</b><br><span style="font-size:13px;color:#888;">객관적 사실인가, 주관적 주장인가?</span></div>
-          <div style="margin-bottom: 12px;"><b style="font-size:14px;">☑ 출처의 명확성</b><br><span style="font-size:13px;color:#888;">정보의 출처(언론사·정부보고서)가 명시됐나?</span></div>
-          <div><b style="font-size:14px;">☑ 근거 링크 직접 확인</b><br><span style="font-size:13px;color:#888;">AI가 준 링크를 직접 눌러 확인했나?</span></div>
+        <div class="card-w reveal-4">
+          <div style="font-size: 15px; font-weight: 600; color: #3A6B0E; margin-bottom: 12px;">✅ 사실검증 체크리스트</div>
+          <div style="font-size:13px; line-height:1.5; margin-bottom:10px;"><strong>☑ 사실과 의견 구분</strong> <span style="color:#888;">— 객관적 사실인가, 주관적 주장인가?</span></div>
+          <div style="font-size:13px; line-height:1.5; margin-bottom:10px;"><strong>☑ 출처의 명확성</strong> <span style="color:#888;">— 출처가 명시됐는가?</span></div>
+          <div style="font-size:13px; line-height:1.5;"><strong>☑ 근거 링크 직접 확인</strong> <span style="color:#888;">— 링크를 직접 눌러봤는가?</span></div>
         </div>
       </div>
     </div>
@@ -128,33 +142,27 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
 <!-- SLIDE 2: AI 윤리 -->
 <div class="slide" id="slide-2">
   <div class="slide-inner">
-    <div class="head-bar reveal-1"><h1>AI 윤리 · 저작권 및 출처 표시</h1></div>
+    <div class="reveal-1" style="margin-bottom: 22px;">
+      <div class="stage-label">AI Ethics & Bias</div>
+      <div class="head">저작권 및 출처 표시</div>
+      <p style="font-size: 15px; color: #5F5F5F; margin: 0;"><span style="color:#E91A75;">책임감 있는 AI 사용자</span>가 되기 위한 핵심 규칙</p>
+    </div>
     <div class="two-col">
       <div>
-        <span class="pill-label reveal-2">AI ETHICS & BIAS</span>
-        <p class="reveal-2" style="font-size: 15px; line-height: 1.8; margin-bottom: 20px;">AI 생성 결과물의 기반에는 <strong>타인의 데이터</strong>가 존재해요. <span style="color:#2BB8C4;">책임감 있는 AI 사용자</span>가 되기 위한 핵심 규칙을 알아봐요.</p>
+        <p class="reveal-2" style="font-size: 15px; line-height: 1.8; margin-bottom: 18px;">AI 생성 결과물의 기반에는 <strong>타인의 데이터</strong>가 존재해요. 왜 출처를 밝혀야 할까요?</p>
         <div class="reveal-3">
-          <div style="font-size: 15px; font-weight: 600; margin-bottom: 12px;">❓ 왜 중요할까?</div>
-          <div style="margin-bottom: 10px;"><b style="color:#3F5180;">정보의 신뢰도</b> <span style="font-size:13px;color:#888;">— 근거를 제시해 신뢰도를 높여요</span></div>
-          <div style="margin-bottom: 10px;"><b style="color:#639922;">저작권 존중</b> <span style="font-size:13px;color:#888;">— 남의 창작물을 존중하는 윤리</span></div>
-          <div><b style="color:#2BB8C4;">표절 방지</b> <span style="font-size:13px;color:#888;">— 출처 없는 인용은 '표절'</span></div>
+          <div class="card-w" style="padding: 14px 20px; margin-bottom: 10px;"><strong style="color:#3F5180;">📊 정보의 신뢰도</strong><br><span style="font-size:13px;color:#888;">근거를 제시해 신뢰도를 높여요</span></div>
+          <div class="card-w" style="padding: 14px 20px; margin-bottom: 10px;"><strong style="color:#639922;">💚 저작권 존중</strong><br><span style="font-size:13px;color:#888;">남의 창작물을 존중하는 윤리</span></div>
+          <div class="card-w" style="padding: 14px 20px;"><strong style="color:#E91A75;">🚫 표절 방지</strong><br><span style="font-size:13px;color:#888;">출처 없는 인용은 '표절'이에요</span></div>
         </div>
       </div>
       <div>
-        <div style="font-size: 16px; font-weight: 600; margin-bottom: 16px;">📋 학생용 출처 표시 체크리스트</div>
-        <div class="two-col" style="gap: 14px;">
-          <div class="card-box reveal-3" style="padding: 16px 18px;">
-            <div style="font-size:20px;">🚫</div><b style="font-size:14px;">복사-붙여넣기 금지</b><br><span style="font-size:12px;color:#888;">참고만 하고, 내 생각과 언어로 바꿔 표현했나요?</span>
-          </div>
-          <div class="card-box reveal-3" style="padding: 16px 18px;">
-            <div style="font-size:20px;">💬</div><b style="font-size:14px;">핵심 정보 출처 기록</b><br><span style="font-size:12px;color:#888;">통계·수치의 실제 출처를 확인했나요?</span>
-          </div>
-          <div class="card-box reveal-4" style="padding: 16px 18px;">
-            <div style="font-size:20px;">🖼️</div><b style="font-size:14px;">이미지 저작권 확인</b><br><span style="font-size:12px;color:#888;">상업적 이용 가능하거나 저작권 없는 이미지인가요?</span>
-          </div>
-          <div class="card-box reveal-4" style="padding: 16px 18px;">
-            <div style="font-size:20px;">📝</div><b style="font-size:14px;">참고 자료 목록 작성</b><br><span style="font-size:12px;color:#888;">AI 모델 이름·참고 링크를 정리했나요?</span>
-          </div>
+        <div class="reveal-2" style="font-size: 15px; font-weight: 600; margin-bottom: 14px;">📋 학생용 출처 표시 체크리스트</div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+          <div class="card-w pop-card" style="padding: 16px 18px;"><div style="font-size:22px;">🚫</div><strong style="font-size:14px;">복사-붙여넣기 금지</strong><br><span style="font-size:12px;color:#888;">내 생각과 언어로 바꿨나요?</span></div>
+          <div class="card-w pop-card" style="padding: 16px 18px;"><div style="font-size:22px;">💬</div><strong style="font-size:14px;">핵심 정보 출처 기록</strong><br><span style="font-size:12px;color:#888;">통계·수치의 실제 출처 확인?</span></div>
+          <div class="card-w pop-card" style="padding: 16px 18px;"><div style="font-size:22px;">🖼️</div><strong style="font-size:14px;">이미지 저작권 확인</strong><br><span style="font-size:12px;color:#888;">저작권 없는 이미지인가요?</span></div>
+          <div class="card-w pop-card" style="padding: 16px 18px;"><div style="font-size:22px;">📝</div><strong style="font-size:14px;">참고 자료 목록</strong><br><span style="font-size:12px;color:#888;">AI 모델명·링크 정리?</span></div>
         </div>
       </div>
     </div>
@@ -164,84 +172,73 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
 <!-- SLIDE 3: 퀴즈 -->
 <div class="slide" id="slide-3">
   <div class="slide-inner">
-    <div class="head-bar reveal-1"><h1>AI 리터러시 Quiz</h1></div>
+    <div class="reveal-1" style="text-align: center; margin-bottom: 24px;">
+      <div class="stage-label">AI Literacy Quiz</div>
+      <div class="head">AI를 똑똑하게 쓰고 있나요?</div>
+    </div>
     <div class="two-col">
-      <!-- Q1 OX -->
-      <div class="quiz-card reveal-2" style="border-top: 4px solid #A8C5E8;">
-        <div class="quiz-q"><b>Q.01</b> O/X 퀴즈 · 🤖 환각 (Hallucination)</div>
-        <div class="statement">"생성형 AI는 항상 사실에 기반한 정확한 정보만 제공하므로, AI가 알려준 금융 수치는 별도의 확인 없이 믿고 사용해도 된다."</div>
+      <div class="quiz-card reveal-2">
+        <div class="italic-cap" style="font-size: 14px; color: #A8C5E8; margin-bottom: 10px;">Q.01 · O/X · 환각(Hallucination)</div>
+        <div class="statement">"생성형 AI는 항상 사실에 기반한 정확한 정보만 제공하므로, AI가 알려준 금융 수치는 별도 확인 없이 믿고 사용해도 된다."</div>
         <div class="ox-row">
           <button class="ox-btn" id="ox-o" onclick="answerOX('O')">O</button>
           <button class="ox-btn" id="ox-x" onclick="answerOX('X')">X</button>
         </div>
-        <div class="answer-box" id="oxAnswer" style="background:#EAF3DE; color:#27500A;">
-          <b>✓ 정답: X</b><br>생성형 AI는 그럴듯한 거짓 정보를 만드는 '환각' 현상이 있어요. 중요한 정보는 반드시 교차 검증!
-        </div>
+        <div class="ans" id="oxAnswer" style="background:#EAF3DE; color:#27500A;"><strong>✓ 정답: X</strong><br>생성형 AI는 그럴듯한 거짓 정보를 만드는 '환각' 현상이 있어요. 중요한 정보는 반드시 교차 검증!</div>
       </div>
-      <!-- Q2 MC -->
-      <div class="quiz-card reveal-3" style="border-top: 4px solid #E8C547;">
-        <div class="quiz-q"><b>Q.02</b> 4지선다 · 🖋️ 출처 표시</div>
+      <div class="quiz-card reveal-3">
+        <div class="italic-cap" style="font-size: 14px; color: #A8C5E8; margin-bottom: 10px;">Q.02 · 4지선다 · 출처 표시</div>
         <div style="font-size: 14px; margin-bottom: 14px;">AI로 보고서를 작성할 때, 가장 올바른 행동은?</div>
-        <div class="mc-opt" data-c="false" onclick="answerMC(this)"><span class="mc-num">1</span>AI가 써준 내용을 그대로 복사해서 제출한다</div>
+        <div class="mc-opt" data-c="false" onclick="answerMC(this)"><span class="mc-num">1</span>AI가 써준 내용을 그대로 복사해 제출한다</div>
         <div class="mc-opt" data-c="false" onclick="answerMC(this)"><span class="mc-num">2</span>출처를 굳이 찾아볼 필요는 없다</div>
         <div class="mc-opt" data-c="true" onclick="answerMC(this)"><span class="mc-num">3</span>내 표현으로 바꾸고 출처를 밝힌다</div>
         <div class="mc-opt" data-c="false" onclick="answerMC(this)"><span class="mc-num">4</span>AI가 만들었으므로 저작권은 나에게 있다</div>
-        <div class="answer-box" id="mcAnswer" style="background:#FFFCF0; color:#8A6410;">
-          <b>✓ 정답: 3번</b><br>AI는 도구일 뿐, 최종 결과물의 책임은 사용자에게! 반드시 출처를 밝히고 내 언어로 재구성해요.
-        </div>
+        <div class="ans" id="mcAnswer" style="background:#FBEAF0; color:#993556;"><strong>✓ 정답: 3번</strong><br>AI는 도구일 뿐, 최종 결과물의 책임은 사용자에게! 출처를 밝히고 내 언어로 재구성해요.</div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- SLIDE 4: 포트폴리오 제작 표지 -->
+<!-- SLIDE 4: 실습 표지 -->
 <div class="slide" id="slide-4">
   <div class="slide-inner" style="text-align: center;">
-    <div class="italic-cap reveal-1" style="font-size: 20px; color: #2BB8C4; margin-bottom: 8px;">실습하기 💡</div>
-    <h1 class="serif reveal-2" style="font-size: 54px; font-weight: 600; line-height: 1.25; margin-bottom: 8px;">생성형 AI를 활용한<br><span style="color:#3F5180;">금융 포트폴리오</span> 제작하기</h1>
-    <p class="reveal-3" style="font-size: 16px; color: #5F5F5F; margin: 20px 0 30px;">1부에서 분석한 <strong>감성 브랜드</strong>를 떠올리며, 나만의 투자 포트폴리오를 짜봐요!</p>
-    <div class="reveal-4" style="display: inline-flex; gap: 14px; background: #3F3A5E; border-radius: 14px; padding: 16px 28px; color: #FFF;">
-      <span>💰 금융 포트폴리오</span><span style="opacity:0.5;">|</span><span style="color:#A8C5E8;">💬 창의적 생성 · 데이터 활용</span>
+    <div class="italic-cap reveal-1" style="font-size: 20px; color: #A8C5E8; margin-bottom: 8px;">실습하기 💡</div>
+    <h1 class="serif reveal-2" style="font-size: 52px; font-weight: 500; line-height: 1.25;">생성형 AI를 활용한<br><span style="color:#E91A75;">금융 포트폴리오</span> 제작</h1>
+    <p class="reveal-3" style="font-size: 16px; color: #5F5F5F; margin: 22px 0 30px;">1부에서 분석한 <strong>감성 브랜드</strong>를 떠올리며, 나만의 투자 포트폴리오를 짜봐요!</p>
+    <div class="reveal-4" style="display: inline-flex; gap: 16px; background: #FFFFFF; border: 1px solid #C8DDB5; border-radius: 14px; padding: 16px 28px;">
+      <span>💰 금융 포트폴리오</span><span style="color:#C8DDB5;">|</span><span style="color:#A8C5E8;">💬 창의적 생성 · 데이터 활용</span>
     </div>
   </div>
 </div>
 
-<!-- SLIDE 5: 시뮬레이터 안내 -->
+<!-- SLIDE 5: 시뮬레이터 규칙 -->
 <div class="slide" id="slide-5">
   <div class="slide-inner">
-    <div class="head-bar reveal-1"><h1>실습하기 · 시뮬레이터 규칙</h1></div>
+    <div class="reveal-1" style="margin-bottom: 20px;">
+      <div class="stage-label">AI Activity · Simulator</div>
+      <div class="head">시뮬레이터 규칙</div>
+      <p style="font-size: 15px; color: #5F5F5F; margin: 0;">제한된 자원으로 합리적인 금융 의사결정을 내려봐요</p>
+    </div>
     <div class="two-col">
       <div>
-        <span class="pill-label reveal-2">AI ACTIVITY · SIMULATOR</span>
-        <p class="reveal-2" style="font-size: 15px; line-height: 1.8; margin-bottom: 18px;">제한된 자원과 명확한 목표 아래, 합리적인 금융 의사결정을 내리는 시뮬레이션 활동이에요.</p>
-        <div class="goal-box reveal-3" style="border-left-color:#E8C547;">
-          <div style="font-size: 13px; color: #B58A1A; margin-bottom: 6px;">💰 RULE 1 · 예산 (BUDGET)</div>
-          <div class="serif" style="font-size: 36px; font-weight: 700; color:#1A1A1A;">1,000<span style="font-size:18px;">만원</span></div>
-          <div style="font-size: 12px; color: #888;">* 모든 금액을 남김없이 써서 포트폴리오를 구성해요</div>
+        <div class="goal-box reveal-2" style="border-left-color:#E8C547; background:#FFFCF0; margin-bottom: 16px;">
+          <div class="italic-cap" style="font-size: 13px; color: #B58A1A; margin-bottom: 4px;">RULE 1 · 예산</div>
+          <div class="serif" style="font-size: 36px; font-weight: 600;">1,000<span style="font-size:18px;">만원</span></div>
+          <div style="font-size: 12px; color: #888;">* 모든 금액을 남김없이 써서 구성해요</div>
         </div>
-        <div class="reveal-4">
-          <div style="font-size: 14px; font-weight: 600; color:#2BB8C4; margin-bottom: 10px;">🗂️ RULE 2 · 카드 구성</div>
-          <div class="card-box" style="padding: 12px 18px; margin-bottom: 8px;"><b>🐷 안정형 카드</b> <span style="float:right; font-size:12px; color:#888;">3종</span><br><span style="font-size:12px;color:#888;">안정적인 상품 (예금·채권 등)</span></div>
-          <div class="card-box" style="padding: 12px 18px;"><b>🚀 성장형 카드</b> <span style="float:right; font-size:12px; color:#888;">5종</span><br><span style="font-size:12px;color:#888;">감성 브랜드 투자 (1부 연계!)</span></div>
+        <div class="reveal-3">
+          <div class="card-w" style="padding: 13px 20px; margin-bottom: 8px;"><strong>🐷 안정형 카드</strong> <span style="float:right; font-size:12px; color:#888;">3종</span><br><span style="font-size:12px;color:#888;">예금·채권 등 안정적 상품</span></div>
+          <div class="card-w" style="padding: 13px 20px;"><strong>🚀 성장형 카드</strong> <span style="float:right; font-size:12px; color:#888;">5종</span><br><span style="font-size:12px;color:#888;">감성 브랜드 투자 (1부 연계!)</span></div>
         </div>
       </div>
       <div>
-        <div style="font-size: 15px; font-weight: 600; margin-bottom: 14px;">🎯 RULE 3 · 투자 성향 선택</div>
-        <div class="two-col" style="gap: 14px; margin-bottom: 20px;">
-          <div class="card-box reveal-3" style="text-align:center;">
-            <div style="font-size:15px;font-weight:700;color:#3F5180;">🛡️ 안정형</div>
-            <div style="font-size:12px;color:#888;margin:8px 0;">원금 손실을 최소화하며 안정적 수익 추구</div>
-            <div style="font-size:12px;color:#2BB8A0;">✓ 안정 카드 비중 UP</div>
-          </div>
-          <div class="card-box reveal-3" style="text-align:center;">
-            <div style="font-size:15px;font-weight:700;color:#E91A75;">🚀 성장형</div>
-            <div style="font-size:12px;color:#888;margin:8px 0;">위험을 감수하더라도 높은 기대수익 추구</div>
-            <div style="font-size:12px;color:#E91A75;">✓ 투자 카드 비중 UP</div>
-          </div>
+        <div class="reveal-2" style="font-size: 15px; font-weight: 600; margin-bottom: 14px;">🎯 RULE 2 · 투자 성향</div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 18px;">
+          <div class="card-w pop-card" style="text-align:center;"><div style="font-size:15px;font-weight:700;color:#3F5180;">🛡️ 안정형</div><div style="font-size:12px;color:#888;margin:8px 0;">원금 손실 최소화, 안정적 수익</div><div style="font-size:12px;color:#2BB8A0;">✓ 안정 카드 UP</div></div>
+          <div class="card-w pop-card" style="text-align:center;"><div style="font-size:15px;font-weight:700;color:#E91A75;">🚀 성장형</div><div style="font-size:12px;color:#888;margin:8px 0;">위험 감수, 높은 기대수익</div><div style="font-size:12px;color:#E91A75;">✓ 투자 카드 UP</div></div>
         </div>
-        <div class="dark-note reveal-4" style="margin-bottom: 22px;">
-          <div class="nt">✏️ RULE 4 · 비중 맞추기</div>
-          <div style="font-size:13px;">선택한 카드의 비중(%) 합계는 <strong>반드시 100%</strong>가 되어야 해요!</div>
+        <div class="code-card reveal-4" style="margin-bottom: 18px;">
+          <div style="font-size:13px;"><strong style="color:#FFE5EA;">✏️ RULE 3 · 비중 맞추기</strong><br>선택한 카드 비중(%) 합계는 <strong>반드시 100%</strong>!</div>
         </div>
         <div style="text-align:center;" class="reveal-4">
           <a href="simulator.html" class="btn-link">🎮 시뮬레이터 시작하기 →</a>
@@ -254,71 +251,69 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
 <!-- SLIDE 6: 포트폴리오 구성 -->
 <div class="slide" id="slide-6">
   <div class="slide-inner">
-    <div class="head-bar reveal-1"><h1>실습하기 · AI 금융 포트폴리오 구성</h1></div>
+    <div class="reveal-1" style="margin-bottom: 20px;">
+      <div class="stage-label">AI Activity</div>
+      <div class="head">포트폴리오 구성하기</div>
+      <p style="font-size: 15px; color: #5F5F5F; margin: 0;">선택한 카드로 <strong>총합 100%</strong> 비중을 정하고, 이유와 위험을 설계해요</p>
+    </div>
     <div class="two-col">
       <div>
-        <span class="pill-label reveal-2">AI ACTIVITY</span>
-        <p class="reveal-2" style="font-size: 15px; line-height: 1.8; margin-bottom: 18px;">선택한 카드들을 조합해 <strong>총합 100%</strong>가 되도록 비중을 정하고, 그 이유와 위험 요인을 구체적으로 설계해요.</p>
-        <div class="goal-box reveal-3">
-          <div style="font-size: 13px; color: #B58A1A; margin-bottom: 4px;">🎯 ACTIVITY GOAL</div>
-          <div style="font-size: 14px;">나만의 투자 원칙과 논리로 포트폴리오를 구성하고, 잠재 위험을 예측하는 능력 기르기</div>
+        <div class="goal-box reveal-2" style="margin-bottom: 18px;">
+          <div class="italic-cap" style="font-size: 13px; color: #A8C5E8; margin-bottom: 4px;">Activity Goal</div>
+          <div style="font-size: 14px; line-height: 1.6;">나만의 투자 원칙으로 포트폴리오를 구성하고, 잠재 위험을 예측하는 능력 기르기</div>
         </div>
-        <div class="reveal-4">
-          <div class="step-item"><div class="step-num">1</div><div><b>비중(%) 결정</b><br><span style="font-size:13px;color:#888;">합계는 반드시 100%!</span></div></div>
-          <div class="step-item"><div class="step-num">2</div><div><b>포트폴리오 설명 작성</b><br><span style="font-size:13px;color:#888;">선택 이유와 위험 요인을 서술</span></div></div>
+        <div class="reveal-3">
+          <div class="step"><div class="snum">1</div><div style="font-size:14px;"><strong>비중(%) 결정</strong> <span style="font-size:13px;color:#888;">— 합계는 반드시 100%!</span></div></div>
+          <div class="step"><div class="snum">2</div><div style="font-size:14px;"><strong>설명 작성</strong> <span style="font-size:13px;color:#888;">— 선택 이유와 위험 요인 서술</span></div></div>
         </div>
       </div>
       <div>
-        <div class="card-box reveal-3" style="margin-bottom: 16px;">
-          <div style="font-size: 15px; font-weight: 600; margin-bottom: 14px;">📝 포트폴리오 설명 작성 조건</div>
-          <div class="two-col" style="gap: 18px;">
-            <div>
-              <div class="serif" style="font-size:28px;color:#2BB8C4;">03<span style="font-size:14px;color:#1A1A1A;"> 가지 선택 이유</span></div>
-              <div style="font-size:12px;color:#888;line-height:1.9;margin-top:8px;">✓ 투자 목표와의 연결성<br>✓ 그 브랜드(카드)를 고른 이유<br>✓ 분산 투자 원칙 반영 여부</div>
-            </div>
-            <div>
-              <div class="serif" style="font-size:28px;color:#E91A75;">01<span style="font-size:14px;color:#1A1A1A;"> 가지 위험 요인</span></div>
-              <div style="font-size:12px;color:#888;line-height:1.9;margin-top:8px;">⚠️ 이 포트폴리오의 가장 큰 약점은?<br>↘️ 손실 가능 상황 (금리 인상·침체 등)</div>
-            </div>
+        <div class="card-w reveal-3" style="margin-bottom: 16px;">
+          <div style="font-size: 15px; font-weight: 600; margin-bottom: 14px;">📝 설명 작성 조건</div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:18px;">
+            <div><div class="serif" style="font-size:26px;color:#A8C5E8;">03<span style="font-size:13px;color:#1A1A1A;"> 가지 이유</span></div><div style="font-size:12px;color:#888;line-height:1.8;margin-top:6px;">✓ 투자 목표 연결성<br>✓ 그 브랜드를 고른 이유<br>✓ 분산 투자 반영</div></div>
+            <div><div class="serif" style="font-size:26px;color:#E91A75;">01<span style="font-size:13px;color:#1A1A1A;"> 가지 위험</span></div><div style="font-size:12px;color:#888;line-height:1.8;margin-top:6px;">⚠️ 가장 큰 약점은?<br>↘️ 손실 가능 상황<br>(금리 인상·침체 등)</div></div>
           </div>
         </div>
-        <div class="card-box reveal-4" style="background:#FAFCF6;">
-          <div style="font-size:13px; margin-bottom:8px;"><b>EXAMPLE CASE</b> <span style="float:right;font-size:12px;color:#2BB8C4;">예금 50% · 국내주식 30% · 해외주식 20%</span></div>
-          <div style="font-size:13px;line-height:1.7;"><b style="color:#2BB8C4;">[이유]</b> 안정성을 위해 절반을 예금에, 성장 가능성을 고려해 주식에 분산 투자.<br><b style="color:#E91A75;">[위험]</b> 주식 시장이 모두 하락하면 예상보다 큰 손실 가능.</div>
+        <div class="card-w reveal-4" style="background:#FAFCF6;">
+          <div style="font-size:13px; margin-bottom:6px;"><strong>EXAMPLE</strong> <span style="float:right;font-size:11px;color:#A8C5E8;">예금 50 · 애플 30 · 파타고니아 20</span></div>
+          <div style="font-size:12px;line-height:1.7;"><strong style="color:#2BB8A0;">[이유]</strong> 안정성 위해 절반은 예금, 1부에서 본 가치 브랜드에 분산.<br><strong style="color:#E91A75;">[위험]</strong> 주식 시장이 하락하면 손실 가능.</div>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- SLIDE 7: 웹페이지 생성 템플릿 -->
+<!-- SLIDE 7: 웹페이지 생성 -->
 <div class="slide" id="slide-7">
   <div class="slide-inner">
-    <div class="head-bar reveal-1"><h1>실습하기 · 포트폴리오 웹페이지 생성</h1></div>
+    <div class="reveal-1" style="margin-bottom: 20px;">
+      <div class="stage-label">AI Activity</div>
+      <div class="head">포트폴리오 웹페이지 생성</div>
+      <p style="font-size: 15px; color: #5F5F5F; margin: 0;">AI로 정보를 구조화해 시각적 결과물을 만들어요</p>
+    </div>
     <div class="two-col">
       <div>
-        <span class="pill-label reveal-2">AI ACTIVITY</span>
-        <div class="reveal-3" style="margin-bottom: 8px;"><b>🎯 GOAL</b> <span style="font-size:13px;color:#888;">AI로 정보를 구조화하고 시각적 결과물 만들기</span></div>
-        <div class="reveal-4">
-          <div class="step-item"><div class="step-num">1</div><div style="font-size:14px;">시뮬레이터 결과를 바탕으로 <b>입력 템플릿</b>의 빈칸을 채워요</div></div>
-          <div class="step-item"><div class="step-num">2</div><div style="font-size:14px;">AI 웹페이지 생성 사이트에 접속해요</div></div>
-          <div class="step-item"><div class="step-num">3</div><div style="font-size:14px;">템플릿을 복사/붙여넣기 해 <b>웹앱</b>을 생성해요</div></div>
-          <div class="step-item"><div class="step-num">4</div><div style="font-size:14px;">생성된 QR코드나 링크를 제출해요</div></div>
+        <div class="reveal-2">
+          <div class="step"><div class="snum">1</div><div style="font-size:14px;">시뮬레이터 결과로 <strong>입력 템플릿</strong> 빈칸 채우기</div></div>
+          <div class="step"><div class="snum">2</div><div style="font-size:14px;">AI 웹페이지 생성 사이트 접속</div></div>
+          <div class="step"><div class="snum">3</div><div style="font-size:14px;">템플릿 복사/붙여넣기 → <strong>웹앱</strong> 생성</div></div>
+          <div class="step"><div class="snum">4</div><div style="font-size:14px;">생성된 QR코드/링크 제출</div></div>
         </div>
       </div>
       <div>
         <div class="code-card reveal-3">
-          <div class="fname">📝 AI 입력 템플릿 · copy_paste_template.txt</div>
+          <div class="fname">copy_paste_template.txt</div>
           <div style="font-size: 13px; line-height: 1.9;">
-            <span class="highlight-y">● 웹페이지 제목</span><br>(예: 안정성과 성장을 동시에! 우리 조 포트폴리오)<br><br>
-            <span class="highlight-y">● 우리 조 소개</span> (1~2문장)<br><br>
-            <span class="highlight-y">● 포트폴리오 구성표</span> (자산종류 / 비중%)<br><br>
-            <span class="highlight-y">● 포트폴리오 설명</span><br>(선택 이유 3가지 + 위험 요인 1가지)
+            <span class="hl">● 웹페이지 제목</span><br>(예: 안정과 성장을 동시에! 우리 조 포트폴리오)<br><br>
+            <span class="hl">● 우리 조 소개</span> (1~2문장)<br><br>
+            <span class="hl">● 포트폴리오 구성표</span> (자산 / 비중%)<br><br>
+            <span class="hl">● 포트폴리오 설명</span> (이유 3 + 위험 1)
           </div>
         </div>
-        <div class="reveal-4" style="background:#FBEAF0; border-radius:12px; padding:14px 18px; margin-top:16px;">
-          <b style="color:#C0395E; font-size:13px;">⚠️ 주의 문구 (필수 삽입)</b>
-          <div style="font-size:12px; color:#993556; line-height:1.7; margin-top:6px;">"본 포트폴리오는 교육용으로 제작되었으며, 실제 투자 수익을 보장하지 않습니다. 모든 결정의 책임은 본인에게 있습니다."</div>
+        <div class="reveal-4" style="background:#FBEAF0; border-radius:12px; padding:14px 18px; margin-top:14px;">
+          <strong style="color:#C0395E; font-size:13px;">⚠️ 주의 문구 (필수 삽입)</strong>
+          <div style="font-size:12px; color:#993556; line-height:1.7; margin-top:6px;">"본 포트폴리오는 교육용이며, 실제 투자 수익을 보장하지 않습니다. 모든 결정의 책임은 본인에게 있습니다."</div>
         </div>
       </div>
     </div>
@@ -328,61 +323,38 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
 <!-- SLIDE 8: AI 답변 검증 -->
 <div class="slide" id="slide-8">
   <div class="slide-inner">
-    <div class="head-bar reveal-1"><h1>AI 답변 검증하기</h1></div>
-    <span class="pill-label reveal-2">AI PROMPTING</span>
-    <p class="reveal-2" style="font-size: 15px; line-height: 1.8; margin-bottom: 24px; max-width:760px;">AI의 제안은 완벽한 정답이 아닌 <strong>유용한 참고자료</strong>예요. 내 실제 상황과 가치관을 반영해 비판적으로 검증하고 수정할 때, 비로소 최적의 결과가 완성돼요.</p>
+    <div class="reveal-1" style="margin-bottom: 22px;">
+      <div class="stage-label">AI Prompting</div>
+      <div class="head">AI 답변 검증하기</div>
+      <p style="font-size: 15px; color: #5F5F5F; margin: 0; max-width: 760px;">AI의 제안은 완벽한 정답이 아닌 <strong>유용한 참고자료</strong>예요. 비판적으로 검증하고 수정할 때 최적의 결과가 완성돼요.</p>
+    </div>
     <div style="display:grid; grid-template-columns: repeat(3,1fr); gap: 18px;">
-      <div class="card-box reveal-3">
-        <div class="serif" style="font-size:30px;color:#2BB8C4;">01</div>
-        <b>현실 가능성 점검</b>
-        <p style="font-size:13px;color:#5F5F5F;line-height:1.7;margin-top:8px;">"내가 실제로 실천할 수 있는 수준인가?" 무리한 계획은 현실적으로 조정해요.</p>
-      </div>
-      <div class="card-box reveal-3">
-        <div class="serif" style="font-size:30px;color:#2BB8C4;">02</div>
-        <b>필수 요소 고려</b>
-        <p style="font-size:13px;color:#5F5F5F;line-height:1.7;margin-top:8px;">"꼭 필요한 게 빠지지 않았나?" 놓친 항목이 없는지 확인해요.</p>
-      </div>
-      <div class="card-box reveal-4">
-        <div class="serif" style="font-size:30px;color:#2BB8C4;">03</div>
-        <b>편향성 점검</b>
-        <p style="font-size:13px;color:#5F5F5F;line-height:1.7;margin-top:8px;">"내 가치관과 맞는 조언인가?" 한쪽으로 치우치지 않았는지 확인해요.</p>
-      </div>
+      <div class="card-w pop-card"><div class="serif" style="font-size:30px;color:#A8C5E8;">01</div><strong>현실 가능성</strong><p style="font-size:13px;color:#5F5F5F;line-height:1.7;margin-top:8px;">"실제로 실천할 수 있는 수준인가?" 무리한 계획은 조정해요.</p></div>
+      <div class="card-w pop-card"><div class="serif" style="font-size:30px;color:#A8C5E8;">02</div><strong>필수 요소</strong><p style="font-size:13px;color:#5F5F5F;line-height:1.7;margin-top:8px;">"꼭 필요한 게 빠지지 않았나?" 놓친 항목을 확인해요.</p></div>
+      <div class="card-w pop-card"><div class="serif" style="font-size:30px;color:#A8C5E8;">03</div><strong>편향성</strong><p style="font-size:13px;color:#5F5F5F;line-height:1.7;margin-top:8px;">"내 가치관과 맞는가?" 한쪽으로 치우치지 않았는지 봐요.</p></div>
     </div>
   </div>
 </div>
 
 <!-- SLIDE 9: 발표하기 -->
-<div class="slide" id="slide-9">
-  <div class="slide-inner">
-    <div class="head-bar reveal-1"><h1>발표하기</h1></div>
-    <div class="two-col">
-      <div>
-        <span class="pill-label reveal-2">PRESENTATION</span>
-        <p class="reveal-2" style="font-size:15px;line-height:1.8;margin-bottom:18px;">생성된 웹페이지로 <strong>5분간 포트폴리오를 발표</strong>하고, 다음 기준으로 평가해봐요.</p>
-        <div class="card-box reveal-3">
-          <div style="font-size:14px;font-weight:600;color:#2BB8C4;margin-bottom:12px;">📊 발표 흐름 추천</div>
-          <div style="margin-bottom:10px;"><b>1. 인사 및 목표 소개</b> <span style="font-size:11px;color:#888;">60초</span><br><span style="font-size:12px;color:#888;">우리 조의 투자 목표(안정형/성장형)는?</span></div>
-          <div style="margin-bottom:10px;"><b>2. 포트폴리오 설명</b> <span style="font-size:11px;color:#888;">3분</span><br><span style="font-size:12px;color:#888;">왜 이렇게 구성했는가? (핵심 이유 1~2)</span></div>
-          <div><b>3. 위험 요인 및 결론</b> <span style="font-size:11px;color:#888;">60초</span><br><span style="font-size:12px;color:#888;">어떤 위험이 있으며, 결론은?</span></div>
-        </div>
+<div class="slide" id="slide-9" style="padding: 0;">
+  <div style="background: #A8C5E8; width: 100%; height: 100vh; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center;">
+    <img src="assets/hydrangea-cluster.png" alt="" style="position:absolute; left:-30px; top:-20px; width:200px;"/>
+    <img src="assets/hydrangea-cluster.png" alt="" style="position:absolute; right:-30px; bottom:-10px; width:200px;"/>
+    <img src="assets/butterfly.png" alt="" class="float-bfly" style="position:absolute; right:160px; top:80px; width:46px;"/>
+    <img src="assets/hydrangea-main.png" alt="" style="position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); width:460px; opacity:0.15;"/>
+    <img src="assets/butterfly.png" alt="" class="crossing-bfly"/>
+    <div style="position: relative; z-index: 2; text-align: center; max-width: 720px; padding: 0 40px;">
+      <div class="italic-cap reveal-1" style="font-size: 16px; color: #FFFFFF; opacity: 0.85; letter-spacing: 3px;">Presentation</div>
+      <h2 class="serif" style="font-size: 60px; font-weight: 500; color: #FFFFFF; letter-spacing: 4px; margin: 8px 0; line-height: 1;">
+        <span class="letter">L</span><span class="letter">E</span><span class="letter">T</span><span class="letter">'</span><span class="letter">S</span><span style="display:inline-block;width:20px;"></span><span class="letter">S</span><span class="letter">H</span><span class="letter">A</span><span class="letter">R</span><span class="letter">E</span>
+      </h2>
+      <p class="italic-cap reveal-3" style="font-size: 20px; color: #FFFFFF; margin: 10px 0 20px; opacity: 0.95;">우리 조의 포트폴리오를 발표해요</p>
+      <div class="reveal-4" style="display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;">
+        <div style="background: rgba(255,255,255,0.2); border-radius: 12px; padding: 14px 22px; backdrop-filter: blur(10px); color:#FFF; font-size:13px;">⏱ 발표 5분 + 질의응답 1분</div>
+        <div style="background: rgba(255,255,255,0.2); border-radius: 12px; padding: 14px 22px; backdrop-filter: blur(10px); color:#FFF; font-size:13px;">📊 명확성·타당성·윤리성·팀워크</div>
       </div>
-      <div>
-        <div style="display:flex; gap:12px; margin-bottom:18px;">
-          <div class="card-box" style="flex:1; padding:14px 18px;"><div style="font-size:11px;color:#888;">⏱ TIME LIMIT</div><b style="font-size:14px;">발표 5분 + 질의응답 1분</b></div>
-          <div class="card-box" style="flex:1; padding:14px 18px;"><div style="font-size:11px;color:#888;">🖥 METHOD</div><b style="font-size:14px;">웹앱 화면 공유 발표</b></div>
-        </div>
-        <div class="card-box reveal-3">
-          <div style="font-size:14px;font-weight:600;color:#B58A1A;margin-bottom:14px;">💡 평가 루브릭</div>
-          <div class="rubric-item"><span class="rubric-icon">🔍</span><div><b>명확성</b> <span style="font-size:12px;color:#888;">— 목표와 구성이 명확히 전달됐는가?</span></div></div>
-          <div class="rubric-item"><span class="rubric-icon">⚖️</span><div><b>타당성</b> <span style="font-size:12px;color:#888;">— 구성 이유가 논리적이고 타당한가?</span></div></div>
-          <div class="rubric-item"><span class="rubric-icon">🤖</span><div><b>윤리성</b> <span style="font-size:12px;color:#888;">— AI 활용 윤리(출처 등)를 지켰는가?</span></div></div>
-          <div class="rubric-item" style="margin-bottom:0;"><span class="rubric-icon">👥</span><div><b>팀워크</b> <span style="font-size:12px;color:#888;">— 조원 모두가 발표에 기여했는가?</span></div></div>
-        </div>
-        <div class="dark-note reveal-4" style="margin-top:16px;">
-          <div class="nt">💬 Q&A RULES</div>
-          <div style="font-size:12px;">· 발표 내용과 관련된 질문만 진행<br>· 질문의 요지를 파악해 명확히 답변</div>
-        </div>
-      </div>
+      <p class="reveal-4" style="font-size: 14px; color: #FFFFFF; opacity: 0.85; margin-top: 24px;">🌸 BLOOM 워크숍을 완성한 여러분, 멋져요!</p>
     </div>
   </div>
 </div>
@@ -398,7 +370,7 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
   <div class="dot" data-slide="3"><span class="dot-label">퀴즈</span></div>
   <div class="dot" data-slide="4"><span class="dot-label">실습 표지</span></div>
   <div class="dot" data-slide="5"><span class="dot-label">시뮬레이터 규칙</span></div>
-  <div class="dot" data-slide="6"><span class="dot-label">포트폴리오 구성</span></div>
+  <div class="dot" data-slide="6"><span class="dot-label">구성하기</span></div>
   <div class="dot" data-slide="7"><span class="dot-label">웹페이지 생성</span></div>
   <div class="dot" data-slide="8"><span class="dot-label">답변 검증</span></div>
   <div class="dot" data-slide="9"><span class="dot-label">발표하기</span></div>
@@ -457,28 +429,13 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
   });
   updateUI();
 
-  // 퀴즈 1 (OX)
   window.answerOX = function(choice) {
-    var o = document.getElementById('ox-o'), x = document.getElementById('ox-x');
-    if (choice === 'X') {
-      x.classList.add('correct');
-      document.getElementById('oxAnswer').classList.add('show');
-    } else {
-      o.classList.add('wrong');
-      o.classList.add('shake');
-      setTimeout(function(){ o.classList.remove('shake','wrong'); }, 600);
-    }
+    if (choice === 'X') { document.getElementById('ox-x').classList.add('correct'); document.getElementById('oxAnswer').classList.add('show'); }
+    else { var o = document.getElementById('ox-o'); o.classList.add('wrong','shake'); setTimeout(function(){ o.classList.remove('wrong','shake'); }, 600); }
   };
-  // 퀴즈 2 (MC)
   window.answerMC = function(el) {
-    if (el.dataset.c === 'true') {
-      el.classList.add('correct');
-      document.getElementById('mcAnswer').classList.add('show');
-    } else {
-      el.classList.add('wrong');
-      el.classList.add('shake');
-      setTimeout(function(){ el.classList.remove('shake','wrong'); }, 600);
-    }
+    if (el.dataset.c === 'true') { el.classList.add('correct'); document.getElementById('mcAnswer').classList.add('show'); }
+    else { el.classList.add('wrong','shake'); setTimeout(function(){ el.classList.remove('wrong','shake'); }, 600); }
   };
 })();
 </script>
