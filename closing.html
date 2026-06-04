@@ -5,72 +5,85 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>여정의 마무리 — BLOOM</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Cormorant+Garamond:ital@1&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700&display=swap">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.min.css">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
-html, body { height: 100%; }
-body { font-family: 'Pretendard', -apple-system, sans-serif; background: linear-gradient(165deg,#A8C5E8 0%,#B8D0EC 55%,#C5D5E8 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; padding: 40px 24px; }
+html, body { height: 100%; overflow: hidden; }
+body { font-family: 'Pretendard', -apple-system, sans-serif; color: #1A1A1A; background: #A8C5E8; }
 .serif { font-family: 'Playfair Display', serif; }
-.cg { font-family: 'Cormorant Garamond', serif; font-style: italic; }
+.italic-cap { font-family: 'Cormorant Garamond', serif; font-style: italic; }
 
-.deco { position: fixed; pointer-events: none; opacity: 0.9; z-index: 1; }
-.fade-up { opacity: 0; transform: translateY(24px); animation: fadeUp 0.9s cubic-bezier(0.22,1,0.36,1) forwards; }
-.d1 { animation-delay: 0.1s; } .d2 { animation-delay: 0.3s; } .d3 { animation-delay: 0.5s; } .d4 { animation-delay: 0.7s; } .d5 { animation-delay: 0.9s; } .d6 { animation-delay: 1.1s; }
-@keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+@keyframes floatBfly {
+  0%, 100% { transform: translate(0, 0) rotate(-5deg); }
+  50% { transform: translate(8px, -12px) rotate(5deg); }
+}
+@keyframes floatBflySlow {
+  0%, 100% { transform: translate(0, 0) rotate(5deg); }
+  50% { transform: translate(-10px, -8px) rotate(-3deg); }
+}
+.float-bfly { animation: floatBfly 4s ease-in-out infinite; }
+.float-bfly-slow { animation: floatBflySlow 5s ease-in-out infinite; }
 
-.stage { text-align: center; position: relative; z-index: 2; max-width: 680px; }
-.brand { font-family: 'Cormorant Garamond', serif; font-style: italic; letter-spacing: 6px; color: rgba(255,255,255,0.85); font-size: 16px; }
-.divider { display: flex; align-items: center; justify-content: center; gap: 14px; margin: 16px 0 26px; }
-.divider .line { width: 70px; height: 1px; background: rgba(255,255,255,0.5); }
-.divider .bf { font-size: 18px; }
-.title { font-family: 'Playfair Display', serif; font-weight: 700; color: #FFF; font-size: clamp(48px, 11vw, 86px); line-height: 1; letter-spacing: 3px; text-shadow: 0 4px 20px rgba(90,110,150,0.25); }
-.subt { color: rgba(255,255,255,0.94); font-size: clamp(16px,4vw,20px); margin-top: 20px; font-weight: 500; }
-.small-line { width: 60px; height: 1px; background: rgba(255,255,255,0.6); margin: 28px auto; }
-.info-pill { background: rgba(255,255,255,0.22); backdrop-filter: blur(8px); border-radius: 100px; padding: 15px 30px; display: inline-flex; align-items: center; gap: 14px; }
-.info-pill .logo { width: 38px; height: 38px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.8); display: flex; align-items: center; justify-content: center; font-size: 18px; color: #FFF; font-family: 'Cormorant Garamond', serif; }
-.info-pill .txt-main { color: #FFF; font-weight: 600; font-size: 15px; }
-.info-pill .txt-sub { font-family: 'Cormorant Garamond', serif; font-style: italic; color: rgba(255,255,255,0.85); font-size: 13px; }
-.cta { background: #E91A75; color: #FFF; border: none; border-radius: 100px; padding: 19px 50px; font-size: 17px; font-weight: 700; font-family: inherit; cursor: pointer; margin-top: 30px; box-shadow: 0 8px 26px rgba(233,26,117,0.38); transition: all 0.25s; display: inline-flex; align-items: center; gap: 12px; text-decoration: none; }
-.cta:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(233,26,117,0.48); }
-.seeyou { font-family: 'Cormorant Garamond', serif; font-style: italic; color: rgba(255,255,255,0.85); font-size: 16px; margin-top: 30px; }
-.home-link { position: fixed; top: 22px; left: 22px; z-index: 10; color: rgba(255,255,255,0.85); text-decoration: none; font-size: 13px; font-weight: 600; background: rgba(255,255,255,0.18); backdrop-filter: blur(6px); padding: 8px 16px; border-radius: 100px; }
+.home-link { position: fixed; top: 22px; left: 22px; z-index: 10; color: rgba(255,255,255,0.9); text-decoration: none; font-size: 13px; font-weight: 600; background: rgba(255,255,255,0.18); backdrop-filter: blur(6px); padding: 8px 16px; border-radius: 100px; }
+
+.cta-btn {
+  background: #E91A75; color: #FFFFFF; padding: 16px 38px; border-radius: 100px;
+  font-size: 15px; font-weight: 500; text-decoration: none;
+  display: inline-flex; align-items: center; gap: 12px;
+  box-shadow: 0 8px 20px rgba(233,26,117,0.4); transition: all 0.3s ease; margin-top: 8px;
+}
+.cta-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(233,26,117,0.55); }
 </style>
 </head>
 <body>
 
 <a href="index.html" class="home-link">‹ 처음으로</a>
 
-<div class="deco" style="top:4%;left:3%;font-size:64px;">🌸</div>
-<div class="deco" style="bottom:6%;right:5%;font-size:58px;">💐</div>
-<div class="deco" style="top:12%;right:10%;font-size:30px;">🦋</div>
-<div class="deco" style="bottom:14%;left:7%;font-size:34px;">🌿</div>
-<div class="deco" style="top:45%;left:6%;font-size:24px;">🦋</div>
+<div style="background: #A8C5E8; padding: 60px 70px; height: 100vh; position: relative; overflow: hidden;">
+  <!-- 모서리 장식 -->
+  <img src="assets/hydrangea-cluster.png" alt="" style="position: absolute; left: -30px; top: -20px; width: 230px;"/>
+  <img src="assets/green-leaves.png" alt="" style="position: absolute; right: 50px; top: 50px; width: 110px; opacity: 0.65;"/>
+  <img src="assets/butterfly.png" alt="" class="float-bfly" style="position: absolute; right: 200px; top: 70px; width: 48px;"/>
+  <img src="assets/green-leaves.png" alt="" style="position: absolute; left: 70px; bottom: 80px; width: 140px; opacity: 0.7; transform: rotate(20deg);"/>
+  <img src="assets/hydrangea-cluster.png" alt="" style="position: absolute; right: -30px; bottom: -10px; width: 210px;"/>
+  <img src="assets/butterfly.png" alt="" class="float-bfly-slow" style="position: absolute; left: 220px; top: 50px; width: 36px;"/>
 
-<div class="stage">
-  <div class="brand fade-up d1">BLOOM</div>
-  <div class="divider fade-up d1"><span class="line"></span><span class="bf">🦋</span><span class="line"></span></div>
+  <!-- 중앙 배경 큰 수국 -->
+  <img src="assets/hydrangea-main.png" alt="" style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 500px; opacity: 0.15;"/>
 
-  <div class="title fade-up d2">THANK YOU</div>
-  <div class="subt fade-up d3">이 여정의 마무리를 지어볼까요?</div>
+  <!-- 중앙 콘텐츠 -->
+  <div style="position: relative; z-index: 2; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 28px;">
 
-  <div class="small-line fade-up d4"></div>
+    <div class="italic-cap" style="font-size: 18px; color: #FFFFFF; opacity: 0.85; letter-spacing: 4px;">BLOOM</div>
 
-  <div class="fade-up d5">
-    <div class="info-pill">
-      <div class="logo">e</div>
-      <div style="text-align:left;">
-        <div class="txt-main">한국디지털미디어고등학교 e-비즈니스과</div>
-        <div class="txt-sub">BLOOM · 2026 Summer · 학과체험</div>
+    <div style="display: flex; align-items: center; justify-content: center; gap: 20px;">
+      <div style="width: 50px; height: 1px; background: #FFFFFF; opacity: 0.6;"></div>
+      <img src="assets/butterfly.png" alt="" style="width: 32px; height: 32px;"/>
+      <div style="width: 50px; height: 1px; background: #FFFFFF; opacity: 0.6;"></div>
+    </div>
+
+    <h2 class="serif" style="font-size: 100px; font-weight: 500; color: #FFFFFF; letter-spacing: 6px; margin: 0; line-height: 1;">THANK YOU</h2>
+
+    <p class="italic-cap" style="font-size: 22px; color: #FFFFFF; margin: 0; opacity: 0.95;">이 여정의 마무리를 지어볼까요?</p>
+
+    <div style="width: 80px; height: 1px; background: #FFFFFF; opacity: 0.5; margin: 12px 0;"></div>
+
+    <div style="background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px); padding: 22px 44px; border-radius: 100px; display: flex; align-items: center; gap: 20px; border: 1px solid rgba(255,255,255,0.3);">
+      <img src="assets/school-logo.png" alt="" style="width: 40px; height: 40px; object-fit: contain; filter: brightness(0) invert(1);"/>
+      <div style="text-align: left;">
+        <div class="serif" style="font-size: 16px; color: #FFFFFF; font-weight: 500;">한국디지털미디어고등학교 e-비즈니스과</div>
+        <div class="italic-cap" style="font-size: 13px; color: #FFFFFF; opacity: 0.85;">BLOOM · 2026 Summer · 학과체험</div>
       </div>
     </div>
-  </div>
 
-  <div class="fade-up d6">
-    <a href="souvenir.html" class="cta">🏆 나의 기념 페이지 보기 →</a>
-  </div>
+    <!-- 기념 페이지 버튼 -->
+    <a href="souvenir.html" class="cta-btn">
+      🏆 나의 기념 페이지 보기 <span style="font-size: 16px;">→</span>
+    </a>
 
-  <div class="seeyou fade-up d6">See you around 🌸</div>
+    <p class="italic-cap" style="font-size: 14px; color: #FFFFFF; margin: 12px 0 0; opacity: 0.7;">See you around 🌸</p>
+  </div>
 </div>
 
 </body>
