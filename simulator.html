@@ -47,9 +47,9 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
 .cta.ready { background: #FF6FA5; cursor: pointer; box-shadow: 0 5px 0 #E0578E; }
 .cta.ready:hover { transform: translateY(-2px); box-shadow: 0 7px 0 #E0578E; }
 
-.pips { display: flex; gap: 8px; justify-content: center; margin-bottom: 16px; }
-.pip { width: 10px; height: 10px; border-radius: 50%; background: #F0E0E8; }
-.pip.on { background: #FF6FA5; width: 26px; border-radius: 5px; }
+.pips { display: flex; gap: 7px; justify-content: center; margin-bottom: 16px; }
+.pip { width: 9px; height: 9px; border-radius: 50%; background: #F0E0E8; }
+.pip.on { background: #FF6FA5; width: 24px; border-radius: 5px; }
 .news-banner { background: #5A4A55; color: #FFF3F8; border-radius: 20px; padding: 22px 26px; margin-bottom: 18px; text-align: center; }
 .news-emoji { font-size: 52px; line-height: 1; }
 .news-title { font-size: 22px; font-weight: 700; margin: 8px 0 4px; }
@@ -180,7 +180,16 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
       hint:'💡 성장주가 활짝 피었어요! 더 오를까요? 지금 차익을 챙길까요?' },
     { emoji:'💚', title:'라운드 3 · 착한 소비 트렌드!', art:'"가치소비가 확산되며 신념 있는 브랜드와 가성비 브랜드가 사랑받고 있다. 환경·윤리를 중시하는 기업이 주목받는 중…"',
       moves:{deposit:3,bond:4,daiso:12,apple:5,pata:22,netflix:6,musinsa:10,startup:-5},
-      hint:'💡 1부에서 배운 가치·감성 브랜드가 빛을 발해요! 마지막 라운드, 후회 없는 선택을!' }
+      hint:'💡 1부에서 배운 가치·감성 브랜드가 빛을 발해요! 어떻게 대응할까요?' },
+    { emoji:'📱', title:'라운드 4 · SNS 대유행! 입소문 마케팅', art:'"SNS에서 입소문을 탄 브랜드들이 화제다. 특히 10·20대가 열광하는 패션·콘텐츠 기업이 빠르게 성장하고 있다…"',
+      moves:{deposit:3,bond:3,daiso:5,apple:8,pata:7,netflix:16,musinsa:24,startup:12},
+      hint:'💡 젊은 층 인기 브랜드가 들썩여요. 무신사·넷플릭스, 지금이 기회일까요?' },
+    { emoji:'💸', title:'라운드 5 · 금리 인상! 빚 부담 커짐', art:'"중앙은행이 금리를 올리며 돈 빌리기가 어려워졌다. 빚이 많은 성장 기업은 부담이 커지고, 이자를 주는 안전 자산이 다시 주목받는다…"',
+      moves:{deposit:5,bond:8,daiso:3,apple:-6,pata:-4,netflix:-9,musinsa:-8,startup:-28},
+      hint:'💡 금리가 오르면 안전 자산이 유리해요. 위험 종목을 정리할 타이밍일까요?' },
+    { emoji:'🎉', title:'라운드 6 · 연말 소비 시즌! 쇼핑 대목', art:'"연말을 맞아 소비가 폭발적으로 늘고 있다. 쇼핑·패션·생활용품 브랜드가 대목을 맞으며 시장 분위기가 훈훈하다…"',
+      moves:{deposit:3,bond:3,daiso:15,apple:12,pata:14,netflix:8,musinsa:18,startup:6},
+      hint:'💡 마지막 라운드! 연말 대목에 어떤 브랜드가 웃을까요? 후회 없는 선택을!' }
   ];
 
   var portfolio = {}, holdingValues = {}, currentRound = 0, assetHistory = [1000], tradeChoice = {};
@@ -266,7 +275,6 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
       var mv = r.moves[id] || 0;
       holdingValues[id] = holdingValues[id] * (1 + mv/100);
       if (tradeChoice[id] === 'sell') { holdingValues['deposit'] = (holdingValues['deposit']||0) + holdingValues[id]; holdingValues[id] = 0; }
-      if (tradeChoice[id] === 'buy') { /* 안정형 더사기: 표시는 했지만 비중 고정 단순화 */ }
     });
     var na = 0; Object.keys(holdingValues).forEach(function(id){ na += holdingValues[id]; });
     na = Math.round(na);
@@ -321,11 +329,11 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
     });
 
     var comment = '';
-    if (pf >= 200) comment = '🎉 <strong>대박! 투자 천재인데요?</strong> 정보와 뉴스를 잘 읽었어요. 하지만 운도 따랐다는 걸 기억해요 — 투자에 100% 정답은 없어요!';
+    if (pf >= 250) comment = '🎉 <strong>대박! 투자 천재인데요?</strong> 정보와 뉴스를 잘 읽었어요. 하지만 운도 따랐다는 걸 기억해요 — 투자에 100% 정답은 없어요!';
     else if (pf >= 0) comment = '👍 <strong>안정적으로 잘 지켰어요!</strong> 큰 손실 없이 자산을 키웠네요. 분산의 힘이죠.';
-    else if (pf >= -150) comment = '😅 <strong>아쉽게 손실이 났어요.</strong> 괜찮아요! 어떤 뉴스에 어떤 종목이 흔들렸는지 분석해보면 다음엔 더 잘할 수 있어요.';
+    else if (pf >= -200) comment = '😅 <strong>아쉽게 손실이 났어요.</strong> 괜찮아요! 어떤 뉴스에 어떤 종목이 흔들렸는지 분석해보면 다음엔 더 잘할 수 있어요.';
     else comment = '😢 <strong>큰 손실이 났네요.</strong> 한 종목에 너무 몰빵하지 않았는지 돌아봐요. 분산 투자가 왜 중요한지 몸으로 배운 값진 경험이에요!';
-    comment += '<br><br>💡 <strong>발표 준비:</strong> 어떤 뉴스에 왜 사고팔았나요? 안정형과 성장형 중 뭐가 더 컸나요? 이 이야기를 담아보세요!';
+    comment += '<br><br>💡 <strong>발표 준비:</strong> 6번의 뉴스 중 어떤 것에 왜 사고팔았나요? 안정형과 성장형 중 뭐가 더 컸나요? 이 이야기를 담아보세요!';
     document.getElementById('finalComment').innerHTML = comment;
 
     try {
