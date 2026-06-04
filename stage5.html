@@ -10,217 +10,237 @@
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html, body { height: 100%; overflow: hidden; }
-body { font-family: 'Pretendard', -apple-system, sans-serif; color: #1A1A1A; background: #FAF6EC; font-size: 15px; }
+body { font-family: 'Pretendard', -apple-system, sans-serif; color: #FFF; background: #000; font-size: 15px; }
 .serif { font-family: 'Playfair Display', serif; }
 .italic-cap { font-family: 'Cormorant Garamond', serif; font-style: italic; }
 
-.home-btn { position: fixed; top: 20px; left: 20px; z-index: 100; padding: 8px 16px; background: rgba(255,255,255,0.9); border: 1px solid rgba(168,197,232,0.5); border-radius: 20px; font-size: 13px; color: #5F5F5F; text-decoration: none; font-family: 'Cormorant Garamond', serif; font-style: italic; transition: all 0.3s; }
-.home-btn:hover { background: #A8C5E8; color: #FFFFFF; }
-.next-btn-top { position: fixed; top: 20px; right: 20px; z-index: 100; padding: 8px 18px; background: #E91A75; border-radius: 20px; font-size: 13px; color: #FFF; text-decoration: none; transition: all 0.3s; }
+.home-btn { position: fixed; top: 20px; left: 20px; z-index: 200; padding: 8px 16px; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.25); border-radius: 20px; font-size: 13px; color: #FFF; text-decoration: none; font-family: 'Cormorant Garamond', serif; font-style: italic; transition: all 0.3s; backdrop-filter: blur(10px); }
+.home-btn:hover { background: rgba(255,255,255,0.25); }
+.next-btn-top { position: fixed; top: 20px; right: 20px; z-index: 200; padding: 8px 18px; background: #E91A75; border-radius: 20px; font-size: 13px; color: #FFF; text-decoration: none; transition: all 0.3s; }
 .next-btn-top:hover { background: #C71060; }
 
-.wrap { width: 100vw; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 60px 40px 30px; gap: 16px; }
-.title-row { text-align: center; }
-.stage-label { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 15px; color: #A8C5E8; }
-.title { font-family: 'Playfair Display', serif; font-size: 30px; font-weight: 500; margin-top: 2px; }
+/* 무대 = 전체화면 검은 배경 */
+.stage { width: 100vw; height: 100vh; position: relative; background: #000; display: flex; align-items: center; justify-content: center; overflow: hidden; }
 
-.main-area { display: flex; gap: 32px; align-items: center; }
+/* 꽃 영상/이미지 (전체화면) */
+#bloomVideo { max-width: 100%; max-height: 100%; object-fit: contain; }
+#svgFlower { width: 420px; height: 420px; }
 
-/* 꽃 무대 */
-.flower-stage { width: 380px; height: 380px; border-radius: 24px; background: linear-gradient(160deg, #EAF1F9 0%, #FBE4EE 100%); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; box-shadow: 0 20px 50px rgba(168,197,232,0.3); }
-#flowerHost { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
-/* 영상 교체용: <video> 넣을 자리 */
-#bloomVideo { width: 100%; height: 100%; object-fit: cover; display: none; }
+/* 상단 타이틀 */
+.top-title { position: absolute; top: 22px; left: 50%; transform: translateX(-50%); z-index: 150; text-align: center; }
+.top-title .lbl { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 14px; color: rgba(255,255,255,0.6); }
+.top-title .ttl { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 500; color: rgba(255,255,255,0.9); }
 
-/* 오른쪽 패널 */
-.side-panel { display: flex; flex-direction: column; gap: 16px; width: 300px; }
-.cam-box { width: 100%; height: 200px; border-radius: 16px; background: #1A1A1A; position: relative; overflow: hidden; border: 2px solid #C8DDB5; }
+/* 웹캠 (오른쪽 아래 구석) */
+.cam-box { position: absolute; bottom: 70px; right: 24px; width: 200px; height: 150px; border-radius: 14px; background: #1A1A1A; overflow: hidden; border: 2px solid rgba(255,255,255,0.25); z-index: 150; box-shadow: 0 8px 30px rgba(0,0,0,0.5); }
 #cam { width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1); }
-.cam-status { position: absolute; bottom: 8px; left: 8px; font-size: 11px; color: #FFF; background: rgba(0,0,0,0.5); padding: 4px 10px; border-radius: 10px; }
-.gesture-badge { position: absolute; top: 8px; right: 8px; font-size: 24px; background: rgba(255,255,255,0.85); width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+.gesture-badge { position: absolute; top: 8px; right: 8px; font-size: 22px; background: rgba(255,255,255,0.9); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+.cam-status { position: absolute; bottom: 6px; left: 6px; font-size: 10px; color: #FFF; background: rgba(0,0,0,0.6); padding: 3px 8px; border-radius: 8px; }
+.cam-box.hidden { display: none; }
 
-.bloom-meter { background: #FFF; border-radius: 14px; padding: 16px 18px; border: 1px solid #E8E0CC; }
-.meter-label { font-size: 12px; color: #5F5F5F; margin-bottom: 8px; display: flex; justify-content: space-between; }
-.meter-label b { color: #E91A75; font-family: 'Playfair Display', serif; }
-.meter-track { height: 12px; background: #F0E9D8; border-radius: 6px; overflow: hidden; }
-.meter-fill { height: 100%; background: linear-gradient(90deg, #A8C5E8, #E91A75); border-radius: 6px; width: 0%; transition: width 0.15s ease; }
+/* 하단 재생바 */
+.bottom-bar { position: absolute; bottom: 0; left: 0; right: 0; padding: 16px 30px 18px; background: linear-gradient(transparent, rgba(0,0,0,0.7)); z-index: 150; display: flex; align-items: center; gap: 16px; }
+.play-track { flex: 1; height: 6px; background: rgba(255,255,255,0.2); border-radius: 3px; position: relative; cursor: pointer; }
+.play-fill { height: 100%; background: #FF7A1A; border-radius: 3px; width: 0%; transition: width 0.12s ease; }
+.play-knob { position: absolute; top: 50%; transform: translate(-50%,-50%); width: 14px; height: 14px; background: #FF7A1A; border-radius: 50%; left: 0%; transition: left 0.12s ease; box-shadow: 0 0 8px rgba(255,122,26,0.8); }
+.time-label { font-size: 12px; color: rgba(255,255,255,0.7); font-variant-numeric: tabular-nums; }
 
-.fallback { background: rgba(168,197,232,0.12); border-radius: 14px; padding: 14px 18px; }
-.fallback-label { font-size: 12px; color: #5F5F5F; margin-bottom: 8px; }
-.slider { width: 100%; cursor: pointer; accent-color: #E91A75; }
+/* 컨트롤 (좌하단) */
+.controls { position: absolute; bottom: 70px; left: 24px; z-index: 150; display: flex; flex-direction: column; gap: 10px; }
+.ctrl-btn { display: inline-flex; align-items: center; gap: 8px; padding: 11px 18px; border-radius: 100px; font-size: 13px; cursor: pointer; transition: all 0.3s; border: 1px solid rgba(255,255,255,0.25); background: rgba(255,255,255,0.1); color: #FFF; backdrop-filter: blur(10px); white-space: nowrap; }
+.ctrl-btn:hover { background: rgba(255,255,255,0.22); }
+.ctrl-btn.primary { background: rgba(233,26,117,0.8); border-color: #E91A75; }
+.ctrl-btn.primary:hover { background: #E91A75; }
+.ctrl-btn.done { background: rgba(99,153,34,0.7); border-color: #639922; }
 
-.hint-bar { text-align: center; font-size: 13px; color: #5F5F5F; background: rgba(255,255,255,0.7); padding: 10px 24px; border-radius: 30px; }
-.hint-bar b { color: #E91A75; }
-
-.start-overlay { position: fixed; inset: 0; background: rgba(26,26,26,0.85); backdrop-filter: blur(6px); display: flex; align-items: center; justify-content: center; z-index: 500; }
-.start-card { background: #FAF6EC; border-radius: 24px; padding: 44px 50px; text-align: center; max-width: 440px; }
+/* 시작 오버레이 */
+.start-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.92); display: flex; align-items: center; justify-content: center; z-index: 500; }
+.start-card { text-align: center; max-width: 460px; padding: 40px; }
 .btn { padding: 14px 32px; border-radius: 100px; font-size: 15px; cursor: pointer; border: none; background: #E91A75; color: #FFF; font-family: 'Pretendard'; transition: all 0.3s; }
-.btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(233,26,117,0.4); }
+.btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(233,26,117,0.5); }
+
+.flash-msg { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); z-index: 300; background: rgba(0,0,0,0.8); padding: 16px 28px; border-radius: 12px; font-size: 14px; opacity: 0; transition: opacity 0.4s; pointer-events: none; }
+.flash-msg.show { opacity: 1; }
 </style>
 </head>
 <body>
 
-<a href="stage4.html" class="home-btn">‹ 이전으로</a>
+<a href="stage4-2.html" class="home-btn">‹ 이전으로</a>
 <a href="stage6.html" class="next-btn-top">다음 →</a>
 
-<!-- 시작 오버레이 (카메라 권한 유도) -->
+<!-- 시작 오버레이 -->
 <div class="start-overlay" id="startOverlay">
   <div class="start-card">
-    <div style="font-size: 50px; margin-bottom: 12px;">🌸✋</div>
-    <h2 class="serif" style="font-size: 26px; font-weight: 500; margin-bottom: 12px;">내 손으로 꽃 피우기</h2>
-    <p style="font-size: 14px; color: #5F5F5F; line-height: 1.7; margin-bottom: 24px;">웹캠 앞에서 <strong>주먹을 쥐면 꽃이 닫히고</strong>,<br><strong>손바닥을 펴면 꽃이 활짝</strong> 피어나요!<br><br>시작하면 카메라 권한을 <strong>허용</strong>해주세요 📷</p>
-    <button class="btn" onclick="startApp()">시작하기 →</button>
-    <div style="margin-top: 14px;"><a href="#" onclick="startApp(true); return false;" style="font-size: 12px; color: #888;">카메라 없이 슬라이더로 할래요</a></div>
+    <div style="font-size: 50px; margin-bottom: 14px;">🌸✋</div>
+    <h2 class="serif" style="font-size: 28px; font-weight: 500; margin-bottom: 14px;">내 손으로 꽃 피우기</h2>
+    <p style="font-size: 14px; color: rgba(255,255,255,0.7); line-height: 1.8; margin-bottom: 26px;">
+      내 꽃 영상을 올리고, <strong style="color:#FFF;">웹캠 앞에서 손을 펴고 쥐어</strong> 꽃을 피워보세요.<br>
+      ✊ 주먹 → 봉오리 &nbsp;·&nbsp; ✋ 손바닥 → 활짝!
+    </p>
+    <button class="btn" onclick="enterStage()">시작하기 →</button>
   </div>
 </div>
 
-<div class="wrap">
-  <div class="title-row">
-    <div class="stage-label">Stage 05 · BLOOM</div>
-    <div class="title">내 손으로 꽃 피우기</div>
+<div class="stage" id="stage">
+  <div class="top-title">
+    <div class="lbl">Stage 05 · BLOOM</div>
+    <div class="ttl">내 손으로 꽃 피우기</div>
   </div>
 
-  <div class="main-area">
-    <!-- 꽃 무대 -->
-    <div class="flower-stage">
-      <div id="flowerHost">
-        <!-- 임시 SVG 꽃 (나중에 영상으로 교체) -->
-        <svg id="svgFlower" viewBox="0 0 200 200" style="width: 280px; height: 280px;">
-          <g id="petals" transform="translate(100,100)">
-            <ellipse class="petal" cx="0" cy="-45" rx="22" ry="48" fill="#E891B5"/>
-            <ellipse class="petal" cx="43" cy="-14" rx="22" ry="48" fill="#E891B5" transform="rotate(72)"/>
-            <ellipse class="petal" cx="26" cy="36" rx="22" ry="48" fill="#E891B5" transform="rotate(144)"/>
-            <ellipse class="petal" cx="-26" cy="36" rx="22" ry="48" fill="#E891B5" transform="rotate(216)"/>
-            <ellipse class="petal" cx="-43" cy="-14" rx="22" ry="48" fill="#E891B5" transform="rotate(288)"/>
-          </g>
-          <circle cx="100" cy="100" r="22" fill="#F5BC4D"/>
-        </svg>
-      </div>
-      <!-- 영상 교체 시 사용: <video id="bloomVideo" muted playsinline></video> -->
-    </div>
+  <!-- 꽃 영상 (기본 SVG, 업로드/기본영상으로 교체) -->
+  <video id="bloomVideo" muted playsinline style="display:none;"></video>
+  <svg id="svgFlower" viewBox="0 0 200 200">
+    <g id="petals" transform="translate(100,100)">
+      <ellipse class="petal" cx="0" cy="-45" rx="22" ry="48" fill="#C9A0E8"/>
+      <ellipse class="petal" cx="0" cy="-45" rx="22" ry="48" fill="#C9A0E8"/>
+      <ellipse class="petal" cx="0" cy="-45" rx="22" ry="48" fill="#C9A0E8"/>
+      <ellipse class="petal" cx="0" cy="-45" rx="22" ry="48" fill="#C9A0E8"/>
+      <ellipse class="petal" cx="0" cy="-45" rx="22" ry="48" fill="#C9A0E8"/>
+    </g>
+    <circle cx="100" cy="100" r="22" fill="#F5D77A"/>
+  </svg>
 
-    <!-- 오른쪽 패널 -->
-    <div class="side-panel">
-      <div class="cam-box">
-        <video id="cam" autoplay playsinline muted></video>
-        <div class="gesture-badge" id="gestureBadge">🖐️</div>
-        <div class="cam-status" id="camStatus">카메라 준비 중...</div>
-      </div>
-      <div class="bloom-meter">
-        <div class="meter-label"><span>개화도</span><b><span id="bloomPct">0</span>%</b></div>
-        <div class="meter-track"><div class="meter-fill" id="meterFill"></div></div>
-      </div>
-      <div class="fallback">
-        <div class="fallback-label">✋ 손이 잘 안 잡히면 직접 조절하세요</div>
-        <input type="range" class="slider" id="manualSlider" min="0" max="100" value="0">
-      </div>
-    </div>
+  <!-- 컨트롤 (좌하단) -->
+  <div class="controls">
+    <label class="ctrl-btn primary" id="uploadBtn" for="videoInput"><span>📁</span><span>내 영상 업로드</span></label>
+    <input type="file" id="videoInput" accept="video/*" style="display:none;">
+    <div class="ctrl-btn" id="defaultBtn" onclick="loadDefault()"><span>🌸</span><span>기본 꽃 영상으로</span></div>
+    <div class="ctrl-btn" id="camBtn" onclick="enableCamera()"><span>📷</span><span>웹캠 손동작 켜기</span></div>
   </div>
 
-  <div class="hint-bar">✊ <b>주먹</b> → 꽃봉오리 닫힘 &nbsp;·&nbsp; ✋ <b>손바닥</b> → 꽃 활짝 피움</div>
+  <!-- 웹캠 (우하단) -->
+  <div class="cam-box hidden" id="camBox">
+    <video id="cam" autoplay playsinline muted></video>
+    <div class="gesture-badge" id="gestureBadge">🖐️</div>
+    <div class="cam-status" id="camStatus">준비 중...</div>
+  </div>
+
+  <!-- 하단 재생바 -->
+  <div class="bottom-bar">
+    <span class="time-label">🌱</span>
+    <div class="play-track" id="playTrack">
+      <div class="play-fill" id="playFill"></div>
+      <div class="play-knob" id="playKnob"></div>
+    </div>
+    <span class="time-label">🌸 <span id="bloomPct">0</span>%</span>
+  </div>
+
+  <div class="flash-msg" id="flashMsg"></div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
 <script>
 (function() {
-  var bloom = 0;        // 0~100 개화도
-  var targetBloom = 0;  // 목표값 (부드럽게 따라감)
+  var bloom = 0, targetBloom = 0;
   var usingCamera = false;
+  var hasVideo = false;
 
-  // 꽃 렌더링 (SVG 버전 — 나중에 영상으로 교체)
-  function renderFlower(v) {
-    document.getElementById('bloomPct').textContent = Math.round(v);
-    document.getElementById('meterFill').style.width = v + '%';
-    // SVG 꽃잎 펼치기: 오므림(0) → 활짝(100)
-    var petals = document.getElementById('petals');
-    if (petals) {
-      var scale = 0.35 + (v / 100) * 0.65;      // 0.35~1.0
-      var spread = (v / 100);                    // 꽃잎 벌어짐
-      petals.style.transform = 'scale(' + scale + ')';
-      var els = petals.querySelectorAll('.petal');
-      els.forEach(function(p, i) {
-        var baseRot = i * 72;
-        p.setAttribute('transform', 'rotate(' + baseRot + ') translate(0,' + (-spread * 10) + ')');
-      });
-    }
-    // ── 영상 버전으로 교체할 때: 아래 주석 해제 ──
-    // var vid = document.getElementById('bloomVideo');
-    // if (vid && vid.duration) { vid.currentTime = (v/100) * vid.duration; }
+  // 감정→기본영상 매핑
+  var videoMap = { joy:'assets/bloom-joy.mp4', anger:'assets/bloom-anger.mp4', depress:'assets/bloom-depress.mp4', anxiety:'assets/bloom-anxiety.mp4' };
+
+  function flash(msg) {
+    var f = document.getElementById('flashMsg');
+    f.textContent = msg; f.classList.add('show');
+    setTimeout(function(){ f.classList.remove('show'); }, 2000);
   }
 
-  // 부드러운 애니메이션 루프
-  function animate() {
-    bloom += (targetBloom - bloom) * 0.15;
-    renderFlower(bloom);
-    requestAnimationFrame(animate);
-  }
-  animate();
-
-  // 슬라이더 (폴백)
-  document.getElementById('manualSlider').addEventListener('input', function() {
-    if (!usingCamera) targetBloom = parseInt(this.value);
-  });
-
-  // ===== 손동작 인식 =====
-  window.startApp = function(skipCamera) {
+  window.enterStage = function() {
     document.getElementById('startOverlay').style.display = 'none';
-    if (skipCamera) {
-      document.getElementById('camStatus').textContent = '슬라이더 모드';
-      return;
-    }
-    initHands();
   };
 
-  function initHands() {
-    if (typeof Hands === 'undefined') {
-      document.getElementById('camStatus').textContent = '손인식 로드 실패 — 슬라이더 사용';
-      return;
-    }
-    var hands = new Hands({ locateFile: function(f) {
-      return 'https://cdn.jsdelivr.net/npm/@mediapipe/hands/' + f;
-    }});
-    hands.setOptions({ maxNumHands: 1, modelComplexity: 0, minDetectionConfidence: 0.6, minTrackingConfidence: 0.5 });
-    hands.onResults(onHands);
+  // 영상 업로드
+  document.getElementById('videoInput').addEventListener('change', function(e) {
+    var file = e.target.files[0];
+    if (!file) return;
+    setVideo(URL.createObjectURL(file));
+    document.getElementById('uploadBtn').classList.add('done');
+    document.getElementById('uploadBtn').innerHTML = '<span>✓</span><span>내 영상 업로드 완료</span>';
+    flash('🌸 내 꽃 영상을 불러왔어요!');
+  });
 
-    var video = document.getElementById('cam');
-    var camera = new Camera(video, {
-      onFrame: async function() { await hands.send({ image: video }); },
-      width: 480, height: 360
-    });
-    camera.start().then(function() {
-      usingCamera = true;
-      document.getElementById('camStatus').textContent = '✅ 손을 보여주세요';
-    }).catch(function() {
-      document.getElementById('camStatus').textContent = '카메라 거부됨 — 슬라이더 사용';
-    });
+  // 기본 영상 (심리테스트 결과 기반)
+  window.loadDefault = function() {
+    var key = 'anxiety';
+    try { var s = localStorage.getItem('bloomEmotion'); if (s) key = JSON.parse(s).key; } catch(err) {}
+    var src = videoMap[key] || videoMap.anxiety;
+    setVideo(src);
+    flash('🌸 기본 꽃 영상을 불러왔어요!');
+  };
+
+  function setVideo(src) {
+    var v = document.getElementById('bloomVideo');
+    v.src = src;
+    v.style.display = 'block';
+    document.getElementById('svgFlower').style.display = 'none';
+    v.load();
+    v.addEventListener('loadedmetadata', function() { hasVideo = true; }, { once: true });
+    v.onerror = function() { flash('⚠️ 영상을 못 불러왔어요. 파일을 확인해주세요.'); };
   }
 
+  // 렌더링
+  function render(v) {
+    var ratio = v / 100;
+    document.getElementById('bloomPct').textContent = Math.round(v);
+    document.getElementById('playFill').style.width = v + '%';
+    document.getElementById('playKnob').style.left = v + '%';
+    if (hasVideo) {
+      var vid = document.getElementById('bloomVideo');
+      if (vid.duration) vid.currentTime = ratio * (vid.duration - 0.05);
+    } else {
+      var petals = document.getElementById('petals');
+      if (petals) {
+        var scale = 0.35 + ratio * 0.65;
+        petals.style.transform = 'scale(' + scale + ')';
+        petals.querySelectorAll('.petal').forEach(function(p, i) {
+          p.setAttribute('transform', 'rotate(' + (i*72) + ') translate(0,' + (-ratio*10) + ')');
+        });
+      }
+    }
+  }
+  function animate() { bloom += (targetBloom - bloom) * 0.15; render(bloom); requestAnimationFrame(animate); }
+  animate();
+
+  // 재생바 클릭/드래그 (폴백)
+  var track = document.getElementById('playTrack'), dragging = false;
+  function seek(e) {
+    var rect = track.getBoundingClientRect();
+    var x = (e.clientX - rect.left) / rect.width;
+    x = Math.max(0, Math.min(1, x));
+    if (!usingCamera) targetBloom = x * 100;
+  }
+  track.addEventListener('mousedown', function(e){ dragging = true; seek(e); });
+  document.addEventListener('mousemove', function(e){ if (dragging) seek(e); });
+  document.addEventListener('mouseup', function(){ dragging = false; });
+
+  // 웹캠
+  window.enableCamera = function() {
+    document.getElementById('camBox').classList.remove('hidden');
+    document.getElementById('camBtn').style.display = 'none';
+    if (typeof Hands === 'undefined') { document.getElementById('camStatus').textContent = '손인식 로드 실패'; flash('손인식을 못 불러왔어요. 재생바를 사용하세요.'); return; }
+    try {
+      var hands = new Hands({ locateFile: function(f){ return 'https://cdn.jsdelivr.net/npm/@mediapipe/hands/' + f; }});
+      hands.setOptions({ maxNumHands:1, modelComplexity:0, minDetectionConfidence:0.6, minTrackingConfidence:0.5 });
+      hands.onResults(onHands);
+      var video = document.getElementById('cam');
+      var camera = new Camera(video, { onFrame: async function(){ await hands.send({ image: video }); }, width:480, height:360 });
+      camera.start().then(function(){ usingCamera = true; document.getElementById('camStatus').textContent = '✅ 손 보여주세요'; })
+        .catch(function(){ document.getElementById('camStatus').textContent = '카메라 거부됨'; flash('카메라를 못 켰어요. 재생바를 사용하세요.'); });
+    } catch(err) { document.getElementById('camStatus').textContent = '오류'; }
+  };
   function onHands(results) {
-    if (!results.multiHandLandmarks || results.multiHandLandmarks.length === 0) {
-      document.getElementById('gestureBadge').textContent = '👀';
-      return;
-    }
+    if (!results.multiHandLandmarks || !results.multiHandLandmarks.length) { document.getElementById('gestureBadge').textContent = '👀'; return; }
     var lm = results.multiHandLandmarks[0];
-    var openness = calcOpenness(lm); // 0~1
-    targetBloom = openness * 100;
-    document.getElementById('gestureBadge').textContent = openness > 0.5 ? '✋' : '✊';
+    var o = openness(lm);
+    targetBloom = o * 100;
+    document.getElementById('gestureBadge').textContent = o > 0.5 ? '✋' : '✊';
   }
-
-  // 손 벌린 정도: 손가락 끝~손목 거리로 계산
-  function calcOpenness(lm) {
-    var wrist = lm[0];
-    var tips = [8, 12, 16, 20]; // 검지·중지·약지·새끼 끝
-    var mcps = [5, 9, 13, 17];  // 각 손가락 밑마디
-    var extended = 0;
-    for (var i = 0; i < tips.length; i++) {
-      var dTip = dist(lm[tips[i]], wrist);
-      var dMcp = dist(lm[mcps[i]], wrist);
-      if (dTip > dMcp * 1.15) extended++; // 끝이 밑마디보다 멀면 펴진 것
-    }
-    return extended / 4; // 0(주먹)~1(손바닥)
+  function openness(lm) {
+    var wrist = lm[0], tips=[8,12,16,20], mcps=[5,9,13,17], ext=0;
+    for (var i=0;i<4;i++){ if (dist(lm[tips[i]],wrist) > dist(lm[mcps[i]],wrist)*1.15) ext++; }
+    return ext/4;
   }
-  function dist(a, b) { return Math.hypot(a.x - b.x, a.y - b.y); }
+  function dist(a,b){ return Math.hypot(a.x-b.x, a.y-b.y); }
 })();
 </script>
 
