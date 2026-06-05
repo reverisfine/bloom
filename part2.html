@@ -77,6 +77,22 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
 .pop-card { opacity: 0; transform: scale(0.8); transition: all 0.5s cubic-bezier(0.34,1.56,0.64,1); }
 .pop-card:nth-child(1){transition-delay:.1s} .pop-card:nth-child(2){transition-delay:.25s} .pop-card:nth-child(3){transition-delay:.4s} .pop-card:nth-child(4){transition-delay:.55s}
 .slide.active .pop-card { opacity: 1; transform: scale(1); }
+
+/* 재무제표 슬라이드 추가 스타일 */
+.fin-hero { display: flex; align-items: center; gap: 18px; background: #FFF; border-radius: 22px; padding: 18px 24px; box-shadow: 0 6px 0 #F3E1D5; margin-bottom: 18px; }
+.fin-hero .big-emoji { flex-shrink: 0; }
+.doc-card { background: #FFFFFF; border-radius: 22px; padding: 20px 22px; box-shadow: 0 6px 0 var(--ds); position: relative; overflow: hidden; }
+.doc-card .doc-emoji { font-size: 38px; }
+.doc-card .doc-name { font-size: 19px; font-weight: 700; margin: 6px 0 2px; }
+.doc-card .doc-term { font-size: 12px; font-weight: 700; letter-spacing: 0.5px; }
+.doc-card .doc-q { font-size: 14px; color: #8A7A85; margin: 8px 0 12px; font-weight: 600; }
+.doc-formula { background: #FFF8F0; border-radius: 14px; padding: 12px 16px; font-size: 14px; font-weight: 700; text-align: center; color: #5A4A55; }
+.doc-foot { font-size: 12px; color: #9A8A95; margin-top: 10px; line-height: 1.6; }
+.check-card { background: #FFFFFF; border-radius: 18px; padding: 16px 18px; box-shadow: 0 5px 0 var(--cs); display: flex; gap: 14px; align-items: flex-start; }
+.check-card .ce { font-size: 32px; flex-shrink: 0; }
+.check-card .ct { font-size: 15px; font-weight: 700; margin-bottom: 2px; }
+.check-card .cq { font-size: 11px; color: #A595A0; margin-bottom: 5px; }
+.check-card .cd { font-size: 12.5px; line-height: 1.55; color: #6A5A65; }
 </style>
 </head>
 <body>
@@ -222,8 +238,73 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
   </div>
 </div>
 
-<!-- SLIDE 6: 시뮬레이터 규칙 -->
+<!-- SLIDE 6: 재무제표 ① 두 가지 서류 -->
 <div class="slide" id="slide-6">
+  <div class="slide-inner">
+    <div class="reveal-1" style="margin-bottom: 16px;">
+      <div class="label">📊 투자 전 꼭 알기</div>
+      <div class="ttl">좋은 회사, 어떻게 알아볼까?</div>
+      <p style="font-size: 14px; color: #8A7A85; margin: 0;">재무제표는 회사의 <strong style="color:#FF6FA5;">건강검진표</strong>예요 — 겉모습 말고 속을 봐요!</p>
+    </div>
+    <div class="fin-hero reveal-2">
+      <div class="big-emoji">🏥</div>
+      <div style="font-size:14px; line-height:1.7; color:#6A5A65;">사람이 건강검진으로 몸 상태를 알듯, <strong style="color:#FF6FA5;">재무제표</strong>를 보면 회사가 건강한지 알 수 있어요. 어려운 숫자표가 아니라 <strong style="color:#5A4A55;">"이 회사 괜찮아?"</strong>를 알려주는 검사 결과지랍니다!</div>
+    </div>
+    <div class="two-col">
+      <div class="doc-card reveal-3" style="--ds:#D4E4F5;">
+        <div class="doc-emoji">📊</div>
+        <div class="doc-term" style="color:#5A8AC0;">손익계산서</div>
+        <div class="doc-name" style="color:#5A4A55;">"얼마 벌었나?" — 성적표</div>
+        <div class="doc-q">일정 기간 동안의 장사 결과</div>
+        <div class="doc-formula" style="color:#5A8AC0;">번 돈(매출) − 쓴 돈(비용) = 이익</div>
+        <div class="doc-foot">📹 일정 기간을 보여주는 <strong>'동영상'</strong> 같아요 (한 달, 일 년)</div>
+      </div>
+      <div class="doc-card reveal-4" style="--ds:#E6DFF8;">
+        <div class="doc-emoji">💼</div>
+        <div class="doc-term" style="color:#7B6BB0;">재무상태표</div>
+        <div class="doc-name" style="color:#5A4A55;">"재산이 얼마?" — 가계부</div>
+        <div class="doc-q">지금 이 순간의 재산 상태</div>
+        <div class="doc-formula" style="color:#7B6BB0;">자산 = 내 돈(자본) + 빌린 돈(부채)</div>
+        <div class="doc-foot">📷 지금 이 순간을 찍은 <strong>'사진'</strong> 같아요 (오늘 기준)</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 7: 재무제표 ② 4가지 체크포인트 -->
+<div class="slide" id="slide-7">
+  <div class="slide-inner">
+    <div class="reveal-1" style="margin-bottom: 16px;">
+      <div class="label">🔎 그래서 뭘 보나?</div>
+      <div class="ttl">건강한 회사 체크포인트 4가지</div>
+      <p style="font-size: 14px; color: #8A7A85; margin: 0;">전문가처럼 숫자를 다 보진 않아요. 이 <strong>4가지</strong>만 떠올려요!</p>
+    </div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:16px;">
+      <div class="check-card pop-card" style="--cs:#FFD9E7;">
+        <div class="ce">💰</div>
+        <div><div class="ct" style="color:#E0578E;">돈을 잘 버나?</div><div class="cq">= 매출·이익 (수익성)</div><div class="cd">장사가 잘 되는 회사인지 봐요. <strong>버는 돈이 쓰는 돈보다 많아야</strong> 건강해요.</div></div>
+      </div>
+      <div class="check-card pop-card" style="--cs:#D8EFC8;">
+        <div class="ce">📈</div>
+        <div><div class="ct" style="color:#6FA83A;">계속 자라나?</div><div class="cq">= 성장성</div><div class="cd">작년보다 올해 더 커지는 회사가 좋아요. <strong>쑥쑥 크는 새싹</strong>처럼요!</div></div>
+      </div>
+      <div class="check-card pop-card" style="--cs:#E6DFF8;">
+        <div class="ce">🛡️</div>
+        <div><div class="ct" style="color:#7B6BB0;">빚이 너무 많진 않나?</div><div class="cq">= 안정성</div><div class="cd"><strong>빚더미에 앉은 회사는 위험</strong>해요. 튼튼한 기초가 있어야 오래가요.</div></div>
+      </div>
+      <div class="check-card pop-card" style="--cs:#FCE4C0;">
+        <div class="ce">🏷️</div>
+        <div><div class="ct" style="color:#D89A2A;">가격이 적당한가?</div><div class="cq">= 가치 (1부에서 배운 그것!)</div><div class="cd">좋은 회사라도 <strong>너무 비싸면</strong> 별로예요. 가치보다 싸게 사는 게 핵심!</div></div>
+      </div>
+    </div>
+    <div class="reveal-4" style="background:#FFF3F8; border-radius:18px; padding:14px 22px; text-align:center; font-size:13.5px; line-height:1.6; color:#9A4A6E;">
+      💡 오늘은 숫자를 다 보진 않아요. 대신 <strong style="color:#E0578E;">"이 회사 건강한가?"</strong>를 떠올리며 투자해보세요! 🌱
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 8: 시뮬레이터 규칙 -->
+<div class="slide" id="slide-8">
   <div class="slide-inner">
     <div class="reveal-1" style="margin-bottom: 20px;">
       <div class="label">🎮 시뮬레이터 규칙</div>
@@ -258,8 +339,8 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
   </div>
 </div>
 
-<!-- SLIDE 7: 포트폴리오 구성 -->
-<div class="slide" id="slide-7">
+<!-- SLIDE 9: 포트폴리오 구성 -->
+<div class="slide" id="slide-9">
   <div class="slide-inner">
     <div class="reveal-1" style="margin-bottom: 20px;">
       <div class="label">🧩 포트폴리오 구성</div>
@@ -294,8 +375,8 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
   </div>
 </div>
 
-<!-- SLIDE 8: 웹페이지 생성 -->
-<div class="slide" id="slide-8">
+<!-- SLIDE 10: 웹페이지 생성 -->
+<div class="slide" id="slide-10">
   <div class="slide-inner">
     <div class="reveal-1" style="margin-bottom: 20px;">
       <div class="label">🖥️ 웹페이지 생성</div>
@@ -329,8 +410,8 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
   </div>
 </div>
 
-<!-- SLIDE 9: AI 답변 검증 + 시뮬레이터로! -->
-<div class="slide" id="slide-9">
+<!-- SLIDE 11: AI 답변 검증 + 시뮬레이터로! -->
+<div class="slide" id="slide-11">
   <div class="slide-inner">
     <div class="reveal-1" style="margin-bottom: 22px; text-align:center;">
       <div class="label">✅ AI 답변 검증</div>
@@ -360,17 +441,19 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
   <div class="dot" data-slide="3"><span class="dot-label">AI 윤리</span></div>
   <div class="dot" data-slide="4"><span class="dot-label">퀴즈</span></div>
   <div class="dot" data-slide="5"><span class="dot-label">실습 표지</span></div>
-  <div class="dot" data-slide="6"><span class="dot-label">시뮬레이터 규칙</span></div>
-  <div class="dot" data-slide="7"><span class="dot-label">구성하기</span></div>
-  <div class="dot" data-slide="8"><span class="dot-label">웹페이지 생성</span></div>
-  <div class="dot" data-slide="9"><span class="dot-label">검증 → 투자!</span></div>
+  <div class="dot" data-slide="6"><span class="dot-label">재무제표 — 서류</span></div>
+  <div class="dot" data-slide="7"><span class="dot-label">재무제표 — 체크포인트</span></div>
+  <div class="dot" data-slide="8"><span class="dot-label">시뮬레이터 규칙</span></div>
+  <div class="dot" data-slide="9"><span class="dot-label">구성하기</span></div>
+  <div class="dot" data-slide="10"><span class="dot-label">웹페이지 생성</span></div>
+  <div class="dot" data-slide="11"><span class="dot-label">검증 → 투자!</span></div>
 </div>
 
-<div class="slide-counter" id="counter">01 / 09</div>
+<div class="slide-counter" id="counter">01 / 11</div>
 
 <script>
 (function() {
-  var current = 1, total = 9;
+  var current = 1, total = 11;
   var dots = document.querySelectorAll('.dot');
   var prevBtn = document.getElementById('prevBtn');
   var nextBtn = document.getElementById('nextBtn');
