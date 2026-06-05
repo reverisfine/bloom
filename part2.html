@@ -207,6 +207,24 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
 .calc-note { font-size:14.5px; font-weight:700; padding:10px; border-radius:14px; background:#DFF5E8; color:#2E7D52; }
 .calc-note.loss { background:#FFE0E8; color:#C0395E; }
 .calc-note.even { background:#FFF3D6; color:#B0852A; }
+
+/* === 재무 상황 설명 (slide 8) === */
+.eq-block { background:#FFF; border-radius:22px; padding:18px 22px; box-shadow:0 6px 0 var(--eb,#F3E1D5); margin-bottom:14px; }
+.eq-head { font-size:15.5px; font-weight:700; margin-bottom:6px; }
+.eq-row { display:flex; align-items:center; justify-content:center; gap:10px; flex-wrap:wrap; }
+.eq-box { border-radius:14px; padding:11px 18px; text-align:center; min-width:130px; }
+.eq-lbl { font-size:12.5px; font-weight:700; }
+.eq-val { font-size:21px; font-weight:700; font-family:'Jua','Pretendard',sans-serif; margin-top:3px; }
+.eq-op { font-size:26px; font-weight:700; color:#B8A8B2; padding:0 2px; }
+.eq-result { cursor:pointer; transition:transform 0.2s; }
+.eq-result:hover { transform:translateY(-2px); }
+.eq-result .num { display:none; }
+.eq-result.revealed .ask { display:none; }
+.eq-result.revealed .num { display:inline; animation:chipPop 0.35s cubic-bezier(0.34,1.6,0.64,1); }
+.eq-hint { font-size:11px; font-weight:700; color:#B6A4DD; margin-top:3px; }
+.eq-result.revealed .eq-hint { visibility:hidden; }
+.ttbk { animation: ttbob 2.2s ease-in-out infinite; }
+@keyframes ttbob { 0%,100%{transform:translateY(0) rotate(-2deg);} 50%{transform:translateY(-7px) rotate(2deg);} }
 </style>
 </head>
 <body>
@@ -416,8 +434,61 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
   </div>
 </div>
 
-<!-- SLIDE 8: 재무제표 ② 4가지 체크포인트 -->
+<!-- SLIDE 8: 상황으로 이해하기 -->
 <div class="slide" id="slide-8">
+  <div class="slide-inner">
+    <div class="reveal-1" style="display:flex; align-items:center; gap:18px; margin-bottom:16px;">
+      <svg class="ttbk" viewBox="0 0 100 100" width="92" height="92" style="flex-shrink:0;">
+        <path d="M37 30 q-6 -9 0 -18" stroke="#E9C6D6" stroke-width="3.5" fill="none" stroke-linecap="round" opacity="0.85"/>
+        <path d="M51 28 q6 -10 0 -20" stroke="#E9C6D6" stroke-width="3.5" fill="none" stroke-linecap="round" opacity="0.85"/>
+        <path d="M65 30 q-6 -9 0 -17" stroke="#E9C6D6" stroke-width="3.5" fill="none" stroke-linecap="round" opacity="0.6"/>
+        <path d="M15 53 a35 31 0 0 0 70 0 z" fill="#FFB8D4"/>
+        <ellipse cx="50" cy="53" rx="35" ry="10.5" fill="#FF7A5C"/>
+        <rect x="32" y="45" width="12" height="19" rx="6" fill="#FFF4EC" transform="rotate(-18 38 54)"/>
+        <rect x="45" y="44" width="12" height="19" rx="6" fill="#FFF6EF" transform="rotate(7 51 53)"/>
+        <rect x="58" y="46" width="12" height="19" rx="6" fill="#FFF4EC" transform="rotate(22 64 55)"/>
+        <circle cx="33" cy="68" r="3.6" fill="#FF9EC0" opacity="0.7"/>
+        <circle cx="67" cy="68" r="3.6" fill="#FF9EC0" opacity="0.7"/>
+        <circle cx="44" cy="64" r="1.7" fill="#5A4A55"/>
+        <circle cx="56" cy="64" r="1.7" fill="#5A4A55"/>
+        <path d="M46 69 q4 3 8 0" stroke="#5A4A55" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+      </svg>
+      <div>
+        <div class="label">🍢 상황으로 이해하기</div>
+        <div class="ttl" style="margin:2px 0 4px;">분식집 '또링 떡볶이' 이야기</div>
+        <p style="font-size:15.5px; color:#8A7A85; margin:0;">두 가지 표가 <strong style="color:#FF6FA5;">실제로 어떻게 쓰이는지</strong> 한 상황으로 따라가 봐요!</p>
+      </div>
+    </div>
+    <div class="eq-block reveal-2" style="--eb:#E6DFF8;">
+      <div class="eq-head" style="color:#7B6BB0;">💼 ① 가게를 차릴 때 — 재무상태표 (재산이 얼마?)</div>
+      <p style="font-size:14px; color:#8A7A85; margin:-2px 0 14px;">가게 차리는 데 <b>1,000만원</b>이 필요해요. 내 돈 600 + 친구에게 빌린 돈 400!</p>
+      <div class="eq-row">
+        <div class="eq-box" style="background:#F0FAE8;"><div class="eq-lbl" style="color:#6FA83A;">내 돈 (자본)</div><div class="eq-val" style="color:#5E8A3A;">600만원</div></div>
+        <div class="eq-op">+</div>
+        <div class="eq-box" style="background:#FFEAF1;"><div class="eq-lbl" style="color:#E0578E;">빌린 돈 (부채)</div><div class="eq-val" style="color:#D14C7E;">400만원</div></div>
+        <div class="eq-op">=</div>
+        <div class="eq-box eq-result" style="background:#EDE6FB;" onclick="this.classList.add('revealed')"><div class="eq-lbl" style="color:#7B6BB0;">전체 재산 (자산)</div><div class="eq-val" style="color:#6B5BA0;"><span class="ask">❓</span><span class="num">1,000만원</span></div><div class="eq-hint">👆 눌러서 답</div></div>
+      </div>
+    </div>
+    <div class="eq-block reveal-3" style="--eb:#D4E4F5;">
+      <div class="eq-head" style="color:#5A8AC0;">📊 ② 한 달 장사한 뒤 — 손익계산서 (얼마 벌었나?)</div>
+      <p style="font-size:14px; color:#8A7A85; margin:-2px 0 14px;">떡볶이를 팔아 <b>500만원</b>을 벌고, 재료·월세로 <b>350만원</b>을 썼어요.</p>
+      <div class="eq-row">
+        <div class="eq-box" style="background:#EAF1F9;"><div class="eq-lbl" style="color:#5A8AC0;">번 돈 (수익)</div><div class="eq-val" style="color:#4A7AB0;">500만원</div></div>
+        <div class="eq-op">−</div>
+        <div class="eq-box" style="background:#FFEAF1;"><div class="eq-lbl" style="color:#E0578E;">쓴 돈 (비용)</div><div class="eq-val" style="color:#D14C7E;">350만원</div></div>
+        <div class="eq-op">=</div>
+        <div class="eq-box eq-result" style="background:#F0FAE8;" onclick="this.classList.add('revealed')"><div class="eq-lbl" style="color:#6FA83A;">남은 돈 (이익)</div><div class="eq-val" style="color:#5E8A3A;"><span class="ask">❓</span><span class="num">150만원</span></div><div class="eq-hint">👆 눌러서 답</div></div>
+      </div>
+    </div>
+    <div class="reveal-4" style="background:#FFF3F8; border-radius:18px; padding:13px 22px; text-align:center; font-size:14px; line-height:1.6; color:#9A4A6E;">
+      💡 이렇게 번 <strong style="color:#E0578E;">이익 150만원</strong>이 쌓이면 → <strong>내 돈(자본)</strong>이 늘어나요! 그래서 두 표는 서로 <strong>연결</strong>돼 있어요.
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 9: 재무제표 ② 4가지 체크포인트 -->
+<div class="slide" id="slide-9">
   <div class="slide-inner">
     <div class="reveal-1" style="margin-bottom: 16px;">
       <div class="label">🔎 그래서 뭘 보나?</div>
@@ -448,8 +519,8 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
   </div>
 </div>
 
-<!-- SLIDE 9: 예시로 읽어보기 -->
-<div class="slide" id="slide-9">
+<!-- SLIDE 10: 예시로 읽어보기 -->
+<div class="slide" id="slide-10">
   <div class="slide-inner">
     <div class="reveal-1" style="margin-bottom:16px;">
       <div class="label">🩺 예시로 읽어보기</div>
@@ -477,8 +548,8 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
   </div>
 </div>
 
-<!-- SLIDE 10: 좋은 회사 vs 위험한 회사 -->
-<div class="slide" id="slide-10">
+<!-- SLIDE 11: 좋은 회사 vs 위험한 회사 -->
+<div class="slide" id="slide-11">
   <div class="slide-inner">
     <div class="reveal-1" style="text-align:center; margin-bottom:20px;">
       <div class="label">⚖️ 골라보기</div>
@@ -509,8 +580,8 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
   </div>
 </div>
 
-<!-- SLIDE 11: 용어 미니 사전 -->
-<div class="slide" id="slide-11">
+<!-- SLIDE 12: 용어 미니 사전 -->
+<div class="slide" id="slide-12">
   <div class="slide-inner">
     <div class="reveal-1" style="text-align:center; margin-bottom:20px;">
       <div class="label">📖 용어 미니 사전</div>
@@ -528,8 +599,8 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
   </div>
 </div>
 
-<!-- SLIDE 12: 가치 - 너무 비싸면? -->
-<div class="slide" id="slide-12">
+<!-- SLIDE 13: 가치 - 너무 비싸면? -->
+<div class="slide" id="slide-13">
   <div class="slide-inner">
     <div class="reveal-1" style="text-align:center; margin-bottom:20px;">
       <div class="label">🍎 가치 = 가격이 적당한가?</div>
@@ -557,8 +628,8 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
   </div>
 </div>
 
-<!-- SLIDE 13: 직접 계산 체험 -->
-<div class="slide" id="slide-13">
+<!-- SLIDE 14: 직접 계산 체험 -->
+<div class="slide" id="slide-14">
   <div class="slide-inner">
     <div class="reveal-1" style="text-align:center; margin-bottom:20px;">
       <div class="label">🧮 직접 계산 체험</div>
@@ -581,8 +652,8 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
   </div>
 </div>
 
-<!-- SLIDE 14: 주식 투자 용어 사전 -->
-<div class="slide" id="slide-14">
+<!-- SLIDE 15: 주식 투자 용어 사전 -->
+<div class="slide" id="slide-15">
   <div class="slide-inner">
     <div class="reveal-1" style="text-align:center; margin-bottom:18px;">
       <div class="label">📈 주식 투자 용어 사전</div>
@@ -603,8 +674,8 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
   </div>
 </div>
 
-<!-- SLIDE 15: 시뮬레이터 규칙 -->
-<div class="slide" id="slide-15">
+<!-- SLIDE 16: 시뮬레이터 규칙 -->
+<div class="slide" id="slide-16">
   <div class="slide-inner">
     <div class="reveal-1" style="margin-bottom: 20px;">
       <div class="label">🎮 시뮬레이터 규칙</div>
@@ -639,8 +710,8 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
   </div>
 </div>
 
-<!-- SLIDE 16: 포트폴리오 구성 -->
-<div class="slide" id="slide-16">
+<!-- SLIDE 17: 포트폴리오 구성 -->
+<div class="slide" id="slide-17">
   <div class="slide-inner">
     <div class="reveal-1" style="margin-bottom: 20px;">
       <div class="label">🧩 포트폴리오 구성</div>
@@ -675,8 +746,8 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
   </div>
 </div>
 
-<!-- SLIDE 17: 웹페이지 생성 -->
-<div class="slide" id="slide-17">
+<!-- SLIDE 18: 웹페이지 생성 -->
+<div class="slide" id="slide-18">
   <div class="slide-inner">
     <div class="reveal-1" style="margin-bottom: 20px;">
       <div class="label">🖥️ 웹페이지 생성</div>
@@ -710,8 +781,8 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
   </div>
 </div>
 
-<!-- SLIDE 18: AI 답변 검증 + 시뮬레이터로! -->
-<div class="slide" id="slide-18">
+<!-- SLIDE 19: AI 답변 검증 + 시뮬레이터로! -->
+<div class="slide" id="slide-19">
   <div class="slide-inner">
     <div class="reveal-1" style="margin-bottom: 22px; text-align:center;">
       <div class="label">✅ AI 답변 검증</div>
@@ -743,24 +814,25 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
   <div class="dot" data-slide="5"><span class="dot-label">퀴즈</span></div>
   <div class="dot" data-slide="6"><span class="dot-label">실습 표지</span></div>
   <div class="dot" data-slide="7"><span class="dot-label">재무제표 — 서류</span></div>
-  <div class="dot" data-slide="8"><span class="dot-label">재무제표 — 체크포인트</span></div>
-  <div class="dot" data-slide="9"><span class="dot-label">예시로 읽기</span></div>
-  <div class="dot" data-slide="10"><span class="dot-label">회사 비교</span></div>
-  <div class="dot" data-slide="11"><span class="dot-label">용어 사전</span></div>
-  <div class="dot" data-slide="12"><span class="dot-label">가치(가격)</span></div>
-  <div class="dot" data-slide="13"><span class="dot-label">이익 계산</span></div>
-  <div class="dot" data-slide="14"><span class="dot-label">주식 용어</span></div>
-  <div class="dot" data-slide="15"><span class="dot-label">시뮬레이터 규칙</span></div>
-  <div class="dot" data-slide="16"><span class="dot-label">구성하기</span></div>
-  <div class="dot" data-slide="17"><span class="dot-label">웹페이지 생성</span></div>
-  <div class="dot" data-slide="18"><span class="dot-label">검증 → 투자!</span></div>
+  <div class="dot" data-slide="8"><span class="dot-label">상황으로 이해</span></div>
+  <div class="dot" data-slide="9"><span class="dot-label">재무제표 — 체크포인트</span></div>
+  <div class="dot" data-slide="10"><span class="dot-label">예시로 읽기</span></div>
+  <div class="dot" data-slide="11"><span class="dot-label">회사 비교</span></div>
+  <div class="dot" data-slide="12"><span class="dot-label">용어 사전</span></div>
+  <div class="dot" data-slide="13"><span class="dot-label">가치(가격)</span></div>
+  <div class="dot" data-slide="14"><span class="dot-label">이익 계산</span></div>
+  <div class="dot" data-slide="15"><span class="dot-label">주식 용어</span></div>
+  <div class="dot" data-slide="16"><span class="dot-label">시뮬레이터 규칙</span></div>
+  <div class="dot" data-slide="17"><span class="dot-label">구성하기</span></div>
+  <div class="dot" data-slide="18"><span class="dot-label">웹페이지 생성</span></div>
+  <div class="dot" data-slide="19"><span class="dot-label">검증 → 투자!</span></div>
 </div>
 
-<div class="slide-counter" id="counter">01 / 18</div>
+<div class="slide-counter" id="counter">01 / 19</div>
 
 <script>
 (function() {
-  var current = 1, total = 18;
+  var current = 1, total = 19;
   var dots = document.querySelectorAll('.dot');
   var prevBtn = document.getElementById('prevBtn');
   var nextBtn = document.getElementById('nextBtn');
@@ -796,7 +868,7 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
     current = num;
     updateUI();
     if (num === 3) setTimeout(typePrompt, 450);
-    if (num === 13 && window.calcUpdate) window.calcUpdate();
+    if (num === 14 && window.calcUpdate) window.calcUpdate();
   }
   function updateUI() {
     dots.forEach(function(d, i) { d.classList.toggle('active', i + 1 === current); });
@@ -912,8 +984,8 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
     fb.textContent = ok ? good : bad;
     fb.className = 'vs-feedback show ' + (ok ? 'good' : 'bad');
   }
-  window.pickCompany = function(el) { choicePick(el, '#slide-10', 'vsFeedback', '맞아요! 이익이 나고 빚이 적은 회사가 건강해요 💪', '다시 볼까요? 적자에 빚 많은 회사는 위험해요 ⚠️'); };
-  window.pickApple = function(el) { choicePick(el, '#slide-12', 'appleFeedback', '정답! 같은 가치라면 쌀 때 사는 게 이득이에요 💎', '음… 똑같은 사과를 비싸게 살 필요는 없겠죠? 😅'); };
+  window.pickCompany = function(el) { choicePick(el, '#slide-11', 'vsFeedback', '맞아요! 이익이 나고 빚이 적은 회사가 건강해요 💪', '다시 볼까요? 적자에 빚 많은 회사는 위험해요 ⚠️'); };
+  window.pickApple = function(el) { choicePick(el, '#slide-13', 'appleFeedback', '정답! 같은 가치라면 쌀 때 사는 게 이득이에요 💎', '음… 똑같은 사과를 비싸게 살 필요는 없겠죠? 😅'); };
   // ===== 이익 계산기 (slide 13) =====
   window.calcUpdate = function() {
     var rev = +document.getElementById('calcRev').value;
