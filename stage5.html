@@ -5,13 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Stage 05 · 꽃 피우기 — BLOOM</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Nanum+Myeongjo:wght@400;700&display=swap">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.min.css">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html, body { height: 100%; overflow: hidden; }
 body { font-family: 'Pretendard', -apple-system, sans-serif; color: #FFF; background: #000; font-size: 15px; }
-.serif { font-family: 'Playfair Display', serif; }
+.serif { font-family: 'Playfair Display', 'Nanum Myeongjo', serif; }
 .italic-cap { font-family: 'Cormorant Garamond', serif; font-style: italic; }
 
 .home-btn { position: fixed; top: 20px; left: 20px; z-index: 200; padding: 8px 16px; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.25); border-radius: 20px; font-size: 13px; color: #FFF; text-decoration: none; font-family: 'Cormorant Garamond', serif; font-style: italic; transition: all 0.3s; backdrop-filter: blur(10px); }
@@ -26,7 +26,7 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; color: #FFF; backgr
 
 .top-title { position: absolute; top: 22px; left: 50%; transform: translateX(-50%); z-index: 150; text-align: center; }
 .top-title .lbl { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 14px; color: rgba(255,255,255,0.6); }
-.top-title .ttl { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 500; color: rgba(255,255,255,0.9); }
+.top-title .ttl { font-family: 'Playfair Display', 'Nanum Myeongjo', serif; font-size: 22px; font-weight: 500; color: rgba(255,255,255,0.9); }
 
 .cam-box { position: absolute; bottom: 70px; right: 24px; width: 200px; height: 150px; border-radius: 14px; background: #1A1A1A; overflow: hidden; border: 2px solid rgba(255,255,255,0.25); z-index: 150; box-shadow: 0 8px 30px rgba(0,0,0,0.5); }
 #cam { width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1); }
@@ -80,15 +80,33 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; color: #FFF; backgr
   </div>
 
   <video id="bloomVideo" muted playsinline preload="auto" style="display:none;"></video>
+
+  <!-- 기본 꽃 (영상 없을 때 표시 / 슬라이더·손동작으로 개폐) -->
   <svg id="svgFlower" viewBox="0 0 200 200">
-    <g id="petals" transform="translate(100,100)">
-      <ellipse class="petal" cx="0" cy="-45" rx="22" ry="48" fill="#C9A0E8"/>
-      <ellipse class="petal" cx="0" cy="-45" rx="22" ry="48" fill="#C9A0E8"/>
-      <ellipse class="petal" cx="0" cy="-45" rx="22" ry="48" fill="#C9A0E8"/>
-      <ellipse class="petal" cx="0" cy="-45" rx="22" ry="48" fill="#C9A0E8"/>
-      <ellipse class="petal" cx="0" cy="-45" rx="22" ry="48" fill="#C9A0E8"/>
+    <defs>
+      <radialGradient id="petalGrad" cx="50%" cy="35%" r="70%">
+        <stop offset="0%" stop-color="#E3C8F2"/>
+        <stop offset="100%" stop-color="#B98BDD"/>
+      </radialGradient>
+    </defs>
+    <g transform="translate(100,100)">
+      <!-- 뒤쪽 잎 -->
+      <g id="leaves">
+        <ellipse cx="0" cy="46" rx="10" ry="26" fill="#6FA85C" transform="rotate(28)"/>
+        <ellipse cx="0" cy="46" rx="10" ry="26" fill="#7FB86A" transform="rotate(-28)"/>
+      </g>
+      <!-- 꽃잎 6장: 미리 부채꼴로 배치 -->
+      <g id="petals">
+        <ellipse class="petal" cx="0" cy="-42" rx="17" ry="42" fill="url(#petalGrad)" stroke="#A877CF" stroke-width="1" transform="rotate(0)"/>
+        <ellipse class="petal" cx="0" cy="-42" rx="17" ry="42" fill="url(#petalGrad)" stroke="#A877CF" stroke-width="1" transform="rotate(60)"/>
+        <ellipse class="petal" cx="0" cy="-42" rx="17" ry="42" fill="url(#petalGrad)" stroke="#A877CF" stroke-width="1" transform="rotate(120)"/>
+        <ellipse class="petal" cx="0" cy="-42" rx="17" ry="42" fill="url(#petalGrad)" stroke="#A877CF" stroke-width="1" transform="rotate(180)"/>
+        <ellipse class="petal" cx="0" cy="-42" rx="17" ry="42" fill="url(#petalGrad)" stroke="#A877CF" stroke-width="1" transform="rotate(240)"/>
+        <ellipse class="petal" cx="0" cy="-42" rx="17" ry="42" fill="url(#petalGrad)" stroke="#A877CF" stroke-width="1" transform="rotate(300)"/>
+      </g>
+      <!-- 가운데 꽃술 -->
+      <circle id="flowerCenter" cx="0" cy="0" r="16" fill="#F5D77A" stroke="#E6BE52" stroke-width="2"/>
     </g>
-    <circle cx="100" cy="100" r="22" fill="#F5D77A"/>
   </svg>
 
   <div class="controls">
@@ -179,6 +197,7 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; color: #FFF; backgr
     };
     v.onerror = function() {
       hasVideo = false;
+      document.getElementById('svgFlower').style.display = 'block';
       flash('⚠️ 영상을 못 불러왔어요.<br>주소: ' + src + '<br>파일명을 확인하거나, 슬라이더로 진행하세요.', 5000);
     };
     v.src = src;
@@ -196,14 +215,15 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; color: #FFF; backgr
         try { vid.currentTime = (1 - ratio) * (vid.duration - 0.05); } catch(e) {}
       }
     } else {
+      // SVG 기본 꽃: 오므림(0.45) → 활짝(1.0) + 살짝 비틀어 피어나는 느낌
       var petals = document.getElementById('petals');
       if (petals) {
-        var scale = 0.35 + ratio * 0.65;
-        petals.style.transform = 'scale(' + scale + ')';
-        petals.querySelectorAll('.petal').forEach(function(p, i) {
-          p.setAttribute('transform', 'rotate(' + (i*72) + ') translate(0,' + (-ratio*10) + ')');
-        });
+        var s = (0.45 + ratio * 0.55).toFixed(3);
+        var rot = (-16 * (1 - ratio)).toFixed(2);
+        petals.setAttribute('transform', 'rotate(' + rot + ') scale(' + s + ')');
       }
+      var center = document.getElementById('flowerCenter');
+      if (center) center.setAttribute('r', (12 + ratio * 6).toFixed(2));
     }
   }
   function animate() { bloom += (targetBloom - bloom) * 0.15; render(bloom); requestAnimationFrame(animate); }
