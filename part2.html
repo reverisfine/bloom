@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Part 2 · 투자의 세계 — BLOOM</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&display=swap">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,400;1,500&family=Jua&family=Playfair+Display:wght@500;600&display=swap">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.min.css">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -78,6 +79,21 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
 .pop-card:nth-child(1){transition-delay:.1s} .pop-card:nth-child(2){transition-delay:.25s} .pop-card:nth-child(3){transition-delay:.4s} .pop-card:nth-child(4){transition-delay:.55s}
 .slide.active .pop-card { opacity: 1; transform: scale(1); }
 
+/* ===== 표지(slide 1) 전용 스타일 ===== */
+.cover-label { font-size: 18px; color: #B6A4DD; font-weight: 700; letter-spacing: 1px; margin-bottom: 12px; }
+.cover-cap { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 24px; }
+.cover-emoji { font-size: 58px; line-height: 1; margin-bottom: 8px; }
+.cover-hero { display: inline-block; animation: coverbob 1.6s ease-in-out infinite; }
+@keyframes coverbob { 0%,100%{transform:translateY(0) rotate(-3deg);} 50%{transform:translateY(-10px) rotate(3deg);} }
+.cover-title { font-family: 'Jua','Pretendard',sans-serif; font-size: 76px; font-weight: 400; line-height: 1.12; color: #5A4A55; margin: 4px 0 22px; }
+.cover-title b { color: #FF6FA5; font-weight: 400; }
+.cover-divider { display: flex; align-items: center; justify-content: center; gap: 18px; margin: 22px 0; }
+.cover-divider .cdl { width: 70px; height: 3px; border-radius: 3px; background: #FFB8D4; }
+.cover-divider .cde { font-size: 14px; color: #FF6FA5; letter-spacing: 6px; font-weight: 700; }
+.cover-q { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 26px; color: #7C6B76; margin: 22px 0 0; line-height: 1.4; }
+.cover-q .hl { color: #FF6FA5; font-weight: 700; font-style: normal; font-family: 'Pretendard', sans-serif; }
+.cover-meta { display: inline-flex; align-items: center; gap: 7px; margin-top: 44px; padding: 9px 22px; background: #FFFFFF; border-radius: 100px; box-shadow: 0 5px 0 #F3E1D5; font-size: 14px; color: #9C8A93; font-weight: 600; }
+
 /* 재무제표 슬라이드 추가 스타일 */
 .fin-hero { display: flex; align-items: center; gap: 18px; background: #FFF; border-radius: 22px; padding: 18px 24px; box-shadow: 0 6px 0 #F3E1D5; margin-bottom: 18px; }
 .fin-hero .big-emoji { flex-shrink: 0; }
@@ -104,8 +120,22 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
 
 <div class="slides-container">
 
-<!-- SLIDE 1: 연결 다리 -->
+<!-- SLIDE 1: 표지 -->
 <div class="slide active" id="slide-1">
+  <div class="slide-inner" style="text-align:center;">
+    <div class="cover-label reveal-1"><span class="cover-cap">Part 2</span></div>
+    <div class="cover-emoji reveal-1"><span class="cover-hero">🌱</span> 💰 📈</div>
+    <h1 class="cover-title reveal-2">가치투자의 <b>세계</b></h1>
+    <div class="cover-divider reveal-3">
+      <span class="cdl"></span><span class="cde">VALUE&nbsp;&nbsp;INVESTING</span><span class="cdl"></span>
+    </div>
+    <p class="cover-q reveal-4">좋은 브랜드를 알아봤다면,<br><span class="hl">좋은 회사</span>에도 투자할 수 있을까?</p>
+    <div class="cover-meta reveal-4">⏱ 60분 · BLOOM Part 2</div>
+  </div>
+</div>
+
+<!-- SLIDE 2: 연결 다리 -->
+<div class="slide" id="slide-2">
   <div class="slide-inner" style="text-align:center;">
     <div class="reveal-1">
       <div class="label">🌉 1부에서 2부로</div>
@@ -127,8 +157,8 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
   </div>
 </div>
 
-<!-- SLIDE 2: 팩트 체크 -->
-<div class="slide" id="slide-2">
+<!-- SLIDE 3: 팩트 체크 -->
+<div class="slide" id="slide-3">
   <div class="slide-inner">
     <div class="reveal-1" style="margin-bottom: 20px;">
       <div class="label">🔍 AI 팩트 체크</div>
@@ -163,8 +193,8 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
   </div>
 </div>
 
-<!-- SLIDE 3: AI 윤리 -->
-<div class="slide" id="slide-3">
+<!-- SLIDE 4: AI 윤리 -->
+<div class="slide" id="slide-4">
   <div class="slide-inner">
     <div class="reveal-1" style="margin-bottom: 20px;">
       <div class="label">💝 AI 윤리</div>
@@ -193,8 +223,8 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
   </div>
 </div>
 
-<!-- SLIDE 4: 퀴즈 -->
-<div class="slide" id="slide-4">
+<!-- SLIDE 5: 퀴즈 -->
+<div class="slide" id="slide-5">
   <div class="slide-inner">
     <div class="reveal-1" style="text-align: center; margin-bottom: 22px;">
       <div class="label">🧠 AI 리터러시 퀴즈</div>
@@ -225,8 +255,8 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
   </div>
 </div>
 
-<!-- SLIDE 5: 실습 표지 -->
-<div class="slide" id="slide-5">
+<!-- SLIDE 6: 실습 표지 -->
+<div class="slide" id="slide-6">
   <div class="slide-inner" style="text-align: center;">
     <div class="reveal-1" style="font-size:64px;">💰✨</div>
     <div class="label reveal-1" style="margin-top:8px;">실습하기</div>
@@ -238,8 +268,8 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
   </div>
 </div>
 
-<!-- SLIDE 6: 재무제표 ① 두 가지 서류 -->
-<div class="slide" id="slide-6">
+<!-- SLIDE 7: 재무제표 ① 두 가지 서류 -->
+<div class="slide" id="slide-7">
   <div class="slide-inner">
     <div class="reveal-1" style="margin-bottom: 16px;">
       <div class="label">📊 투자 전 꼭 알기</div>
@@ -271,8 +301,8 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
   </div>
 </div>
 
-<!-- SLIDE 7: 재무제표 ② 4가지 체크포인트 -->
-<div class="slide" id="slide-7">
+<!-- SLIDE 8: 재무제표 ② 4가지 체크포인트 -->
+<div class="slide" id="slide-8">
   <div class="slide-inner">
     <div class="reveal-1" style="margin-bottom: 16px;">
       <div class="label">🔎 그래서 뭘 보나?</div>
@@ -303,8 +333,8 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
   </div>
 </div>
 
-<!-- SLIDE 8: 시뮬레이터 규칙 -->
-<div class="slide" id="slide-8">
+<!-- SLIDE 9: 시뮬레이터 규칙 -->
+<div class="slide" id="slide-9">
   <div class="slide-inner">
     <div class="reveal-1" style="margin-bottom: 20px;">
       <div class="label">🎮 시뮬레이터 규칙</div>
@@ -339,8 +369,8 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
   </div>
 </div>
 
-<!-- SLIDE 9: 포트폴리오 구성 -->
-<div class="slide" id="slide-9">
+<!-- SLIDE 10: 포트폴리오 구성 -->
+<div class="slide" id="slide-10">
   <div class="slide-inner">
     <div class="reveal-1" style="margin-bottom: 20px;">
       <div class="label">🧩 포트폴리오 구성</div>
@@ -375,8 +405,8 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
   </div>
 </div>
 
-<!-- SLIDE 10: 웹페이지 생성 -->
-<div class="slide" id="slide-10">
+<!-- SLIDE 11: 웹페이지 생성 -->
+<div class="slide" id="slide-11">
   <div class="slide-inner">
     <div class="reveal-1" style="margin-bottom: 20px;">
       <div class="label">🖥️ 웹페이지 생성</div>
@@ -410,8 +440,8 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
   </div>
 </div>
 
-<!-- SLIDE 11: AI 답변 검증 + 시뮬레이터로! -->
-<div class="slide" id="slide-11">
+<!-- SLIDE 12: AI 답변 검증 + 시뮬레이터로! -->
+<div class="slide" id="slide-12">
   <div class="slide-inner">
     <div class="reveal-1" style="margin-bottom: 22px; text-align:center;">
       <div class="label">✅ AI 답변 검증</div>
@@ -436,24 +466,25 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
 <button class="nav-arrow nav-next" id="nextBtn">›</button>
 
 <div class="dots">
-  <div class="dot active" data-slide="1"><span class="dot-label">1부→2부 연결</span></div>
-  <div class="dot" data-slide="2"><span class="dot-label">브랜드 팩트체크</span></div>
-  <div class="dot" data-slide="3"><span class="dot-label">AI 윤리</span></div>
-  <div class="dot" data-slide="4"><span class="dot-label">퀴즈</span></div>
-  <div class="dot" data-slide="5"><span class="dot-label">실습 표지</span></div>
-  <div class="dot" data-slide="6"><span class="dot-label">재무제표 — 서류</span></div>
-  <div class="dot" data-slide="7"><span class="dot-label">재무제표 — 체크포인트</span></div>
-  <div class="dot" data-slide="8"><span class="dot-label">시뮬레이터 규칙</span></div>
-  <div class="dot" data-slide="9"><span class="dot-label">구성하기</span></div>
-  <div class="dot" data-slide="10"><span class="dot-label">웹페이지 생성</span></div>
-  <div class="dot" data-slide="11"><span class="dot-label">검증 → 투자!</span></div>
+  <div class="dot active" data-slide="1"><span class="dot-label">표지</span></div>
+  <div class="dot" data-slide="2"><span class="dot-label">1부→2부 연결</span></div>
+  <div class="dot" data-slide="3"><span class="dot-label">브랜드 팩트체크</span></div>
+  <div class="dot" data-slide="4"><span class="dot-label">AI 윤리</span></div>
+  <div class="dot" data-slide="5"><span class="dot-label">퀴즈</span></div>
+  <div class="dot" data-slide="6"><span class="dot-label">실습 표지</span></div>
+  <div class="dot" data-slide="7"><span class="dot-label">재무제표 — 서류</span></div>
+  <div class="dot" data-slide="8"><span class="dot-label">재무제표 — 체크포인트</span></div>
+  <div class="dot" data-slide="9"><span class="dot-label">시뮬레이터 규칙</span></div>
+  <div class="dot" data-slide="10"><span class="dot-label">구성하기</span></div>
+  <div class="dot" data-slide="11"><span class="dot-label">웹페이지 생성</span></div>
+  <div class="dot" data-slide="12"><span class="dot-label">검증 → 투자!</span></div>
 </div>
 
-<div class="slide-counter" id="counter">01 / 11</div>
+<div class="slide-counter" id="counter">01 / 12</div>
 
 <script>
 (function() {
-  var current = 1, total = 11;
+  var current = 1, total = 12;
   var dots = document.querySelectorAll('.dot');
   var prevBtn = document.getElementById('prevBtn');
   var nextBtn = document.getElementById('nextBtn');
