@@ -6,13 +6,13 @@
 <title>Stage 04-2 · 꽃을 움직이게 — BLOOM</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Nanum+Myeongjo:wght@400;700;800&display=swap">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.min.css">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html, body { height: 100%; overflow: hidden; }
 body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; color: #1A1A1A; background: #FAF6EC; font-size: 15px; }
-.serif { font-family: 'Playfair Display', serif; }
+.serif { font-family: 'Playfair Display', 'Nanum Myeongjo', serif; }
 .italic-cap { font-family: 'Cormorant Garamond', serif; font-style: italic; }
 
 .home-btn { position: fixed; top: 24px; left: 24px; z-index: 100; padding: 8px 16px; background: rgba(255,255,255,0.9); border: 1px solid rgba(168,197,232,0.5); border-radius: 20px; font-size: 13px; color: #5F5F5F; text-decoration: none; font-family: 'Cormorant Garamond', serif; font-style: italic; transition: all 0.3s; }
@@ -47,11 +47,34 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
 .vs-result { font-size: 13px; line-height: 1.6; color: #5F5F5F; }
 .vs-arrow { font-size: 28px; color: #A8C5E8; }
 
+.four-wrap { background: rgba(168,197,232,0.12); border-radius: 14px; padding: 20px 24px; }
 .four-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 8px; }
-.four-item { background: #FFFFFF; border: 1px solid #C8DDB5; border-radius: 12px; padding: 18px 12px; text-align: center; }
+.four-item { background: #FFFFFF; border: 1px solid #C8DDB5; border-radius: 12px; padding: 18px 12px; text-align: center; cursor: pointer; position: relative; overflow: hidden; transition: all 0.25s; }
+.four-item:hover { transform: translateY(-4px); box-shadow: 0 8px 18px rgba(168,197,232,0.25); }
+.four-item.picked { border: 2px solid #5E8A3A; background: #F4FBEC; box-shadow: 0 8px 18px rgba(94,138,58,0.2); }
+.four-item .fbar { position: absolute; top: 0; left: 0; right: 0; height: 4px; }
+.four-item .fcheck { position: absolute; top: 8px; right: 8px; width: 22px; height: 22px; border-radius: 50%; background: #5E8A3A; color: #FFFFFF; font-size: 13px; display: flex; align-items: center; justify-content: center; opacity: 0; transform: scale(0.3); transition: all 0.3s cubic-bezier(0.34,1.6,0.64,1); }
+.four-item.picked .fcheck { opacity: 1; transform: scale(1); }
 .four-emoji { font-size: 28px; margin-bottom: 6px; }
-.four-label { font-size: 14px; font-weight: 600; }
+.four-label { font-size: 14px; font-weight: 700; }
 .four-desc { font-size: 11px; color: #888; margin-top: 4px; }
+.four-ex { font-size: 10.5px; line-height: 1.45; color: #5F5F5F; background: #FAFCF6; border-radius: 6px; padding: 6px 7px; margin-top: 9px; }
+.four-ex .q { color: #999; }
+
+.assemble { margin-top: 16px; background: #FFFFFF; border-radius: 12px; padding: 14px 18px; transition: box-shadow 0.3s, background 0.3s; }
+.assemble-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
+.assemble-top .at-label { font-size: 13px; font-weight: 700; color: #3A6B0E; }
+.at-count { font-size: 12px; color: #5F5F5F; background: #EDF3E4; border-radius: 100px; padding: 3px 12px; font-weight: 700; }
+.assemble-reset { font-size: 12px; color: #9A7B2E; background: transparent; border: 1px solid #E0D8C4; border-radius: 100px; padding: 4px 12px; cursor: pointer; font-family: 'Pretendard', sans-serif; }
+.assemble-reset:hover { background: #F3ECDA; }
+.assemble-str { font-size: 14px; line-height: 1.95; color: #1A1A1A; min-height: 30px; }
+.assemble-str .ph { color: #B8B8B8; font-style: italic; }
+.assemble-str .comma { color: #5E8A3A; font-weight: 700; margin: 0 1px; }
+.chip { display: inline-block; background: #EDF3E4; color: #3A6B0E; border: 1px solid #C8DDB5; border-radius: 8px; padding: 2px 9px; margin: 2px; font-size: 13px; font-weight: 600; animation: chipPop 0.3s cubic-bezier(0.34,1.6,0.64,1); }
+@keyframes chipPop { from { opacity: 0; transform: scale(0.5); } to { opacity: 1; transform: scale(1); } }
+.assemble.done { background: #EDF5E3; box-shadow: 0 0 0 2px #9BCB87 inset; }
+.assemble-done-msg { text-align: center; margin-top: 10px; font-size: 13.5px; font-weight: 700; color: #E91A75; opacity: 0; max-height: 0; overflow: hidden; transition: all 0.4s ease; }
+.assemble.done .assemble-done-msg { opacity: 1; max-height: 50px; }
 
 .builder-head { text-align: center; margin-bottom: 20px; }
 .builder-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; align-items: start; }
@@ -65,7 +88,7 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
 .blank-select:focus { border-color: #A8C5E8; }
 .blank-fixed { padding: 10px 14px; background: rgba(233,26,117,0.08); border-radius: 8px; font-size: 14px; color: #E91A75; font-weight: 600; }
 
-.prompt-card { background: #1A1A1A; border-radius: 16px; padding: 24px; color: #FAF6EC; position: sticky; top: 0; }
+.prompt-card { background: #1A1A1A; border-radius: 16px; padding: 24px; color: #FAF6EC; }
 .prompt-card .ttl { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 14px; color: #A8C5E8; margin-bottom: 12px; }
 .prompt-text { font-size: 15px; line-height: 1.9; min-height: 100px; }
 .prompt-text .ph { color: #6B6B6B; }
@@ -137,13 +160,52 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
           <div class="vs-result">생생하게 피어나는 영상! 우리 꽃 피우기 앱에 딱 맞아요.</div>
         </div>
       </div>
-      <div style="background: rgba(168,197,232,0.12); border-radius: 14px; padding: 20px 24px;">
-        <p style="text-align: center; font-size: 15px; margin-bottom: 14px;">🎬 영상 프롬프트 = <strong>내 꽃 + 움직임 4요소</strong></p>
+      <div class="four-wrap">
+        <p style="text-align: center; font-size: 15px; margin-bottom: 14px;">🎬 영상 프롬프트 = <strong>내 꽃 + 움직임 4요소</strong> &nbsp;<span style="color:#888; font-size:13px;">— 눌러서 조립해봐요!</span></p>
         <div class="four-grid">
-          <div class="four-item"><div class="four-emoji">🌸</div><div class="four-label">주제</div><div class="four-desc">내 꽃</div></div>
-          <div class="four-item"><div class="four-emoji">🌀</div><div class="four-label">동작</div><div class="four-desc">어떻게 움직이나</div></div>
-          <div class="four-item"><div class="four-emoji">⏳</div><div class="four-label">속도</div><div class="four-desc">얼마나 천천히</div></div>
-          <div class="four-item"><div class="four-emoji">🎥</div><div class="four-label">카메라</div><div class="four-desc">시점 움직임</div></div>
+          <div class="four-item" onclick="pickElement(this)" data-idx="1" data-chunk="라벤더 한 송이">
+            <div class="fbar" style="background:#E8A7C5;"></div>
+            <div class="fcheck">✓</div>
+            <div class="four-emoji">🌸</div>
+            <div class="four-label">주제</div>
+            <div class="four-desc">내 꽃</div>
+            <div class="four-ex"><span class="q">예)</span> 라벤더 한 송이</div>
+          </div>
+          <div class="four-item" onclick="pickElement(this)" data-idx="2" data-chunk="꽃봉오리가 활짝 피어나는">
+            <div class="fbar" style="background:#A8C5E8;"></div>
+            <div class="fcheck">✓</div>
+            <div class="four-emoji">🌀</div>
+            <div class="four-label">동작</div>
+            <div class="four-desc">어떻게 움직이나</div>
+            <div class="four-ex"><span class="q">예)</span> 꽃봉오리가 활짝 피어나는</div>
+          </div>
+          <div class="four-item" onclick="pickElement(this)" data-idx="3" data-chunk="천천히 부드럽게">
+            <div class="fbar" style="background:#F2C879;"></div>
+            <div class="fcheck">✓</div>
+            <div class="four-emoji">⏳</div>
+            <div class="four-label">속도</div>
+            <div class="four-desc">얼마나 천천히</div>
+            <div class="four-ex"><span class="q">예)</span> 천천히 부드럽게</div>
+          </div>
+          <div class="four-item" onclick="pickElement(this)" data-idx="4" data-chunk="서서히 확대(줌인)">
+            <div class="fbar" style="background:#9BBF7F;"></div>
+            <div class="fcheck">✓</div>
+            <div class="four-emoji">🎥</div>
+            <div class="four-label">카메라</div>
+            <div class="four-desc">시점 움직임</div>
+            <div class="four-ex"><span class="q">예)</span> 서서히 확대(줌인)</div>
+          </div>
+        </div>
+        <div class="assemble" id="assembleBox">
+          <div class="assemble-top">
+            <span class="at-label">🪄 카드를 누르면 영상 프롬프트가 조립돼요</span>
+            <span style="display:flex; gap:8px; align-items:center;">
+              <span class="at-count" id="atCount">0 / 4</span>
+              <button class="assemble-reset" onclick="resetAssemble()">↻ 초기화</button>
+            </span>
+          </div>
+          <div class="assemble-str" id="assembleStr"><span class="ph">위의 카드를 눌러보세요…</span></div>
+          <div class="assemble-done-msg">✨ 완성! 내 꽃 + 동작 + 속도 + 카메라를 이으면 영상 프롬프트가 돼요</div>
         </div>
       </div>
       <div style="text-align: center; margin-top: 24px; display: flex; gap: 12px; justify-content: center;">
@@ -269,6 +331,36 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
     }
     if (n === 3) updatePrompt();
   };
+
+  // ===== s2 4요소 클릭 조립 =====
+  window.pickElement = function(el) {
+    el.classList.toggle('picked');
+    rebuildAssemble();
+  };
+  window.resetAssemble = function() {
+    var picked = document.querySelectorAll('#s2 .four-item.picked');
+    for (var i = 0; i < picked.length; i++) picked[i].classList.remove('picked');
+    rebuildAssemble();
+  };
+  function rebuildAssemble() {
+    var items = Array.prototype.slice.call(document.querySelectorAll('#s2 .four-item.picked'));
+    items.sort(function(a, b) { return (+a.dataset.idx) - (+b.dataset.idx); });
+    var box = document.getElementById('assembleBox');
+    var str = document.getElementById('assembleStr');
+    document.getElementById('atCount').textContent = items.length + ' / 4';
+    if (items.length === 0) {
+      str.innerHTML = '<span class="ph">위의 카드를 눌러보세요…</span>';
+      box.classList.remove('done');
+      return;
+    }
+    var html = '';
+    items.forEach(function(it, i) {
+      if (i > 0) html += '<span class="comma">, </span>';
+      html += '<span class="chip">' + it.dataset.chunk + '</span>';
+    });
+    str.innerHTML = html;
+    box.classList.toggle('done', items.length === 4);
+  }
 
   window.updatePrompt = function() {
     var motion = document.getElementById('sel-motion').value;
