@@ -144,6 +144,23 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
 @keyframes pwFly { 0% { transform: translate(0,0) rotate(0); opacity: 1; } 60% { transform: translate(10px,-30px) rotate(20deg); opacity: 1; } 100% { transform: translate(40px,-90px) rotate(45deg); opacity: 0; } }
 .pw-sent-toast { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%) scale(0.4); background: #A8E6C5; color: #2E7D52; font-weight: 700; font-size: 15px; padding: 12px 22px; border-radius: 100px; box-shadow: 0 6px 0 #7FD0A6; opacity: 0; pointer-events: none; transition: all 0.4s cubic-bezier(0.34,1.6,0.64,1); white-space: nowrap; z-index: 5; }
 .pw-sent-toast.show { opacity: 1; transform: translate(-50%,-50%) scale(1); }
+
+/* slide4 — AI 윤리 카드 */
+.ethic-card { transition: transform 0.22s, box-shadow 0.22s; }
+.ethic-card:hover { transform: translateY(-4px); box-shadow: 0 10px 0 #ECDCE6; }
+.ethic-card strong { font-size: 16.5px; }
+.ethic-card span { font-size: 15px !important; }
+.src-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.src-card { position: relative; cursor: pointer; transition: transform 0.22s, box-shadow 0.22s, background 0.22s; }
+.src-card:hover { transform: translateY(-4px); box-shadow: 0 10px 0 #F0D8E4; }
+.src-card.checked { background: #F2FAEC; box-shadow: 0 6px 0 #C2E3A8; }
+.src-card .se { font-size: 40px; line-height: 1; }
+.src-card .st { font-size: 16px; font-weight: 700; display: block; margin-top: 6px; color: #5A4A55; }
+.src-card .sq { font-size: 14px; color: #9A8A95; }
+.src-check { position: absolute; top: 9px; right: 9px; width: 26px; height: 26px; border-radius: 50%; background: #6FA83A; color: #FFF; font-size: 15px; font-weight: 700; display: flex; align-items: center; justify-content: center; opacity: 0; transform: scale(0.3); transition: all 0.28s cubic-bezier(0.34,1.6,0.64,1); }
+.src-card.checked .src-check { opacity: 1; transform: scale(1); }
+.src-done { grid-column: 1 / -1; margin-top: 4px; padding: 11px 14px; background: #DFF5E8; border-radius: 14px; font-size: 14px; font-weight: 700; color: #2E7D52; text-align: center; opacity: 0; max-height: 0; overflow: hidden; transition: all 0.4s ease; }
+.src-done.show { opacity: 1; max-height: 60px; }
 </style>
 </head>
 <body>
@@ -202,15 +219,15 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
     </div>
     <div class="two-col">
       <div>
-        <div class="cute-card reveal-2" style="padding: 16px 20px; margin-bottom: 14px;">
-          <div style="font-size: 14.5px; color: #B6A4DD; font-weight: 700; margin-bottom: 4px;">🎯 활동 목표</div>
-          <div style="font-size: 14.5px; line-height: 1.6; color:#6A5A65;">투자할 브랜드 정보를 AI로 조사하고, 사실인지 교차 검증하기</div>
+        <div class="cute-card reveal-2" style="padding: 18px 22px; margin-bottom: 16px;">
+          <div style="font-size: 15.5px; color: #B6A4DD; font-weight: 700; margin-bottom: 6px;">🎯 활동 목표</div>
+          <div style="font-size: 16px; line-height: 1.7; color:#6A5A65;">투자할 브랜드 정보를 AI로 조사하고, 사실인지 교차 검증하기</div>
         </div>
         <div class="reveal-3">
-          <div class="step"><div class="snum">1</div><div style="font-size:15.5px;"><strong>브랜드 선택</strong><br><span style="font-size:13.5px;color:#9A8A95;">1부에서 분석한 브랜드 하나 고르기</span></div></div>
-          <div class="step"><div class="snum">2</div><div style="font-size:15.5px;"><strong>AI 인터뷰</strong><br><span style="font-size:13.5px;color:#9A8A95;">어떻게 돈 버는지·실적·평판 질문</span></div></div>
-          <div class="step"><div class="snum">3</div><div style="font-size:15.5px;"><strong>사실 검증</strong><br><span style="font-size:13.5px;color:#9A8A95;">체크리스트로 비판적 확인</span></div></div>
-          <div class="step"><div class="snum">4</div><div style="font-size:15.5px;"><strong>3문장 요약</strong><br><span style="font-size:13.5px;color:#9A8A95;">어떤 회사? → 어떻게 돈 벌어? → 투자 매력?</span></div></div>
+          <div class="step" style="margin-bottom:19px;"><div class="snum">1</div><div style="font-size:17px;"><strong>브랜드 선택</strong><br><span style="font-size:14.5px;color:#9A8A95;">1부에서 분석한 브랜드 하나 고르기</span></div></div>
+          <div class="step" style="margin-bottom:19px;"><div class="snum">2</div><div style="font-size:17px;"><strong>AI 인터뷰</strong><br><span style="font-size:14.5px;color:#9A8A95;">어떻게 돈 버는지·실적·평판 질문</span></div></div>
+          <div class="step" style="margin-bottom:19px;"><div class="snum">3</div><div style="font-size:17px;"><strong>사실 검증</strong><br><span style="font-size:14.5px;color:#9A8A95;">체크리스트로 비판적 확인</span></div></div>
+          <div class="step" style="margin-bottom:0;"><div class="snum">4</div><div style="font-size:17px;"><strong>3문장 요약</strong><br><span style="font-size:14.5px;color:#9A8A95;">어떤 회사? → 어떻게 돈 벌어? → 투자 매력?</span></div></div>
         </div>
       </div>
       <div>
@@ -256,18 +273,19 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
       <div>
         <p class="reveal-2" style="font-size: 15.5px; line-height: 1.8; margin-bottom: 16px; color:#6A5A65;">AI 결과물의 기반에는 <strong>타인의 데이터</strong>가 있어요. 왜 출처를 밝혀야 할까요?</p>
         <div class="reveal-3">
-          <div class="cute-card" style="padding: 14px 20px; margin-bottom: 10px;"><strong style="color:#5A8AC0;">📊 정보의 신뢰도</strong><br><span style="font-size:14.5px;color:#9A8A95;">근거를 제시해 신뢰도 UP</span></div>
-          <div class="cute-card" style="padding: 14px 20px; margin-bottom: 10px;"><strong style="color:#6FA83A;">💚 저작권 존중</strong><br><span style="font-size:14.5px;color:#9A8A95;">남의 창작물을 존중하는 윤리</span></div>
-          <div class="cute-card" style="padding: 14px 20px;"><strong style="color:#FF6FA5;">🚫 표절 방지</strong><br><span style="font-size:14.5px;color:#9A8A95;">출처 없는 인용은 '표절'!</span></div>
+          <div class="cute-card ethic-card" style="padding: 15px 20px; margin-bottom: 11px;"><strong style="color:#5A8AC0;">📊 정보의 신뢰도</strong><br><span style="color:#9A8A95;">근거를 제시해 신뢰도 UP</span></div>
+          <div class="cute-card ethic-card" style="padding: 15px 20px; margin-bottom: 11px;"><strong style="color:#6FA83A;">💚 저작권 존중</strong><br><span style="color:#9A8A95;">남의 창작물을 존중하는 윤리</span></div>
+          <div class="cute-card ethic-card" style="padding: 15px 20px;"><strong style="color:#FF6FA5;">🚫 표절 방지</strong><br><span style="color:#9A8A95;">출처 없는 인용은 '표절'!</span></div>
         </div>
       </div>
       <div>
-        <div class="reveal-2" style="font-size: 16px; font-weight: 700; margin-bottom: 14px; color:#5A4A55;">📋 출처 표시 체크리스트</div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-          <div class="cute-card pop-card" style="padding: 16px 18px; text-align:center;"><div class="mid-emoji">🚫</div><strong style="font-size:14.5px;">복사 금지</strong><br><span style="font-size:13px;color:#9A8A95;">내 말로 바꿨나요?</span></div>
-          <div class="cute-card pop-card" style="padding: 16px 18px; text-align:center;"><div class="mid-emoji">💬</div><strong style="font-size:14.5px;">출처 기록</strong><br><span style="font-size:13px;color:#9A8A95;">실제 출처 확인?</span></div>
-          <div class="cute-card pop-card" style="padding: 16px 18px; text-align:center;"><div class="mid-emoji">🖼️</div><strong style="font-size:14.5px;">이미지 저작권</strong><br><span style="font-size:13px;color:#9A8A95;">사용 가능한가요?</span></div>
-          <div class="cute-card pop-card" style="padding: 16px 18px; text-align:center;"><div class="mid-emoji">📝</div><strong style="font-size:14.5px;">참고 목록</strong><br><span style="font-size:13px;color:#9A8A95;">AI명·링크 정리?</span></div>
+        <div class="reveal-2" style="font-size: 16px; font-weight: 700; margin-bottom: 14px; color:#5A4A55;">📋 출처 표시 체크리스트 <span style="font-size:12.5px; color:#9A8A95; font-weight:500;">— 눌러서 체크!</span></div>
+        <div class="src-grid reveal-3">
+          <div class="cute-card src-card" style="padding: 16px 18px; text-align:center;" onclick="toggleSrc(this)"><div class="src-check">✓</div><div class="se">🚫</div><span class="st">복사 금지</span><span class="sq">내 말로 바꿨나요?</span></div>
+          <div class="cute-card src-card" style="padding: 16px 18px; text-align:center;" onclick="toggleSrc(this)"><div class="src-check">✓</div><div class="se">💬</div><span class="st">출처 기록</span><span class="sq">실제 출처 확인?</span></div>
+          <div class="cute-card src-card" style="padding: 16px 18px; text-align:center;" onclick="toggleSrc(this)"><div class="src-check">✓</div><div class="se">🖼️</div><span class="st">이미지 저작권</span><span class="sq">사용 가능한가요?</span></div>
+          <div class="cute-card src-card" style="padding: 16px 18px; text-align:center;" onclick="toggleSrc(this)"><div class="src-check">✓</div><div class="se">📝</div><span class="st">참고 목록</span><span class="sq">AI명·링크 정리?</span></div>
+          <div class="src-done" id="srcDone">🎉 출처 표시 4원칙 모두 확인! 이제 책임감 있는 AI 사용자예요</div>
         </div>
       </div>
     </div>
@@ -651,6 +669,14 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
       btn.classList.remove('flew');
       if (hint) hint.textContent = '✓ 입력 완료 — 전송 준비!';
     }, 2400);
+  };
+
+  // ===== 출처 표시 체크리스트 (slide 4) =====
+  window.toggleSrc = function(el) {
+    el.classList.toggle('checked');
+    var items = document.querySelectorAll('#slide-4 .src-card');
+    var checked = document.querySelectorAll('#slide-4 .src-card.checked').length;
+    document.getElementById('srcDone').classList.toggle('show', checked === items.length);
   };
 
   // ===== 사실검증 체크리스트 =====
