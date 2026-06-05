@@ -123,7 +123,7 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
 .fc-done.show { opacity: 1; max-height: 60px; margin-top: 10px; }
 
 /* 프롬프트 입력창 + 타자기 */
-.prompt-win { background: #4A3D45; border-radius: 18px; overflow: hidden; box-shadow: 0 6px 0 #D8C7D0; }
+.prompt-win { position: relative; background: #4A3D45; border-radius: 18px; overflow: hidden; box-shadow: 0 6px 0 #D8C7D0; }
 .pw-bar { display: flex; align-items: center; gap: 7px; padding: 11px 16px; background: #3E333A; }
 .pw-dot { width: 11px; height: 11px; border-radius: 50%; }
 .pw-title { margin-left: 8px; font-size: 13px; color: #E6C8D6; font-weight: 700; }
@@ -137,7 +137,13 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
 .pw-hint { font-size: 12px; color: #C9AFC2; flex: 1; }
 .pw-replay { font-size: 12px; color: #E6C8D6; background: rgba(255,255,255,0.12); border: none; border-radius: 100px; padding: 6px 13px; cursor: pointer; font-family: 'Pretendard', sans-serif; transition: background 0.2s; }
 .pw-replay:hover { background: rgba(255,255,255,0.24); }
-.pw-send { width: 32px; height: 32px; border-radius: 50%; background: #FF6FA5; color: #FFF; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+.pw-send { width: 32px; height: 32px; border-radius: 50%; background: #FF6FA5; color: #FFF; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; transition: transform 0.2s, background 0.2s; }
+.pw-send:hover { transform: scale(1.12); background: #E0578E; }
+.pw-send:active { transform: scale(0.9); }
+.pw-send.flew { animation: pwFly 0.55s cubic-bezier(0.4,0,0.2,1) forwards; }
+@keyframes pwFly { 0% { transform: translate(0,0) rotate(0); opacity: 1; } 60% { transform: translate(10px,-30px) rotate(20deg); opacity: 1; } 100% { transform: translate(40px,-90px) rotate(45deg); opacity: 0; } }
+.pw-sent-toast { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%) scale(0.4); background: #A8E6C5; color: #2E7D52; font-weight: 700; font-size: 15px; padding: 12px 22px; border-radius: 100px; box-shadow: 0 6px 0 #7FD0A6; opacity: 0; pointer-events: none; transition: all 0.4s cubic-bezier(0.34,1.6,0.64,1); white-space: nowrap; z-index: 5; }
+.pw-sent-toast.show { opacity: 1; transform: translate(-50%,-50%) scale(1); }
 </style>
 </head>
 <body>
@@ -222,8 +228,9 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
           <div class="pw-foot">
             <span class="pw-hint" id="pwHint">입력 대기 중…</span>
             <button class="pw-replay" onclick="typePrompt()">↻ 다시</button>
-            <span class="pw-send">➤</span>
+            <button class="pw-send" id="pwSend" onclick="sendPrompt()">➤</button>
           </div>
+          <div class="pw-sent-toast" id="pwToast">🚀 전송 완료!</div>
         </div>
         <div class="cute-card reveal-4" style="box-shadow:0 6px 0 #D8EFC8;">
           <div style="font-size: 15.5px; font-weight: 700; color: #6FA83A; margin-bottom: 10px;">✅ 사실검증 체크리스트 <span style="font-size:13px; color:#9A8A95; font-weight:500;">— 직접 체크해봐요!</span></div>
@@ -627,6 +634,24 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
     })();
   }
   window.typePrompt = typePrompt;
+
+  window.sendPrompt = function() {
+    var btn = document.getElementById('pwSend');
+    var toast = document.getElementById('pwToast');
+    var hint = document.getElementById('pwHint');
+    if (!btn || btn.classList.contains('flew')) return;
+    btn.classList.add('flew');
+    if (hint) hint.textContent = '전송하는 중…';
+    setTimeout(function() {
+      if (toast) toast.classList.add('show');
+      if (hint) hint.textContent = '🚀 AI에게 보냈어요!';
+    }, 350);
+    setTimeout(function() {
+      if (toast) toast.classList.remove('show');
+      btn.classList.remove('flew');
+      if (hint) hint.textContent = '✓ 입력 완료 — 전송 준비!';
+    }, 2400);
+  };
 
   // ===== 사실검증 체크리스트 =====
   window.toggleCheck = function(el) {
