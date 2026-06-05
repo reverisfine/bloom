@@ -225,6 +225,32 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
 .eq-result.revealed .eq-hint { visibility:hidden; }
 .ttbk { animation: ttbob 2.2s ease-in-out infinite; }
 @keyframes ttbob { 0%,100%{transform:translateY(0) rotate(-2deg);} 50%{transform:translateY(-7px) rotate(2deg);} }
+
+/* 작성 조건 패널 (slide 16) */
+.cond-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.cond-panel { border-radius:16px; padding:15px 16px; }
+.cond-panel.reason { background:#F3EFFC; }
+.cond-panel.risk { background:#FFEFF5; }
+.cond-top { display:flex; align-items:center; gap:10px; margin-bottom:11px; }
+.cond-num { width:42px; height:42px; border-radius:50%; color:#FFF; font-size:22px; font-weight:800; display:flex; align-items:center; justify-content:center; font-family:'Jua','Pretendard',sans-serif; flex-shrink:0; box-shadow:0 4px 0 rgba(0,0,0,0.08); }
+.cond-panel.reason .cond-num { background:#B6A4DD; }
+.cond-panel.risk .cond-num { background:#FF6FA5; }
+.cond-ttl { font-size:16px; font-weight:700; color:#5A4A55; line-height:1.15; }
+.cond-ttl small { display:block; font-size:11.5px; font-weight:700; color:#9A8A95; margin-top:2px; }
+.cond-item { display:flex; align-items:flex-start; gap:8px; background:#FFF; border-radius:11px; padding:9px 12px; font-size:13.5px; color:#6A5A65; margin-bottom:7px; line-height:1.4; }
+.cond-item:last-child { margin-bottom:0; }
+.ci-dot { font-weight:800; flex-shrink:0; }
+.cond-panel.reason .ci-dot { color:#8B79C9; }
+.cond-panel.risk .ci-dot { color:#FF6FA5; }
+
+/* slide 9 — 체크포인트 카드 애니메이션 */
+.check-card .ce { animation: ceFloat 2.6s ease-in-out infinite; }
+@keyframes ceFloat { 0%,100%{transform:translateY(0) rotate(0);} 50%{transform:translateY(-5px) rotate(-6deg);} }
+.check-card:nth-child(2) .ce { animation-delay:0.45s; }
+.check-card:nth-child(3) .ce { animation-delay:0.9s; }
+.check-card:nth-child(4) .ce { animation-delay:1.35s; }
+.slide.active .check-card:hover { transform: translateY(-5px); box-shadow: 0 12px 0 var(--cs); }
+.slide.active .check-card:hover .ce { animation-duration: 0.9s; }
 </style>
 </head>
 <body>
@@ -731,10 +757,20 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
       </div>
       <div>
         <div class="cute-card reveal-3" style="margin-bottom: 14px;">
-          <div style="font-size: 16px; font-weight: 700; margin-bottom: 12px;">📝 작성 조건</div>
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
-            <div><div style="font-size:30px;font-weight:700;color:#B6A4DD;">3️⃣</div><div style="font-size:14.5px;font-weight:700;">선택 이유</div><div style="font-size:13px;color:#9A8A95;line-height:1.7;margin-top:4px;">투자 목표 연결<br>브랜드 고른 이유<br>분산 투자 반영</div></div>
-            <div><div style="font-size:30px;font-weight:700;color:#FF6FA5;">1️⃣</div><div style="font-size:14.5px;font-weight:700;">위험 요인</div><div style="font-size:13px;color:#9A8A95;line-height:1.7;margin-top:4px;">가장 큰 약점은?<br>손실 가능 상황<br>(금리·침체 등)</div></div>
+          <div style="font-size: 16px; font-weight: 700; margin-bottom: 14px;">📝 작성 조건 <span style="font-size:13px; color:#9A8A95; font-weight:500;">— 이것만 채우면 끝!</span></div>
+          <div class="cond-grid">
+            <div class="cond-panel reason">
+              <div class="cond-top"><div class="cond-num">3</div><div class="cond-ttl">선택 이유<small>3가지 쓰기</small></div></div>
+              <div class="cond-item"><span class="ci-dot">✔</span>투자 목표와 연결했나요?</div>
+              <div class="cond-item"><span class="ci-dot">✔</span>브랜드를 고른 이유는?</div>
+              <div class="cond-item"><span class="ci-dot">✔</span>분산 투자를 반영했나요?</div>
+            </div>
+            <div class="cond-panel risk">
+              <div class="cond-top"><div class="cond-num">1</div><div class="cond-ttl">위험 요인<small>1가지 쓰기</small></div></div>
+              <div class="cond-item"><span class="ci-dot">⚠</span>가장 큰 약점은?</div>
+              <div class="cond-item"><span class="ci-dot">⚠</span>손실이 날 수 있는 상황</div>
+              <div class="cond-item"><span class="ci-dot">⚠</span>금리·경기 침체 등</div>
+            </div>
           </div>
         </div>
         <div class="cute-card reveal-4" style="background:#FFFCF5; box-shadow:0 6px 0 #F5E4C0;">
