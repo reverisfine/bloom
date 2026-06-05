@@ -251,6 +251,13 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
 .check-card:nth-child(4) .ce { animation-delay:1.35s; }
 .slide.active .check-card:hover { transform: translateY(-5px); box-shadow: 0 12px 0 var(--cs); }
 .slide.active .check-card:hover .ce { animation-duration: 0.9s; }
+
+/* slide 18 — 입력 템플릿 */
+.tpl-item { display:flex; align-items:flex-start; gap:12px; background:#FBF7FF; border-radius:14px; padding:11px 14px; margin-bottom:9px; }
+.tpl-item:last-child { margin-bottom:0; }
+.tpl-dot { width:27px; height:27px; border-radius:50%; color:#FFF; font-size:14px; font-weight:800; display:flex; align-items:center; justify-content:center; flex-shrink:0; font-family:'Jua','Pretendard',sans-serif; }
+.tpl-item b { font-size:14.5px; color:#5A4A55; }
+.tpl-item .tp-sub { font-size:13px; color:#9A8A95; }
 </style>
 </head>
 <body>
@@ -792,21 +799,19 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; line-height: 1.7; c
     <div class="two-col">
       <div>
         <div class="reveal-2">
-          <div class="step"><div class="snum">1</div><div style="font-size:15.5px;">시뮬레이터 결과로 <strong>입력 템플릿</strong> 채우기</div></div>
-          <div class="step"><div class="snum">2</div><div style="font-size:15.5px;">AI 웹페이지 생성 사이트 접속</div></div>
-          <div class="step"><div class="snum">3</div><div style="font-size:15.5px;">템플릿 복사/붙여넣기 → <strong>웹앱</strong> 생성</div></div>
-          <div class="step"><div class="snum">4</div><div style="font-size:15.5px;">QR코드/링크 제출!</div></div>
+          <div class="step" style="margin-bottom:18px;"><div class="snum">1</div><div style="font-size:15.5px;"><strong>입력 템플릿 채우기</strong><br><span style="font-size:13.5px;color:#9A8A95;">시뮬레이터 결과를 그대로 옮겨요</span></div></div>
+          <div class="step" style="margin-bottom:18px;"><div class="snum">2</div><div style="font-size:15.5px;"><strong>AI 웹페이지 생성 도구 접속</strong><br><span style="font-size:13.5px;color:#9A8A95;">선생님이 알려준 사이트로!</span></div></div>
+          <div class="step" style="margin-bottom:18px;"><div class="snum">3</div><div style="font-size:15.5px;"><strong>붙여넣기 → 웹앱 생성</strong><br><span style="font-size:13.5px;color:#9A8A95;">템플릿을 복사해 넣으면 끝</span></div></div>
+          <div class="step"><div class="snum">4</div><div style="font-size:15.5px;"><strong>링크로 제출!</strong><br><span style="font-size:13.5px;color:#9A8A95;">완성한 내 포트폴리오 페이지 공유</span></div></div>
         </div>
       </div>
       <div>
-        <div class="dark-card reveal-3">
-          <div style="font-size:13px;color:#FFC4DD;font-weight:700;margin-bottom:10px;">📝 입력 템플릿</div>
-          <div style="font-size: 14.5px; line-height: 1.9;">
-            <strong style="color:#FFC4DD;">● 웹페이지 제목</strong><br>(예: 안정과 성장을 한 번에!)<br><br>
-            <strong style="color:#FFC4DD;">● 우리 조 소개</strong> (1~2문장)<br><br>
-            <strong style="color:#FFC4DD;">● 포트폴리오 구성표</strong> (자산 / 비중%)<br><br>
-            <strong style="color:#FFC4DD;">● 포트폴리오 설명</strong> (이유 3 + 위험 1)
-          </div>
+        <div class="cute-card reveal-3" style="margin-bottom: 14px;">
+          <div style="font-size:16px; font-weight:700; margin-bottom:14px;">📝 입력 템플릿 <span style="font-size:13px; color:#9A8A95; font-weight:500;">— 이대로 채워요</span></div>
+          <div class="tpl-item"><span class="tpl-dot" style="background:#FF6FA5;">1</span><div><b>웹페이지 제목</b><br><span class="tp-sub">예: 안정과 성장을 한 번에!</span></div></div>
+          <div class="tpl-item"><span class="tpl-dot" style="background:#B6A4DD;">2</span><div><b>나의 투자 한 줄 소개</b><br><span class="tp-sub">어떤 투자자가 되고 싶은지 1~2문장</span></div></div>
+          <div class="tpl-item"><span class="tpl-dot" style="background:#5A8AC0;">3</span><div><b>포트폴리오 구성표</b><br><span class="tp-sub">자산 / 비중(%)</span></div></div>
+          <div class="tpl-item"><span class="tpl-dot" style="background:#6FA83A;">4</span><div><b>포트폴리오 설명</b><br><span class="tp-sub">이유 3가지 + 위험 1가지</span></div></div>
         </div>
         <div class="reveal-4" style="background:#FFE0E8; border-radius:18px; padding:14px 18px; margin-top:14px;">
           <strong style="color:#C0395E; font-size:14.5px;">⚠️ 주의 문구 (필수!)</strong>
