@@ -206,16 +206,36 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; color: #FFF; backgr
     v.load();
   }
 
-  function render(v) {
+  // 영상이 '활짝 핀 모습'이 영상 시작(0초)에 있으면 true, 끝에 있으면 false 로 바꾸세요.
+  var BLOOM_AT_START = true;
+
+  function driveVideo(vid, ratio, dt) {
+    if (!vid.duration || isNaN(vid.duration)) return;
+    var dur = vid.duration - 0.05;
+    var target = BLOOM_AT_START ? (1 - ratio) * dur : ratio * dur;
+    var cur = vid.currentTime;
+    var diff = target - cur;
+    if (Math.abs(diff) < 0.04) {            // 목표 도달 → 멈춤
+      if (!vid.paused) vid.pause();
+      return;
+    }
+    if (diff > 0) {                          // 앞으로 → 실제 재생(부드러움)
+      if (vid.paused) { var p = vid.play(); if (p && p.catch) p.catch(function(){}); }
+      if (diff > 0.5) vid.currentTime = Math.min(target, cur + dt * 2.2); // 너무 뒤처지면 살짝 따라잡기
+    } else {                                 // 뒤로 → 역재생 불가, 조금씩 되감기
+      if (!vid.paused) vid.pause();
+      vid.currentTime = Math.max(target, cur - dt * 1.8);
+    }
+  }
+
+  function render(v, dt) {
+    dt = dt || 0.016;
     var ratio = v / 100;
     document.getElementById('bloomPct').textContent = Math.round(v);
     document.getElementById('playFill').style.width = v + '%';
     document.getElementById('playKnob').style.left = v + '%';
     if (hasVideo && videoReady) {
-      var vid = document.getElementById('bloomVideo');
-      if (vid.duration && !isNaN(vid.duration)) {
-        try { vid.currentTime = (1 - ratio) * (vid.duration - 0.05); } catch(e) {}
-      }
+      driveVideo(document.getElementById('bloomVideo'), ratio, dt);
     } else {
       // SVG 기본 꽃: 오므림(0.45) → 활짝(1.0) + 살짝 비틀어 피어나는 느낌
       var petals = document.getElementById('petals');
@@ -228,8 +248,15 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; color: #FFF; backgr
       if (center) center.setAttribute('r', (12 + ratio * 6).toFixed(2));
     }
   }
-  function animate() { bloom += (targetBloom - bloom) * 0.15; render(bloom); requestAnimationFrame(animate); }
-  animate();
+  var _lastT = (window.performance && performance.now) ? performance.now() : Date.now();
+  function animate(now) {
+    now = now || ((window.performance && performance.now) ? performance.now() : Date.now());
+    var dt = Math.min(0.05, (now - _lastT) / 1000); _lastT = now;
+    bloom += (targetBloom - bloom) * 0.18;
+    render(bloom, dt);
+    requestAnimationFrame(animate);
+  }
+  requestAnimationFrame(animate);
 
   var track = document.getElementById('playTrack'), dragging = false;
   function seek(e) {
