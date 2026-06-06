@@ -138,10 +138,12 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; color: #FFF; backgr
 <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
 <script>
 (function() {
-  // 수료증에서 왔으면 '2부' 버튼 숨기기 (다른 경로 차단)
+  // 수료증에서 왔으면 '2부' 버튼 + '이전으로' 버튼 숨기기 (학습 웹앱 재진입 차단)
   if (new URLSearchParams(location.search).get('from') === 'souvenir') {
     var nb = document.querySelector('.next-btn-top');
     if (nb) nb.style.display = 'none';
+    var hb = document.querySelector('.home-btn');
+    if (hb) hb.style.display = 'none';
   }
 
   var bloom = 0, targetBloom = 0;
