@@ -265,9 +265,14 @@ body { font-family: 'Pretendard', -apple-system, sans-serif; color: #FFF; backgr
     document.getElementById('gestureBadge').textContent = o > 0.5 ? '✋' : '✊';
   }
   function openness(lm) {
-    var wrist = lm[0], tips=[8,12,16,20], mcps=[5,9,13,17], ext=0;
-    for (var i=0;i<4;i++){ if (dist(lm[tips[i]],wrist) > dist(lm[mcps[i]],wrist)*1.15) ext++; }
-    return ext/4;
+    // 손가락 4개의 '펴진 정도'를 연속값으로 측정 (주먹 ~1.0, 활짝 ~1.7)
+    var wrist = lm[0], tips=[8,12,16,20], mcps=[5,9,13,17], sum=0;
+    for (var i=0;i<4;i++){
+      sum += dist(lm[tips[i]], wrist) / (dist(lm[mcps[i]], wrist) + 0.0001);
+    }
+    var avg = sum / 4;
+    var o = (avg - 1.05) / (1.75 - 1.05);   // 1.05~1.75 구간을 0~1로 정규화
+    return Math.max(0, Math.min(1, o));
   }
   function dist(a,b){ return Math.hypot(a.x-b.x, a.y-b.y); }
 })();
